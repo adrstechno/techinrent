@@ -1,9 +1,9 @@
-const React = require("react")
-const SeparatorPrimitive = require("@radix-ui/react-separator")
-const { cn } = require("@/lib/utils")
+import { forwardRef, createElement } from "react"
+import { Root } from "@radix-ui/react-separator"
+import { cn } from "@/lib/utils"
 
-const Separator = React.forwardRef(({ className, orientation = "horizontal", decorative = true, ...props }, ref) => {
-  return React.createElement(SeparatorPrimitive.Root, {
+const Separator = forwardRef(({ className, orientation = "horizontal", decorative = true, ...props }, ref) => {
+  return createElement(Root, {
     ref: ref,
     decorative: decorative,
     orientation: orientation,
@@ -15,6 +15,6 @@ const Separator = React.forwardRef(({ className, orientation = "horizontal", dec
     ...props
   })
 })
-Separator.displayName = SeparatorPrimitive.Root.displayName
+Separator.displayName = Root.displayName
 
-module.exports = { Separator }
+export  { Separator }
