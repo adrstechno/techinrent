@@ -4,9 +4,10 @@ const connectDB = require('./config/db');
 const cors = require('cors')
 
 
-dotenv.config();
-connectDB();
 
+
+require('dotenv').config();
+connectDB();
 // Importing routes
 const contactRoutes = require('./routes/contactRoutes');
 const bookDemoRoutes = require('./routes/bookDemoRoute');
@@ -29,7 +30,7 @@ app.get('/', (req, res) => {
     res.send('Backend is Running');
 })
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {
     console.log(`Server is running on ${PORT} 💙`);
 })
