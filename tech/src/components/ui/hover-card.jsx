@@ -1,12 +1,12 @@
-const React = require("react")
-const HoverCardPrimitive = require("@radix-ui/react-hover-card")
-const { cn } = require("@/lib/utils")
+import { forwardRef, createElement } from "react"
+import { Root, Trigger, Content } from "@radix-ui/react-hover-card"
+import { cn } from "@/lib/utils"
 
-const HoverCard = HoverCardPrimitive.Root
-const HoverCardTrigger = HoverCardPrimitive.Trigger
+const HoverCard = Root
+const HoverCardTrigger = Trigger
 
-const HoverCardContent = React.forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => {
-  return React.createElement(HoverCardPrimitive.Content, {
+const HoverCardContent = forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => {
+  return createElement(Content, {
     ref: ref,
     align: align,
     sideOffset: sideOffset,
@@ -17,9 +17,9 @@ const HoverCardContent = React.forwardRef(({ className, align = "center", sideOf
     ...props
   })
 })
-HoverCardContent.displayName = HoverCardPrimitive.Content.displayName
+HoverCardContent.displayName = Content.displayName
 
-module.exports = {
+export  {
   HoverCard,
   HoverCardTrigger,
   HoverCardContent,
