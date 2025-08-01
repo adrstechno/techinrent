@@ -1,7 +1,6 @@
-// Enhanced structured data for LinkedIn connection service
 export const ServiceStructuredData = () => {
   const serviceSchema = {
-    "@context": "https,
+    "@context": "https://schema.org",
     "@type": "Product",
     "name": "Real LinkedIn Connections",
     "description": "Buy real LinkedIn connections starting at $2. No login required, 24-48hr delivery, 100% safe process with verified human connections.",
@@ -15,11 +14,13 @@ export const ServiceStructuredData = () => {
       "lowPrice": "2",
       "highPrice": "55",
       "offerCount": "8",
-      "availability": "InStock",
+      "availability": "https://schema.org/InStock",
       "seller": {
         "@type": "Organization",
         "name": "TechInRent",
-        "url": "https,
+        "url": "https://techinrent.com"
+      }
+    },
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "4.8",
@@ -33,16 +34,18 @@ export const ServiceStructuredData = () => {
       "audienceType": "B2B Professionals"
     }
   };
+
   return (
-    <script>
+    <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
     />
   );
 };
+
 export const FAQStructuredData = () => {
   const faqSchema = {
-    "@context": "https,
+    "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
       {
@@ -54,7 +57,7 @@ export const FAQStructuredData = () => {
         }
       },
       {
-        "@type": "Question", 
+        "@type": "Question",
         "name": "Is buying LinkedIn connections safe?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -79,10 +82,11 @@ export const FAQStructuredData = () => {
       }
     ]
   };
+
   return (
-    <script>
+    <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
     />
   );
 };
