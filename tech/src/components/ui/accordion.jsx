@@ -1,12 +1,12 @@
-const React = require("react")
-const AccordionPrimitive = require("@radix-ui/react-accordion")
-const { ChevronDown } = require("lucide-react")
-const { cn } = require("@/lib/utils")
+import { forwardRef, createElement } from "react"
+import { Root, Item, Header, Trigger, Content } from "@radix-ui/react-accordion"
+import { ChevronDown } from "lucide-react"
+import { cn } from "@/lib/utils"
 
-const Accordion = AccordionPrimitive.Root
+const Accordion = Root
 
-const AccordionItem = React.forwardRef(({ className, ...props }, ref) => {
-  return React.createElement(AccordionPrimitive.Item, {
+const AccordionItem = forwardRef(({ className, ...props }, ref) => {
+  return createElement(Item, {
     ref: ref,
     className: cn("border-b", className),
     ...props
@@ -14,34 +14,34 @@ const AccordionItem = React.forwardRef(({ className, ...props }, ref) => {
 })
 AccordionItem.displayName = "AccordionItem"
 
-const AccordionTrigger = React.forwardRef(({ className, children, ...props }, ref) => {
-  return React.createElement(AccordionPrimitive.Header, {
+const AccordionTrigger = forwardRef(({ className, children, ...props }, ref) => {
+  return createElement(Header, {
     className: "flex"
-  }, React.createElement(AccordionPrimitive.Trigger, {
+  }, createElement(Trigger, {
     ref: ref,
     className: cn(
       "flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180",
       className
     ),
     ...props
-  }, children, React.createElement(ChevronDown, {
+  }, children, createElement(ChevronDown, {
     className: "h-4 w-4 shrink-0 transition-transform duration-200"
   })))
 })
-AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName
+AccordionTrigger.displayName = Trigger.displayName
 
-const AccordionContent = React.forwardRef(({ className, children, ...props }, ref) => {
-  return React.createElement(AccordionPrimitive.Content, {
+const AccordionContent = forwardRef(({ className, children, ...props }, ref) => {
+  return createElement(Content, {
     ref: ref,
     className: "overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
     ...props
-  }, React.createElement("div", {
+  }, createElement("div", {
     className: cn("pb-4 pt-0", className)
   }, children))
 })
-AccordionContent.displayName = AccordionPrimitive.Content.displayName
+AccordionContent.displayName = Content.displayName
 
-module.exports = {
+export {
   Accordion,
   AccordionItem,
   AccordionTrigger,
