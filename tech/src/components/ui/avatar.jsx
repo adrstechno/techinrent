@@ -1,9 +1,9 @@
-const React = require("react")
-const AvatarPrimitive = require("@radix-ui/react-avatar")
-const { cn } = require("@/lib/utils")
+import { forwardRef, createElement } from "react"
+import { Root, Image, Fallback } from "@radix-ui/react-avatar"
+import { cn } from "@/lib/utils"
 
-const Avatar = React.forwardRef(({ className, ...props }, ref) => {
-  return React.createElement(AvatarPrimitive.Root, {
+const Avatar = forwardRef(({ className, ...props }, ref) => {
+  return createElement(Root, {
     ref: ref,
     className: cn(
       "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
@@ -12,19 +12,19 @@ const Avatar = React.forwardRef(({ className, ...props }, ref) => {
     ...props
   })
 })
-Avatar.displayName = AvatarPrimitive.Root.displayName
+Avatar.displayName = Root.displayName
 
-const AvatarImage = React.forwardRef(({ className, ...props }, ref) => {
-  return React.createElement(AvatarPrimitive.Image, {
+const AvatarImage = forwardRef(({ className, ...props }, ref) => {
+  return createElement(Image, {
     ref: ref,
     className: cn("aspect-square h-full w-full", className),
     ...props
   })
 })
-AvatarImage.displayName = AvatarPrimitive.Image.displayName
+AvatarImage.displayName = Image.displayName
 
-const AvatarFallback = React.forwardRef(({ className, ...props }, ref) => {
-  return React.createElement(AvatarPrimitive.Fallback, {
+const AvatarFallback = forwardRef(({ className, ...props }, ref) => {
+  return createElement(Fallback, {
     ref: ref,
     className: cn(
       "flex h-full w-full items-center justify-center rounded-full bg-muted",
@@ -33,9 +33,9 @@ const AvatarFallback = React.forwardRef(({ className, ...props }, ref) => {
     ...props
   })
 })
-AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
+AvatarFallback.displayName = Fallback.displayName
 
-module.exports = {
+export  {
   Avatar,
   AvatarImage,
   AvatarFallback,
