@@ -1,27 +1,27 @@
-const React = require("react")
-const ToggleGroupPrimitive = require("@radix-ui/react-toggle-group")
-const { cn } = require("@/lib/utils")
-const { toggleVariants } = require("@/components/ui/toggle")
+import { createContext, forwardRef, createElement, useContext } from "react"
+import { Root, Item } from "@radix-ui/react-toggle-group"
+import { cn } from "@/lib/utils"
+import { toggleVariants } from "@/components/ui/toggle"
 
-const ToggleGroupContext = React.createContext({
+const ToggleGroupContext = createContext({
   size: "default",
   variant: "default",
 })
 
-const ToggleGroup = React.forwardRef(({ className, variant, size, children, ...props }, ref) => {
-  return React.createElement(ToggleGroupPrimitive.Root, {
+const ToggleGroup = forwardRef(({ className, variant, size, children, ...props }, ref) => {
+  return createElement(Root, {
     ref: ref,
     className: cn("flex items-center justify-center gap-1", className),
     ...props
-  }, React.createElement(ToggleGroupContext.Provider, {
+  }, createElement(ToggleGroupContext.Provider, {
     value: { variant, size }
   }, children))
 })
-ToggleGroup.displayName = ToggleGroupPrimitive.Root.displayName
+ToggleGroup.displayName = Root.displayName
 
-const ToggleGroupItem = React.forwardRef(({ className, children, variant, size, ...props }, ref) => {
-  const context = React.useContext(ToggleGroupContext)
-  return React.createElement(ToggleGroupPrimitive.Item, {
+const ToggleGroupItem = forwardRef(({ className, children, variant, size, ...props }, ref) => {
+  const context = useContext(ToggleGroupContext)
+  return createElement(Item, {
     ref: ref,
     className: cn(
       toggleVariants({
@@ -33,6 +33,6 @@ const ToggleGroupItem = React.forwardRef(({ className, children, variant, size, 
     ...props
   }, children)
 })
-ToggleGroupItem.displayName = ToggleGroupPrimitive.Item.displayName
+ToggleGroupItem.displayName = Item.displayName
 
-module.exports = { ToggleGroup, ToggleGroupItem }
+export  { ToggleGroup, ToggleGroupItem }
