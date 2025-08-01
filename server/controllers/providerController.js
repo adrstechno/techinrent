@@ -14,7 +14,7 @@ exports.providerInfo = async (req, res) => {
             phone,
             linkedIn,
             verification,
-            additinalInfo
+            additionalInfo
         })
         await newProvider.save();
 
