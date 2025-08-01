@@ -1,11 +1,11 @@
-const React = require("react")
-const { cn } = require("@/lib/utils")
+import { createElement } from "react"
+import { cn } from "@/lib/utils"
 
 function Skeleton({ className, ...props }) {
-  return React.createElement("div", {
+  return createElement("div", {
     className: cn("animate-pulse rounded-md bg-muted", className),
     ...props
   })
 }
 
-module.exports = { Skeleton }
+export  { Skeleton }
