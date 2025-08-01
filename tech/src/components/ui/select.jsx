@@ -1,7 +1,7 @@
-const React = require("react")
-const SelectPrimitive = require("@radix-ui/react-select")
-const { Check, ChevronDown, ChevronUp } = require("lucide-react")
-const { cn } = require("@/lib/utils")
+import React from "react"
+import * as SelectPrimitive from "@radix-ui/react-select"
+import { Check, ChevronDown, ChevronUp } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 const Select = SelectPrimitive.Root
 const SelectGroup = SelectPrimitive.Group
@@ -112,7 +112,7 @@ const SelectSeparator = React.forwardRef(({ className, ...props }, ref) => {
 })
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName
 
-module.exports = {
+export {
   Select,
   SelectGroup,
   SelectValue,
