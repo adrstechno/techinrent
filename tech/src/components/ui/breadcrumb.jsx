@@ -1,10 +1,10 @@
-const React = require("react")
-const { Slot } = require("@radix-ui/react-slot")
-const { ChevronRight, MoreHorizontal } = require("lucide-react")
-const { cn } = require("@/lib/utils")
+import { forwardRef, createElement } from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { ChevronRight, MoreHorizontal } from "lucide-react"
+import { cn } from "@/lib/utils"
 
-const Breadcrumb = React.forwardRef(({ ...props }, ref) => {
-  return React.createElement("nav", {
+const Breadcrumb = forwardRef(({ ...props }, ref) => {
+  return createElement("nav", {
     ref: ref,
     "aria-label": "breadcrumb",
     ...props
@@ -12,8 +12,8 @@ const Breadcrumb = React.forwardRef(({ ...props }, ref) => {
 })
 Breadcrumb.displayName = "Breadcrumb"
 
-const BreadcrumbList = React.forwardRef(({ className, ...props }, ref) => {
-  return React.createElement("ol", {
+const BreadcrumbList = forwardRef(({ className, ...props }, ref) => {
+  return createElement("ol", {
     ref: ref,
     className: cn(
       "flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5",
@@ -24,8 +24,8 @@ const BreadcrumbList = React.forwardRef(({ className, ...props }, ref) => {
 })
 BreadcrumbList.displayName = "BreadcrumbList"
 
-const BreadcrumbItem = React.forwardRef(({ className, ...props }, ref) => {
-  return React.createElement("li", {
+const BreadcrumbItem = forwardRef(({ className, ...props }, ref) => {
+  return createElement("li", {
     ref: ref,
     className: cn("inline-flex items-center gap-1.5", className),
     ...props
@@ -33,9 +33,9 @@ const BreadcrumbItem = React.forwardRef(({ className, ...props }, ref) => {
 })
 BreadcrumbItem.displayName = "BreadcrumbItem"
 
-const BreadcrumbLink = React.forwardRef(({ asChild = false, className, ...props }, ref) => {
+const BreadcrumbLink = forwardRef(({ asChild = false, className, ...props }, ref) => {
   const Comp = asChild ? Slot : "a"
-  return React.createElement(Comp, {
+  return createElement(Comp, {
     ref: ref,
     className: cn("transition-colors hover:text-foreground", className),
     ...props
@@ -43,8 +43,8 @@ const BreadcrumbLink = React.forwardRef(({ asChild = false, className, ...props 
 })
 BreadcrumbLink.displayName = "BreadcrumbLink"
 
-const BreadcrumbPage = React.forwardRef(({ className, ...props }, ref) => {
-  return React.createElement("span", {
+const BreadcrumbPage = forwardRef(({ className, ...props }, ref) => {
+  return createElement("span", {
     ref: ref,
     role: "link",
     "aria-disabled": "true",
@@ -56,30 +56,30 @@ const BreadcrumbPage = React.forwardRef(({ className, ...props }, ref) => {
 BreadcrumbPage.displayName = "BreadcrumbPage"
 
 const BreadcrumbSeparator = ({ children, className, ...props }) => {
-  return React.createElement("li", {
+  return createElement("li", {
     role: "presentation",
     "aria-hidden": "true",
     className: cn("[&>svg]:size-3.5", className),
     ...props
-  }, children ?? React.createElement(ChevronRight))
+  }, children ?? createElement(ChevronRight))
 }
 BreadcrumbSeparator.displayName = "BreadcrumbSeparator"
 
 const BreadcrumbEllipsis = ({ className, ...props }) => {
-  return React.createElement("span", {
+  return createElement("span", {
     role: "presentation",
     "aria-hidden": "true",
     className: cn("flex h-9 w-9 items-center justify-center", className),
     ...props
-  }, React.createElement(MoreHorizontal, {
+  }, createElement(MoreHorizontal, {
     className: "h-4 w-4"
-  }), React.createElement("span", {
+  }), createElement("span", {
     className: "sr-only"
   }, "More"))
 }
 BreadcrumbEllipsis.displayName = "BreadcrumbEllipsis"
 
-module.exports = {
+export  {
   Breadcrumb,
   BreadcrumbList,
   BreadcrumbItem,
