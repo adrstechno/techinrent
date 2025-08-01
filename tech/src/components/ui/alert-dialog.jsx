@@ -1,14 +1,14 @@
-const React = require("react")
-const AlertDialogPrimitive = require("@radix-ui/react-alert-dialog")
-const { cn } = require("@/lib/utils")
-const { buttonVariants } = require("@/components/ui/button")
+import { forwardRef, createElement } from "react"
+import { Root, Trigger, Portal, Overlay, Content, Title, Description, Action, Cancel } from "@radix-ui/react-alert-dialog"
+import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
 
-const AlertDialog = AlertDialogPrimitive.Root
-const AlertDialogTrigger = AlertDialogPrimitive.Trigger
-const AlertDialogPortal = AlertDialogPrimitive.Portal
+const AlertDialog = Root
+const AlertDialogTrigger = Trigger
+const AlertDialogPortal = Portal
 
-const AlertDialogOverlay = React.forwardRef(({ className, ...props }, ref) => {
-  return React.createElement(AlertDialogPrimitive.Overlay, {
+const AlertDialogOverlay = forwardRef(({ className, ...props }, ref) => {
+  return createElement(Overlay, {
     className: cn(
       "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className
@@ -17,12 +17,12 @@ const AlertDialogOverlay = React.forwardRef(({ className, ...props }, ref) => {
     ref: ref
   })
 })
-AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName
+AlertDialogOverlay.displayName = Overlay.displayName
 
-const AlertDialogContent = React.forwardRef(({ className, ...props }, ref) => {
-  return React.createElement(AlertDialogPortal, null,
-    React.createElement(AlertDialogOverlay),
-    React.createElement(AlertDialogPrimitive.Content, {
+const AlertDialogContent = forwardRef(({ className, ...props }, ref) => {
+  return createElement(AlertDialogPortal, null,
+    createElement(AlertDialogOverlay),
+    createElement(Content, {
       ref: ref,
       className: cn(
         "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
@@ -32,10 +32,10 @@ const AlertDialogContent = React.forwardRef(({ className, ...props }, ref) => {
     })
   )
 })
-AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName
+AlertDialogContent.displayName = Content.displayName
 
 const AlertDialogHeader = ({ className, ...props }) => {
-  return React.createElement("div", {
+  return createElement("div", {
     className: cn(
       "flex flex-col space-y-2 text-center sm:text-left",
       className
@@ -46,7 +46,7 @@ const AlertDialogHeader = ({ className, ...props }) => {
 AlertDialogHeader.displayName = "AlertDialogHeader"
 
 const AlertDialogFooter = ({ className, ...props }) => {
-  return React.createElement("div", {
+  return createElement("div", {
     className: cn(
       "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
       className
@@ -56,35 +56,35 @@ const AlertDialogFooter = ({ className, ...props }) => {
 }
 AlertDialogFooter.displayName = "AlertDialogFooter"
 
-const AlertDialogTitle = React.forwardRef(({ className, ...props }, ref) => {
-  return React.createElement(AlertDialogPrimitive.Title, {
+const AlertDialogTitle = forwardRef(({ className, ...props }, ref) => {
+  return createElement(Title, {
     ref: ref,
     className: cn("text-lg font-semibold", className),
     ...props
   })
 })
-AlertDialogTitle.displayName = AlertDialogPrimitive.Title.displayName
+AlertDialogTitle.displayName = Title.displayName
 
-const AlertDialogDescription = React.forwardRef(({ className, ...props }, ref) => {
-  return React.createElement(AlertDialogPrimitive.Description, {
+const AlertDialogDescription = forwardRef(({ className, ...props }, ref) => {
+  return createElement(Description, {
     ref: ref,
     className: cn("text-sm text-muted-foreground", className),
     ...props
   })
 })
-AlertDialogDescription.displayName = AlertDialogPrimitive.Description.displayName
+AlertDialogDescription.displayName = Description.displayName
 
-const AlertDialogAction = React.forwardRef(({ className, ...props }, ref) => {
-  return React.createElement(AlertDialogPrimitive.Action, {
+const AlertDialogAction = forwardRef(({ className, ...props }, ref) => {
+  return createElement(Action, {
     ref: ref,
     className: cn(buttonVariants(), className),
     ...props
   })
 })
-AlertDialogAction.displayName = AlertDialogPrimitive.Action.displayName
+AlertDialogAction.displayName = Action.displayName
 
-const AlertDialogCancel = React.forwardRef(({ className, ...props }, ref) => {
-  return React.createElement(AlertDialogPrimitive.Cancel, {
+const AlertDialogCancel = forwardRef(({ className, ...props }, ref) => {
+  return createElement(Cancel, {
     ref: ref,
     className: cn(
       buttonVariants({ variant: "outline" }),
@@ -94,9 +94,9 @@ const AlertDialogCancel = React.forwardRef(({ className, ...props }, ref) => {
     ...props
   })
 })
-AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
+AlertDialogCancel.displayName = Cancel.displayName
 
-module.exports = {
+export  {
   AlertDialog,
   AlertDialogPortal,
   AlertDialogOverlay,
