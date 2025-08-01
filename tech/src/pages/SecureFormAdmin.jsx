@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { useToast } from "@/hooks/use-toast";
-import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useToast } from "../hooks/use-toast";
+import { apiRequest, queryClient } from "../lib/queryClient";
 import {
   Loader2,
   Search,
@@ -29,15 +29,15 @@ import {
   CardHeader,
   CardTitle
 } from "../components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue
-} from "@/components/ui/select";
+} from "../components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -45,14 +45,14 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
+} from "../components/ui/dialog";
+import { Badge } from "../components/ui/badge";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger
-} from "@/components/ui/tabs";
+} from "../components/ui/tabs";
 
 export default function AdminSubmissions() {
   const { toast } = useToast();
