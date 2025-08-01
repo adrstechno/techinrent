@@ -1,13 +1,13 @@
-const React = require("react")
-const PopoverPrimitive = require("@radix-ui/react-popover")
-const { cn } = require("@/lib/utils")
+import { forwardRef, createElement } from "react"
+import { Root, Trigger, Portal, Content } from "@radix-ui/react-popover"
+import { cn } from "@/lib/utils"
 
-const Popover = PopoverPrimitive.Root
-const PopoverTrigger = PopoverPrimitive.Trigger
+const Popover = Root
+const PopoverTrigger = Trigger
 
-const PopoverContent = React.forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => {
-  return React.createElement(PopoverPrimitive.Portal, null,
-    React.createElement(PopoverPrimitive.Content, {
+const PopoverContent = forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => {
+  return createElement(Portal, null,
+    createElement(Content, {
       ref: ref,
       align: align,
       sideOffset: sideOffset,
@@ -19,9 +19,9 @@ const PopoverContent = React.forwardRef(({ className, align = "center", sideOffs
     })
   )
 })
-PopoverContent.displayName = PopoverPrimitive.Content.displayName
+PopoverContent.displayName = Content.displayName
 
-module.exports = {
+export  {
   Popover,
   PopoverTrigger,
   PopoverContent,
