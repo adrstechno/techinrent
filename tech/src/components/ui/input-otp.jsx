@@ -1,10 +1,10 @@
-const React = require("react")
-const { OTPInput, OTPInputContext } = require("input-otp")
-const { Dot } = require("lucide-react")
-const { cn } = require("@/lib/utils")
+import { forwardRef, createElement, useContext } from "react"
+import { OTPInput, OTPInputContext } from "input-otp"
+import { Dot } from "lucide-react"
+import { cn } from "@/lib/utils"
 
-const InputOTP = React.forwardRef(({ className, containerClassName, ...props }, ref) => {
-  return React.createElement(OTPInput, {
+const InputOTP = forwardRef(({ className, containerClassName, ...props }, ref) => {
+  return createElement(OTPInput, {
     ref: ref,
     containerClassName: cn(
       "flex items-center gap-2 has-[:disabled]:opacity-50",
@@ -16,19 +16,19 @@ const InputOTP = React.forwardRef(({ className, containerClassName, ...props }, 
 })
 InputOTP.displayName = "InputOTP"
 
-const InputOTPGroup = React.forwardRef(({ className, ...props }, ref) => {
-  return React.createElement("div", {
+const InputOTPGroup = forwardRef(({ className, ...props }, ref) => {
+  return createElement("div", {
     ref: ref,
     className: cn("flex items-center", className),
     ...props
   })
 })
 InputOTPGroup.displayName = "InputOTPGroup"
-const InputOTPSlot = React.forwardRef(({ index, className, ...props }, ref) => {
-  const inputOTPContext = React.useContext(OTPInputContext)
+const InputOTPSlot = forwardRef(({ index, className, ...props }, ref) => {
+  const inputOTPContext = useContext(OTPInputContext)
   const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index]
 
-  return React.createElement("div", {
+  return createElement("div", {
     ref: ref,
     className: cn(
       "relative flex h-10 w-10 items-center justify-center border-y border-r border-input text-sm transition-all first:rounded-l-md first:border-l last:rounded-r-md",
@@ -36,24 +36,24 @@ const InputOTPSlot = React.forwardRef(({ index, className, ...props }, ref) => {
       className
     ),
     ...props
-  }, char, hasFakeCaret && React.createElement("div", {
+  }, char, hasFakeCaret && createElement("div", {
     className: "pointer-events-none absolute inset-0 flex items-center justify-center"
-  }, React.createElement("div", {
+  }, createElement("div", {
     className: "h-4 w-px animate-caret-blink bg-foreground duration-1000"
   })))
 })
 InputOTPSlot.displayName = "InputOTPSlot"
 
-const InputOTPSeparator = React.forwardRef(({ ...props }, ref) => {
-  return React.createElement("div", {
+const InputOTPSeparator = forwardRef(({ ...props }, ref) => {
+  return createElement("div", {
     ref: ref,
     role: "separator",
     ...props
-  }, React.createElement(Dot))
+  }, createElement(Dot))
 })
 InputOTPSeparator.displayName = "InputOTPSeparator"
 
-module.exports = {
+export  {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
