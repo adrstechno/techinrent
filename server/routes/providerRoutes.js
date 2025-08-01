@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const providerInfo = require('../controllers/providerController');
+const { providerInfo } = require('../controllers/providerController');
 
 router.post('/', providerInfo);
 
