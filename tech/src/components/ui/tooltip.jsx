@@ -1,13 +1,13 @@
-const React = require("react")
-const TooltipPrimitive = require("@radix-ui/react-tooltip")
-const { cn } = require("@/lib/utils")
+import { forwardRef, createElement } from "react"
+import { Provider, Root, Trigger, Content } from "@radix-ui/react-tooltip"
+import { cn } from "@/lib/utils"
 
-const TooltipProvider = TooltipPrimitive.Provider
-const Tooltip = TooltipPrimitive.Root
-const TooltipTrigger = TooltipPrimitive.Trigger
+const TooltipProvider = Provider
+const Tooltip = Root
+const TooltipTrigger = Trigger
 
-const TooltipContent = React.forwardRef(({ className, sideOffset = 4, ...props }, ref) => {
-  return React.createElement(TooltipPrimitive.Content, {
+const TooltipContent = forwardRef(({ className, sideOffset = 4, ...props }, ref) => {
+  return createElement(Content, {
     ref: ref,
     sideOffset: sideOffset,
     className: cn(
@@ -17,9 +17,9 @@ const TooltipContent = React.forwardRef(({ className, sideOffset = 4, ...props }
     ...props
   })
 })
-TooltipContent.displayName = TooltipPrimitive.Content.displayName
+TooltipContent.displayName = Content.displayName
 
-module.exports = {
+export {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
