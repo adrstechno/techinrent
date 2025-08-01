@@ -1,19 +1,19 @@
-const React = require("react")
-const ScrollAreaPrimitive = require("@radix-ui/react-scroll-area")
-const { cn } = require("@/lib/utils")
+import { forwardRef, createElement } from "react"
+import { Root, Viewport, Corner, Scrollbar, Thumb } from "@radix-ui/react-scroll-area"
+import { cn } from "@/lib/utils"
 
-const ScrollArea = React.forwardRef(({ className, children, ...props }, ref) => {
-  return React.createElement(ScrollAreaPrimitive.Root, {
+const ScrollArea = forwardRef(({ className, children, ...props }, ref) => {
+  return createElement(Root, {
     ref: ref,
     className: cn("relative overflow-hidden", className),
     ...props
-  }, React.createElement(ScrollAreaPrimitive.Viewport, {
+  }, createElement(Viewport, {
     className: "h-full w-full rounded-[inherit]"
-  }, children), React.createElement(ScrollBar), React.createElement(ScrollAreaPrimitive.Corner))
+  }, children), createElement(ScrollBar), createElement(Corner))
 })
-ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName
-const ScrollBar = React.forwardRef(({ className, orientation = "vertical", ...props }, ref) => {
-  return React.createElement(ScrollAreaPrimitive.Scrollbar, {
+ScrollArea.displayName = Root.displayName
+const ScrollBar = forwardRef(({ className, orientation = "vertical", ...props }, ref) => {
+  return createElement(Scrollbar, {
     ref: ref,
     orientation: orientation,
     className: cn(
@@ -25,10 +25,10 @@ const ScrollBar = React.forwardRef(({ className, orientation = "vertical", ...pr
       className
     ),
     ...props
-  }, React.createElement(ScrollAreaPrimitive.Thumb, {
+  }, createElement(Thumb, {
     className: "relative flex-1 rounded-full bg-border"
   }))
 })
-ScrollBar.displayName = ScrollAreaPrimitive.Scrollbar.displayName
+ScrollBar.displayName = Scrollbar.displayName
 
-module.exports = { ScrollArea, ScrollBar }
+export  { ScrollArea, ScrollBar }
