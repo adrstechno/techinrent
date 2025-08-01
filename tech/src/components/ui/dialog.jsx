@@ -1,7 +1,7 @@
-const React = require("react")
-const DialogPrimitive = require("@radix-ui/react-dialog")
-const { X } = require("lucide-react")
-const { cn } = require("@/lib/utils")
+import React from "react"
+import * as DialogPrimitive from "@radix-ui/react-dialog"
+import { X } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 const Dialog = DialogPrimitive.Root
 const DialogTrigger = DialogPrimitive.Trigger
@@ -83,7 +83,7 @@ const DialogDescription = React.forwardRef(({ className, ...props }, ref) => {
 })
 DialogDescription.displayName = DialogPrimitive.Description.displayName
 
-module.exports = {
+export {
   Dialog,
   DialogPortal,
   DialogOverlay,
