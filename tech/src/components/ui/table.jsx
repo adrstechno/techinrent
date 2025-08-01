@@ -1,5 +1,5 @@
-const React = require("react")
-const { cn } = require("@/lib/utils")
+import React from "react"
+import { cn } from "@/lib/utils"
 
 const Table = React.forwardRef(({ className, ...props }, ref) => {
   return React.createElement("div", {
@@ -84,7 +84,7 @@ const TableCaption = React.forwardRef(({ className, ...props }, ref) => {
 })
 TableCaption.displayName = "TableCaption"
 
-module.exports = {
+export {
   Table,
   TableHeader,
   TableBody,
