@@ -1,68 +1,932 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
+/* Advanced Typography & Design System */
+@layer base {
+  /* Professional font system for corporate branding */
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    --font-primary: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    --font-headings: 'Roboto', 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    --font-body: 'Source Sans Pro', 'Inter', 'Segoe UI', 'Roboto', Arial, sans-serif;
+    --font-mono: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
   }
-  a:hover {
-    color: #747bff;
+
+  /* Corporate-grade text rendering */
+  html {
+    font-family: var(--font-primary);
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-optical-sizing: auto;
   }
+
+  body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.65;
+    letter-spacing: -0.01em;
+    text-size-adjust: 100%;
+    color: rgb(51, 65, 85); /* Professional dark gray */
+  }
+
+  /* Professional heading styles */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headings);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+    color: rgb(15, 23, 42); /* Professional dark text */
+  }
+
+  h1 { font-size: 2.5rem; font-weight: 700; }
+  h2 { font-size: 2rem; font-weight: 600; }
+  h3 { font-size: 1.5rem; font-weight: 600; }
+  h4 { font-size: 1.25rem; font-weight: 600; }
+  h5 { font-size: 1.125rem; font-weight: 500; }
+  h6 { font-size: 1rem; font-weight: 500; }
+
+  /* Touch-friendly interactions */
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Reduced motion for mobile performance */
+  @media (max-width: 768px) {
+    .motion-reduce-mobile {
+      animation-duration: 0.3s !important;
+      transition-duration: 0.15s !important;
+    }
+    
+    .motion-reduce-mobile * {
+      animation-duration: 0.3s !important;
+      transition-duration: 0.15s !important;
+    }
+  }
+  
+  /* Mobile-optimized font sizes */
+  @media (max-width: 640px) {
+    html {
+      font-size: 14px;
+    }
+  }
+  
+  /* Safe area for mobile devices */
+  @supports (padding: max(0px)) {
+    .safe-area-inset {
+      padding-left: max(1rem, env(safe-area-inset-left));
+      padding-right: max(1rem, env(safe-area-inset-right));
+      padding-top: max(1rem, env(safe-area-inset-top));
+      padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
+  }
+  
+  /* Mobile form optimizations */
+  @media (max-width: 768px) {
+    input, textarea, select {
+      font-size: 16px !important; /* Prevents zoom on iOS */
+      min-height: 44px; /* Touch-friendly minimum height */
+      padding: 12px 16px; /* Better touch targets */
+    }
+    
+    button {
+      min-height: 44px; /* Touch-friendly buttons */
+      padding: 12px 16px;
+    }
+    
+    /* Optimize text sizes for mobile */
+    h1 {
+      font-size: clamp(1.75rem, 5vw, 2.5rem) !important;
+      line-height: 1.2;
+    }
+    
+    h2 {
+      font-size: clamp(1.5rem, 4vw, 2rem) !important;
+      line-height: 1.3;
+    }
+    
+    h3 {
+      font-size: clamp(1.25rem, 3vw, 1.5rem) !important;
+      line-height: 1.4;
+    }
+    
+    /* Better spacing for mobile */
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    
+    /* Mobile-friendly cards */
+    .card {
+      margin-bottom: 1rem;
+      border-radius: 0.75rem;
+    }
+    
+    /* Prevent horizontal scroll */
+    body {
+      overflow-x: hidden;
+    }
+    
+    /* Mobile-friendly navigation */
+    .mobile-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      padding: 12px 16px;
+      z-index: 1000;
+    }
+    
+    input, textarea, select {
+      -webkit-appearance: none;
+      border-radius: 0.5rem;
+    }
+    
+    button {
+      min-height: 44px; /* iOS touch target minimum */
+      -webkit-appearance: none;
+    }
+  }
+  
+  /* Professional corporate text styles */
+  .corporate-text {
+    font-family: var(--font-body);
+    line-height: 1.6;
+    letter-spacing: -0.005em;
+  }
+  
+  .corporate-heading {
+    font-family: var(--font-headings);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  
+  .corporate-display {
+    font-family: var(--font-headings);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  /* Professional button styles */
+  .btn-corporate {
+    font-family: var(--font-headings);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    text-transform: none;
+  }
+
+  /* Clean professional appearance */
+  .professional-card {
+    font-family: var(--font-body);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Responsive text scaling with professional fonts */
+  .responsive-text {
+    font-family: var(--font-body);
+    font-size: clamp(0.875rem, 2.5vw, 1.125rem);
+    line-height: 1.6;
+    letter-spacing: -0.005em;
+  }
+  
+  .responsive-heading {
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  /* Explicit font utility classes for professional corporate styling */
+  .font-heading {
+    font-family: 'Roboto', 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+
+  .font-body {
+    font-family: 'Source Sans Pro', 'Inter', 'Segoe UI', 'Roboto', Arial, sans-serif !important;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  /* Tracking utilities for professional spacing */
+  .tracking-tight {
+    letter-spacing: -0.025em !important;
+  }
+
+  .tracking-normal {
+    letter-spacing: 0em !important;
+  }
+  
+  .responsive-subheading {
+    font-size: clamp(1.125rem, 3.5vw, 1.875rem);
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  
+  /* Enhanced text rendering and typography */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Improved heading styles */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+  
+  /* Better paragraph and text styles */
+  p, span, div {
+    font-weight: 400;
+    line-height: 1.6;
+  }
+  
+  /* Button font improvements */
   button {
-    background-color: #f9f9f9;
+    font-weight: 600;
+    letter-spacing: 0.01em;
   }
+  
+  /* Mobile keyboard optimization */
+  @media (max-width: 768px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="url"],
+    textarea {
+      font-size: 16px !important; /* Prevents zoom on iOS */
+      padding: 0.75rem !important;
+      border-radius: 0.5rem !important;
+      min-height: 44px !important;
+    }
+  }
+  
+  /* Mobile-specific animations */
+  @media (prefers-reduced-motion: reduce) {
+    .motion-reduce-mobile * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
+  /* Mobile scroll optimization */
+  @media (max-width: 768px) {
+    .mobile-scroll-optimize {
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
+    
+    /* Smooth scrolling for mobile */
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+  }
+  
+  /* Mobile grid optimizations */
+  .mobile-grid {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: 1fr;
+  }
+  
+  @media (min-width: 640px) {
+    .mobile-grid {
+      gap: 1rem;
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .mobile-grid {
+      gap: 1.5rem;
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  /* Touch-friendly buttons */
+  .touch-button {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.75rem;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  @media (max-width: 768px) {
+    .touch-button {
+      min-height: 52px;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+    }
+  }
+  
+  /* Mobile card optimizations */
+  .mobile-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform;
+  }
+  
+  @media (hover: hover) {
+    .mobile-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.3);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .mobile-card {
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+  
+  /* Mobile grid optimization */
+  .mobile-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  @media (min-width: 640px) {
+    .mobile-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .mobile-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+  
+  /* Mobile responsive text */
+  .responsive-heading {
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    line-height: 1.2;
+  }
+  
+  .responsive-subheading {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    line-height: 1.4;
+  }
+  
+  /* Mobile scroll optimization */
+  .mobile-scroll-optimize {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 5%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 5%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 5%;
+
+    --primary: 204 94% 41%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 197 100% 36%;
+    --primary-dark: 201 100% 26%;
+
+    --secondary: 38 75% 57%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-light: 38 75% 57%;
+    --secondary-dark: 38 75% 49%;
+
+    --success: 146 93% 24%;
+    --success-foreground: 0 0% 100%;
+    --success-light: 146 93% 24%;
+    --success-dark: 146 93% 19%;
+
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 54%;
+
+    --accent: 0 0% 95%;
+    --accent-foreground: 0 0% 5%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --neutral-lightest: 0 0% 100%;
+    --neutral-light: 20 9% 95%;
+    --neutral-medium: 220 1% 54%;
+    --neutral-dark: 0 0% 40%;
+    --neutral-darkest: 0 0% 9%;
+    
+    --skyblue: 202 76% 85%;
+
+    --border: 0 0% 80%;
+    --input: 0 0% 80%;
+    --ring: 0 0% 40%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 5%;
+    --foreground: 0 0% 100%;
+
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 204 94% 41%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 197 100% 36%;
+    --primary-dark: 201 100% 26%;
+
+    --secondary: 38 75% 57%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 0 0% 20%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 0 0% 80%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-skyblue text-neutral-darkest;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-display: swap;
+    letter-spacing: -0.025em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold;
+    line-height: 1.2;
+    letter-spacing: -0.05em;
+  }
+
+  .font-black {
+    font-weight: 900;
+    font-family: 'Poppins', system-ui, sans-serif;
+  }
+
+  /* Optimized responsive typography with will-change */
+  h1 {
+    @apply text-3xl md:text-4xl lg:text-5xl xl:text-6xl;
+    will-change: transform;
+  }
+
+  h2 {
+    @apply text-2xl md:text-3xl lg:text-4xl;
+    will-change: transform;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl lg:text-3xl;
+  }
+
+  h4 {
+    @apply text-lg md:text-xl;
+  }
+
+  h5 {
+    @apply text-base md:text-lg;
+  }
+
+  h6 {
+    @apply text-sm md:text-base;
+  }
+
+  /* Responsive containers */
+  .container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+    max-width: 1200px;
+  }
+
+  /* Better mobile touch targets */
+  button, a[role="button"], input, select, textarea {
+    min-height: 44px;
+  }
+  
+  button, a[role="button"] {
+    min-width: 44px;
+  }
+  
+  /* Enhanced mobile performance optimizations */
+  @media (max-width: 768px) {
+    body {
+      font-size: 14px;
+      /* Hardware acceleration and reduce repaints */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      /* Improve touch responsiveness */
+      touch-action: manipulation;
+    }
+    
+    h1 {
+      line-height: 1.3;
+      font-size: clamp(2rem, 8vw, 4rem) !important;
+      /* Hardware acceleration for smooth animations */
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
+    }
+    
+    h2, h3, h4, h5, h6 {
+      line-height: 1.4;
+    }
+    
+    h2 {
+      font-size: clamp(1.5rem, 6vw, 2.5rem) !important;
+    }
+    
+    /* Optimize scrolling performance */
+    * {
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: auto; /* Disable smooth scroll on mobile for performance */
+    }
+    
+    /* Reduce animation complexity on mobile for better performance */
+    .motion-reduce-mobile {
+      animation-duration: 0.2s !important;
+      transition-duration: 0.2s !important;
+    }
+    
+    /* Optimize images for mobile */
+    img {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+    
+    /* Better mobile button sizing */
+    button, .btn {
+      min-height: 48px;
+      min-width: 48px;
+      padding: 12px 16px;
+    }
+    
+    /* Improve mobile input handling */
+    input, textarea, select {
+      font-size: 16px; /* Prevent iOS zoom */
+      min-height: 44px;
+    }
+    
+    /* Fix mobile centering issues */
+    body {
+      overflow-x: hidden;
+    }
+    
+    /* Ensure proper container centering */
+    .container, [class*="max-w-"] {
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+    
+    /* Reduce blur effects on mobile for performance */
+    .backdrop-blur-lg {
+      backdrop-filter: blur(8px) !important;
+    }
+    
+    .backdrop-blur-md {
+      backdrop-filter: blur(4px) !important;
+    }
+    
+    /* Optimize gradients for mobile */
+    .bg-gradient-to-br {
+      background-attachment: scroll !important;
+    }
+    
+    /* Reduce motion for slow devices */
+    .reduce-motion-device * {
+      animation-duration: 0.1s !important;
+      transition-duration: 0.1s !important;
+    }
+    
+    .reduce-motion-device .animate-spin,
+    .reduce-motion-device .animate-pulse {
+      animation: none !important;
+    }
+  }
+
+  /* Enhanced focus for accessibility */
+  @media (hover: none) and (pointer: coarse) {
+    button:focus,
+    a:focus,
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: 3px solid #3B82F6;
+      outline-offset: 2px;
+    }
+  }
+
+  /* Enhanced typography system with optical sizing */
+  .text-fluid-sm { font-size: clamp(0.875rem, 0.8rem + 0.2vw, 1rem); letter-spacing: -0.01em; }
+  .text-fluid-base { font-size: clamp(1rem, 0.9rem + 0.3vw, 1.125rem); letter-spacing: -0.01em; }
+  .text-fluid-lg { font-size: clamp(1.125rem, 1rem + 0.4vw, 1.25rem); letter-spacing: -0.015em; }
+  .text-fluid-xl { font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem); letter-spacing: -0.02em; }
+  .text-fluid-2xl { font-size: clamp(1.5rem, 1.3rem + 0.6vw, 1.875rem); letter-spacing: -0.025em; }
+  .text-fluid-3xl { font-size: clamp(1.875rem, 1.5rem + 0.8vw, 2.25rem); letter-spacing: -0.03em; }
+  .text-fluid-4xl { font-size: clamp(2.25rem, 1.8rem + 1vw, 2.75rem); letter-spacing: -0.035em; }
+  .text-fluid-5xl { font-size: clamp(2.75rem, 2.2rem + 1.2vw, 3.5rem); letter-spacing: -0.04em; }
+  .text-fluid-6xl { font-size: clamp(3.5rem, 2.8rem + 1.5vw, 4.5rem); letter-spacing: -0.045em; }
+  .text-fluid-7xl { font-size: clamp(4.5rem, 3.5rem + 2vw, 6rem); letter-spacing: -0.05em; }
+  .text-fluid-8xl { font-size: clamp(6rem, 4.5rem + 2.5vw, 8rem); letter-spacing: -0.055em; }
+  .text-fluid-9xl { font-size: clamp(8rem, 6rem + 3vw, 10rem); letter-spacing: -0.06em; }
+
+  /* Professional heading system */
+  .heading-display {
+    font-family: var(--font-poppins);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+
+  .heading-primary {
+    font-family: var(--font-poppins);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  .heading-secondary {
+    font-family: var(--font-inter);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  /* Enhanced body text */
+  .body-text {
+    font-family: var(--font-inter);
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    text-wrap: pretty;
+  }
+
+  .body-text-large {
+    font-family: var(--font-inter);
+    font-weight: 400;
+    line-height: 1.7;
+    letter-spacing: -0.015em;
+    text-wrap: pretty;
+  }
+
+  /* Monospace text */
+  .text-mono {
+    font-family: var(--font-mono);
+    font-feature-settings: 'liga' 0, 'calt' 0;
+    letter-spacing: -0.01em;
+  }
+
+  /* Enhanced button typography */
+  .btn-text {
+    font-family: var(--font-inter);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-transform: none;
+  }
+
+  /* Enhanced design components */
+  .card-premium {
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255,255,255,0.4);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  .gradient-text-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gradient-text-secondary {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gradient-bg-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  /* Enhanced shadows */
+  .shadow-premium {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+
+  .shadow-glow {
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.3), 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Loading optimization */
+  .fonts-loaded body {
+    font-display: swap;
+  }
+
+  /* Critical above-the-fold styles */
+  .hero-section {
+    contain: layout style paint;
+  }
+
+  /* Optimize for print */
+  @media print {
+    .animate-spin,
+    .animate-pulse,
+    .animate-bounce {
+      animation: none !important;
+    }
+    
+    .bg-gradient-to-br {
+      background: #8B5CF6 !important;
+    }
+  }
+
+  /* Responsive images */
+  img {
+    @apply max-w-full h-auto;
+  }
+
+  /* Optimized focus styles for mobile performance */
+  *:focus {
+    @apply outline-none ring-2 ring-primary ring-offset-2;
+    /* Reduce GPU usage on mobile */
+    will-change: box-shadow;
+  }
+
+  /* Conditional smooth scrolling - disabled on mobile for performance */
+  @media (min-width: 769px) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  /* Optimized text selection */
+  ::selection {
+    @apply bg-primary text-white;
+    /* Prevent repaints during selection */
+    will-change: background-color;
+  }
+}
+
+@layer components {
+  /* Custom gradient text utilities */
+  .gradient-text-rainbow {
+    @apply bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-transparent;
+  }
+  
+  .gradient-text-ocean {
+    @apply bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent;
+  }
+  
+  .gradient-text-fire {
+    @apply bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent;
+  }
+
+  /* Enhanced button animations */
+  .btn-vibrant {
+    @apply transform transition-all duration-300 hover:scale-105 hover:shadow-2xl;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  .btn-glow {
+    @apply relative overflow-hidden;
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+  }
+  
+  .btn-glow:hover {
+    box-shadow: 0 0 30px rgba(102, 126, 234, 0.8);
+  }
+
+  /* Animated background patterns */
+  .animated-bg {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+  }
+}
+
+@layer utilities {
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .text-shadow-glow {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiA.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZ9hiA.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYAZ9hiA.woff2) format('woff2');
+}
+
+/* Removed extra Roboto font variants to improve loading speed */
+
+.bg-gradient-primary {
+  @apply bg-gradient-to-r from-primary to-primary-dark;
+}
+
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
+
+.font-roboto {
+  font-family: 'Roboto', sans-serif;
 }
