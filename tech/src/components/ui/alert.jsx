@@ -1,6 +1,6 @@
-const React = require("react")
-const { cva } = require("class-variance-authority")
-const { cn } = require("@/lib/utils")
+import React from "react";
+import { cva } from "class-variance-authority";
+import { cn } from "@/lib/utils";
 
 const alertVariants = cva(
   "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
@@ -18,35 +18,37 @@ const alertVariants = cva(
 )
 
 const Alert = React.forwardRef(({ className, variant, ...props }, ref) => {
-  return React.createElement("div", {
-    ref: ref,
-    role: "alert",
-    className: cn(alertVariants({ variant }), className),
-    ...props
-  })
-})
-Alert.displayName = "Alert"
+  return (
+    <div
+      ref={ref}
+      role="alert"
+      className={cn(alertVariants({ variant }), className)}
+      {...props}
+    />
+  );
+});
+Alert.displayName = "Alert";
 
 const AlertTitle = React.forwardRef(({ className, ...props }, ref) => {
-  return React.createElement("h5", {
-    ref: ref,
-    className: cn("mb-1 font-medium leading-none tracking-tight", className),
-    ...props
-  })
-})
-AlertTitle.displayName = "AlertTitle"
+  return (
+    <h5
+      ref={ref}
+      className={cn("mb-1 font-medium leading-none tracking-tight", className)}
+      {...props}
+    />
+  );
+});
+AlertTitle.displayName = "AlertTitle";
 
 const AlertDescription = React.forwardRef(({ className, ...props }, ref) => {
-  return React.createElement("div", {
-    ref: ref,
-    className: cn("text-sm [&_p]:leading-relaxed", className),
-    ...props
-  })
-})
-AlertDescription.displayName = "AlertDescription"
+  return (
+    <div
+      ref={ref}
+      className={cn("text-sm [&_p]:leading-relaxed", className)}
+      {...props}
+    />
+  );
+});
+AlertDescription.displayName = "AlertDescription";
 
-module.exports = {
-  Alert,
-  AlertTitle,
-  AlertDescription,
-}
+export { Alert, AlertTitle, AlertDescription };
