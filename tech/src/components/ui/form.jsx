@@ -1,29 +1,25 @@
-const React = require("react")
-const LabelPrimitive = require("@radix-ui/react-label")
-const { Slot } = require("@radix-ui/react-slot")
-const {
-  Controller,
-  FormProvider,
-  useFormContext,
-} = require("react-hook-form")
-const { cn } = require("@/lib/utils")
-const { Label } = require("@/components/ui/label")
+import { createContext, createElement, useContext, forwardRef, useId } from "react"
+import * as LabelPrimitive from "@radix-ui/react-label"
+import { Slot } from "@radix-ui/react-slot"
+import { Controller, FormProvider, useFormContext } from "react-hook-form"
+import { cn } from "@/lib/utils"
+import { Label } from "@/components/ui/label"
 
 const Form = FormProvider
 
-const FormFieldContext = React.createContext({})
+const FormFieldContext = createContext({})
 
 const FormField = ({ ...props }) => {
-  return React.createElement(FormFieldContext.Provider, {
+  return createElement(FormFieldContext.Provider, {
     value: { name: props.name }
-  }, React.createElement(Controller, props))
+  }, createElement(Controller, props))
 }
 
-const FormItemContext = React.createContext({})
+const FormItemContext = createContext({})
 
 const useFormField = () => {
-  const fieldContext = React.useContext(FormFieldContext)
-  const itemContext = React.useContext(FormItemContext)
+  const fieldContext = useContext(FormFieldContext)
+  const itemContext = useContext(FormItemContext)
   const { getFieldState, formState } = useFormContext()
 
   const fieldState = getFieldState(fieldContext.name, formState)
@@ -43,11 +39,11 @@ const useFormField = () => {
     ...fieldState,
   }
 }
-const FormItem = React.forwardRef(({ className, ...props }, ref) => {
-  const id = React.useId()
-  return React.createElement(FormItemContext.Provider, {
+const FormItem = forwardRef(({ className, ...props }, ref) => {
+  const id = useId()
+  return createElement(FormItemContext.Provider, {
     value: { id }
-  }, React.createElement("div", {
+  }, createElement("div", {
     ref: ref,
     className: cn("space-y-2", className),
     ...props
@@ -55,9 +51,9 @@ const FormItem = React.forwardRef(({ className, ...props }, ref) => {
 })
 FormItem.displayName = "FormItem"
 
-const FormLabel = React.forwardRef(({ className, ...props }, ref) => {
+const FormLabel = forwardRef(({ className, ...props }, ref) => {
   const { error, formItemId } = useFormField()
-  return React.createElement(Label, {
+  return createElement(Label, {
     ref: ref,
     className: cn(error && "text-destructive", className),
     htmlFor: formItemId,
@@ -65,9 +61,9 @@ const FormLabel = React.forwardRef(({ className, ...props }, ref) => {
   })
 })
 FormLabel.displayName = "FormLabel"
-const FormControl = React.forwardRef(({ ...props }, ref) => {
+const FormControl = forwardRef(({ ...props }, ref) => {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
-  return React.createElement(Slot, {
+  return createElement(Slot, {
     ref: ref,
     id: formItemId,
     "aria-describedby": !error
@@ -79,9 +75,9 @@ const FormControl = React.forwardRef(({ ...props }, ref) => {
 })
 FormControl.displayName = "FormControl"
 
-const FormDescription = React.forwardRef(({ className, ...props }, ref) => {
+const FormDescription = forwardRef(({ className, ...props }, ref) => {
   const { formDescriptionId } = useFormField()
-  return React.createElement("p", {
+  return createElement("p", {
     ref: ref,
     id: formDescriptionId,
     className: cn("text-sm text-muted-foreground", className),
@@ -89,7 +85,7 @@ const FormDescription = React.forwardRef(({ className, ...props }, ref) => {
   })
 })
 FormDescription.displayName = "FormDescription"
-const FormMessage = React.forwardRef(({ className, children, ...props }, ref) => {
+const FormMessage = forwardRef(({ className, children, ...props }, ref) => {
   const { error, formMessageId } = useFormField()
   const body = error ? String(error?.message) : children
 
@@ -97,7 +93,7 @@ const FormMessage = React.forwardRef(({ className, children, ...props }, ref) =>
     return null
   }
 
-  return React.createElement("p", {
+  return createElement("p", {
     ref: ref,
     id: formMessageId,
     className: cn("text-sm font-medium text-destructive", className),
@@ -106,7 +102,7 @@ const FormMessage = React.forwardRef(({ className, children, ...props }, ref) =>
 })
 FormMessage.displayName = "FormMessage"
 
-module.exports = {
+export  {
   useFormField,
   Form,
   FormItem,
