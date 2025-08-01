@@ -1,10 +1,10 @@
-const CollapsiblePrimitive = require("@radix-ui/react-collapsible")
+import { Root, Trigger, Content } from "@radix-ui/react-collapsible"
 
-const Collapsible = CollapsiblePrimitive.Root
-const CollapsibleTrigger = CollapsiblePrimitive.Trigger
-const CollapsibleContent = CollapsiblePrimitive.Content
+const Collapsible = Root
+const CollapsibleTrigger = Trigger
+const CollapsibleContent = Content
 
-module.exports = {
+export  {
   Collapsible,
   CollapsibleTrigger,
   CollapsibleContent,
