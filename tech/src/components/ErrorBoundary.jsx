@@ -7,7 +7,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle
-} from "@/components/ui/card";
+} from "../components/ui/card";
 
 class ErrorBoundary extends Component {
   constructor(props) {
