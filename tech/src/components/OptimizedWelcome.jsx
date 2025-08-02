@@ -291,7 +291,7 @@ Discreet and secure – no account access needed</span>
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-white/95浑from-white/90 backdrop-blur-lg rounded-3xl p-8 md:p-12 shadow-2xl border-2 border-white/40">
+          <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-8 md:p-12 shadow-2xl border-2 border-white/40">
             <h2 className="font-heading text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text mb-12 text-center tracking-tight">💡 Why Choose TechInRent?</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
               <div className="text-center bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-2xl border border-blue-200 hover:shadow-lg transition-shadow duration-300">
