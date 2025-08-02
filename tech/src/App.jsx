@@ -34,13 +34,14 @@ const SelectPackage = lazy(() => import('@/pages/select-package'));
 const OrderSummary = lazy(() => import('@/pages/order-summary'));
 const OrderConnections = lazy(() => import('@/pages/order-connections'));
 const OrderSuccess = lazy(() => import('@/pages/OrderSuccess'));
+import Testimonials from './components/Testimonials';
 
 // Create QueryClient instance with optimized settings
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 5 * 60 * 1000,    // 5 minutes
-      cacheTime: 30 * 60 * 1000,   // 30 minutes
+      gcTime: 30 * 60 * 1000,   // 30 minutes
       refetchOnWindowFocus: false,
       refetchOnMount: false,
       retry: false,
@@ -88,6 +89,7 @@ function App() {
                   <Route path="/order-success" component={OrderSuccess} />
                   <Route path="/admin-login" component={AdminLogin} />
                   <Route path="/admin-dashboard" component={AdminDashboard} />
+                  <Route path="/testimonials" component={Testimonials} />
                   <Route path="/500" component={ServerError} />
                   <Route component={NotFound} />
                 </Switch>
