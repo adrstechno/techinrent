@@ -92,15 +92,15 @@ export default function BuyConnectionsPage() {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
           className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-gradient-to-r from-blue-400 to-cyan-300 opacity-40 animate-pulse"
-          style={{ animationDuration: `${animationDuration}ms` }}
+          style={{ animationDuration: `${2000}ms` }}
         />
         <div
           className="absolute bottom-20 -left-32 w-64 h-64 rounded-full bg-gradient-to-r from-purple-400 to-pink-300 opacity-35 animate-bounce"
-          style={{ animationDuration: `${animationDuration}ms` }}
+          style={{ animationDuration: `${2000}ms` }}
         />
         <div
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-gradient-to-r from-indigo-400 to-violet-300 opacity-25 animate-spin"
-          style={{ animationDuration: `${getOptimizedAnimationDuration(20000)}ms` }}
+          style={{ animationDuration: `${getOptimizedAnimationDuration(200)}ms` }}
         />
       </div>
 
@@ -207,7 +207,7 @@ export default function BuyConnectionsPage() {
                   </p>
                 </div>
               </div>
-              <div className="mt-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6">
+              <div className="mt-8 bg-gradient-to-r from-blue-100 to-purple-50 rounded-xl p-6">
                 <h3 className="font-heading text-xl font-semibold text-gray-800 mb-4 text-center tracking-normal">
                   🌟 Why Choose TechInRent LinkedIn Boost?
                 </h3>
@@ -286,7 +286,7 @@ export default function BuyConnectionsPage() {
 
         {/* Additional SEO Content Section */}
         <div className="mb-16">
-          <Card className="bg-gradient-to-r from-white/95 to-white/90 backdrop-blur-lg border-2 border-white/40 shadow-2xl max-w-6xl mx-auto">
+          <Card className="bg-white/95 backdrop-blur-lg border-2 border-white/40 shadow-2xl max-w-6xl mx-auto">
             <CardContent className="p-8">
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div>
@@ -326,7 +326,7 @@ export default function BuyConnectionsPage() {
                   </ul>
                 </div>
               </div>
-              <div className="mt-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6">
+              <div className="mt-8 bg-gradient-to-r from-blue-100 to-purple-50 rounded-xl p-6">
                 <h3 className="text-2xl font-bold text-center text-gray-800 mb-6">
                   Why TechInRent is the Best Site to Buy LinkedIn Connections?
                 </h3>
