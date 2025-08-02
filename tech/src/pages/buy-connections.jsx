@@ -100,7 +100,7 @@ export default function BuyConnectionsPage() {
         />
         <div
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-gradient-to-r from-indigo-400 to-violet-300 opacity-25 animate-spin"
-          style={{ animationDuration: `${getOptimizedAnimationDuration(200)}ms` }}
+          style={{ animationDuration: `${getOptimizedAnimationDuration(2000)}ms` }}
         />
       </div>
 

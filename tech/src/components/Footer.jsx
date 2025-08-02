@@ -62,7 +62,7 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h3 className="font-inter font-semibold text-lg mb-4">Services</h3>
+            <h3 className="font-inter font-semibold text-lg mb-4 text-white/90">Services</h3>
             <ul className="space-y-3">
               <li>
                 <Link href="/linkedin-marketplace" className="text-neutral-medium hover:text-white transition-colors">
@@ -89,7 +89,7 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="font-inter font-semibold text-lg mb-4">Company</h3>
+            <h3 className="font-inter font-semibold text-lg mb-4 text-white/90">Company</h3>
             <ul className="space-y-3">
               <li>
                 <Link href="/about" className="text-neutral-medium hover:text-white transition-colors">
@@ -116,7 +116,7 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h3 className="font-inter font-semibold text-lg mb-4">Newsletter</h3>
+            <h3 className="font-inter font-semibold text-lg mb-4 text-white/90">Newsletter</h3>
             <p className="text-neutral-medium mb-4">
               Subscribe to our newsletter for tips, new accounts, and industry updates.
             </p>
@@ -126,9 +126,9 @@ export default function Footer() {
                 placeholder="Your email"
                 className="flex-grow rounded-l-md border-gray-600 bg-gray-800 text-white focus:border-secondary"
               />
-              <Button
+              <Button 
                 type="submit"
-                className="rounded-r-md bg-secondary hover:bg-secondary/90 px-4"
+                className="rounded-r-md bg-secondary hover:bg-secondary/90 px-4 ml-2"
               >
                 <Send size={16} />
               </Button>
@@ -138,7 +138,7 @@ export default function Footer() {
 
         {/* Site Map Section */}
         <div className="border-t border-gray-700 mt-10 pt-8">
-          <h3 className="font-inter font-semibold text-lg mb-6 text-center">Site Map</h3>
+          <h3 className="font-inter font-semibold text-lg mb-6 text-center text-white/90">Site Map</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-sm">
             <div>
               <h4 className="font-semibold mb-3 text-white">Main Pages</h4>
