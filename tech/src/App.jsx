@@ -29,7 +29,7 @@ const Services = lazy(() => import('@/pages/Services_backup'));
 const ServerError = lazy(() => import('@/pages/ServerError'));
 const AdminLogin = lazy(() => import('@/pages/AdminLogin'));
 const AdminDashboard = lazy(() => import('@/pages/AdminDashboard'));
-const BuyConnections = lazy(() => import('@/pages/buy-connections'));
+const BuyConnectionsPage = lazy(() => import('@/pages/buy-connections'));
 const SelectPackage = lazy(() => import('@/pages/select-package'));
 const OrderSummary = lazy(() => import('@/pages/order-summary'));
 const OrderConnections = lazy(() => import('@/pages/order-connections'));
@@ -81,7 +81,7 @@ function App() {
                   <Route path="/linkedin-marketplace" component={LinkedInMarketplace} />
                   <Route path="/social-media-account-rental" component={SocialMediaAccountRental} />
                   <Route path="/services" component={Services} />
-                  <Route path="/buy-connections" component={BuyConnections} />
+                  <Route path="/buy-connections" component={BuyConnectionsPage} />
                   <Route path="/select-package" component={SelectPackage} />
                   <Route path="/order-summary" component={OrderSummary} />
                   <Route path="/order-connections" component={OrderConnections} />
