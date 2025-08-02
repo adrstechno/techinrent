@@ -3,18 +3,18 @@
 export const ensureCredentials = () => {
   // Ensure all fetch requests include credentials for admin authentication
   const originalFetch = window.fetch;
-  
-  window.fetch = function(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+
+  window.fetch = function (input, init) {
     const requestInit = {
       ...init,
-      credentials: 'include' as RequestCredentials,
     };
-    
+    requestInit.credentials = 'include';
+
     return originalFetch(input, requestInit);
   };
 };
 
-export const checkAuthStatus = async (): Promise<boolean> => {
+export const checkAuthStatus = async () => {
   try {
     const response = await fetch('/api/user', {
       credentials: 'include',
@@ -25,7 +25,7 @@ export const checkAuthStatus = async (): Promise<boolean> => {
   }
 };
 
-export const adminLogin = async (username: string, password: string): Promise<{ success: boolean; error?: string }> => {
+export const adminLogin = async (username, password) => {
   try {
     const response = await fetch('/api/login', {
       method: 'POST',
