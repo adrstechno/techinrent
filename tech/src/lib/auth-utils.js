@@ -1,4 +1,4 @@
-// Authentication utilities to ensure proper site flow
+// // Authentication utilities to ensure proper site flow
 
 export const ensureCredentials = () => {
   // Ensure all fetch requests include credentials for admin authentication
@@ -20,7 +20,8 @@ export const checkAuthStatus = async () => {
       credentials: 'include',
     });
     return response.ok;
-  } catch {
+  } catch (error) {
+    console.error('Auth check failed:', error);
     return false;
   }
 };
@@ -43,11 +44,12 @@ export const adminLogin = async (username, password) => {
       return { success: false, error: errorText || 'Login failed' };
     }
   } catch (error) {
+    console.error('Login error:', error);
     return { success: false, error: 'Network error during login' };
   }
 };
 
-// Initialize credentials handling when the module loads
+// Automatically apply credentials when this file is imported
 if (typeof window !== 'undefined') {
   ensureCredentials();
 }
