@@ -88,10 +88,10 @@ export default function FAQSection() {
                 value={`faq-${faq.id}`}
                 className="bg-white rounded-xl overflow-hidden shadow-sm border-0"
               >
-                <AccordionTrigger className="p-6 text-left font-inter font-semibold text-lg hover:no-underline">
+                <AccordionTrigger className="p-5 text-left font-inter font-semibold text-lg hover:no-underline">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="p-6 pt-0 text-neutral-dark">
+                <AccordionContent className="p-6 pt-0 mt-2 text-neutral-dark">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>

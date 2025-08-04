@@ -1,31 +1,32 @@
-// Authentication utilities to ensure proper site flow
+// // Authentication utilities to ensure proper site flow
 
 export const ensureCredentials = () => {
   // Ensure all fetch requests include credentials for admin authentication
   const originalFetch = window.fetch;
-  
-  window.fetch = function(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+
+  window.fetch = function (input, init) {
     const requestInit = {
       ...init,
-      credentials: 'include' as RequestCredentials,
     };
-    
+    requestInit.credentials = 'include';
+
     return originalFetch(input, requestInit);
   };
 };
 
-export const checkAuthStatus = async (): Promise<boolean> => {
+export const checkAuthStatus = async () => {
   try {
     const response = await fetch('/api/user', {
       credentials: 'include',
     });
     return response.ok;
-  } catch {
+  } catch (error) {
+    console.error('Auth check failed:', error);
     return false;
   }
 };
 
-export const adminLogin = async (username: string, password: string): Promise<{ success: boolean; error?: string }> => {
+export const adminLogin = async (username, password) => {
   try {
     const response = await fetch('/api/login', {
       method: 'POST',
@@ -43,11 +44,12 @@ export const adminLogin = async (username: string, password: string): Promise<{ 
       return { success: false, error: errorText || 'Login failed' };
     }
   } catch (error) {
+    console.error('Login error:', error);
     return { success: false, error: 'Network error during login' };
   }
 };
 
-// Initialize credentials handling when the module loads
+// Automatically apply credentials when this file is imported
 if (typeof window !== 'undefined') {
   ensureCredentials();
 }
