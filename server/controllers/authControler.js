@@ -4,12 +4,12 @@ const jwt = require('jsonwebtoken');
 
 exports.registerAdmin = async (req, res) => {
     try {
-        const {email, password} = req.body;
-        if(!email || !password) {
+        const {userName, password} = req.body;
+        if(!userName || !password) {
             return res.status(400).json({message: 'Please fill all the fields'});
         }
 
-        const existingAdmin = await Admin.findOne({email});
+        const existingAdmin = await Admin.findOne({userName});
         if(existingAdmin) {
             return res.status(400).json({message: 'Admin already exists'});
         }
