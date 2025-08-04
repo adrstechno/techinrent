@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import Logo from "@/components/Logo";
 import SEO from "@/components/SEO";
 import { ServiceStructuredData, FAQStructuredData } from "@/components/ServiceSchema";
+import { LogIn } from "lucide-react";
 
 export default function OptimizedWelcome() {
   const [, setLocation] = useLocation();
@@ -118,7 +119,7 @@ export default function OptimizedWelcome() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 via-violet-800 to-purple-800 relative overflow-hidden mobile-scroll-optimize">
-      <SEO 
+      <SEO
         title="Buy Real LinkedIn Connections Starting $2 - TechInRent | LinkedIn Growth Service"
         description="Buy real LinkedIn connections from $2. TechInRent offers verified LinkedIn growth services. No login required, 24-48hr delivery, 100% safe process. Get authentic human connections instantly with crypto payment options."
         keywords="buy linkedin connections, real linkedin connections, linkedin connections $2, linkedin growth service, techinrent, tech in rent, linkedin connection service, verified linkedin connections, buy connections linkedin, linkedin marketing service, authentic linkedin connections, linkedin networking service, instant linkedin connections, safe linkedin growth"
@@ -126,6 +127,18 @@ export default function OptimizedWelcome() {
       />
       <ServiceStructuredData />
       <FAQStructuredData />
+
+      {/* Login Button - Top Right */}
+      <div className="absolute top-6 right-6 z-20">
+        <Button
+          onClick={() => setLocation("/login")}
+          variant="outline"
+          className="bg-white/90 hover:bg-white border-white/50 text-slate-800 hover:text-slate-900 shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-105"
+        >
+          <LogIn className="mr-2 h-4 w-4" />
+          Login
+        </Button>
+      </div>
       
       {/* Animated background decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -179,7 +192,7 @@ export default function OptimizedWelcome() {
         </div>
 
         {/* Secondary Options */}
-        <div className="w-full flex flex-col gap-5 sm:flex-row sm:gap-6 justify-center items-center mb-12 max-w-3xl mx-auto px-4">
+        <div className="w-full flex flex-col gap-5 sm:flex-row sm:gap-6 justify-center items-center mb-8 max-w-3xl mx-auto px-4">
           <Button
             onClick={() => handleUserTypeSelect('taker')}
             className="group w-full sm:flex-1 h-auto min-h-[80px] bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 hover:from-blue-600 hover:via-cyan-600 hover:to-teal-600 active:scale-95 text-white flex flex-col items-center justify-center px-6 py-4 transform hover:scale-105 transition-all duration-200 shadow-xl border border-white/30 rounded-xl backdrop-blur-sm touch-manipulation"
@@ -193,6 +206,17 @@ export default function OptimizedWelcome() {
           >
             <div className="font-heading text-lg font-semibold mb-2 text-center tracking-normal">💰 Earn Money</div>
             <div className="font-body text-xs font-normal text-center opacity-95 tracking-normal">Monetize your LinkedIn</div>
+          </Button>
+        </div>
+
+        {/* Admin Login Button */}
+        <div className="w-full flex justify-center mb-12 max-w-md mx-auto px-4">
+          <Button
+            onClick={() => setLocation('/login')}
+            className="group w-full h-auto min-h-[60px] bg-gradient-to-r from-slate-600 via-gray-600 to-slate-700 hover:from-slate-700 hover:via-gray-700 hover:to-slate-800 active:scale-95 text-white flex items-center justify-center px-6 py-4 transform hover:scale-105 transition-all duration-200 shadow-xl border border-white/30 rounded-xl backdrop-blur-sm touch-manipulation"
+          >
+            <LogIn className="mr-3 h-5 w-5" />
+            <div className="font-heading text-lg font-semibold text-center tracking-normal">🔐 Admin Login</div>
           </Button>
         </div>
 
