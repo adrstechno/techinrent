@@ -131,14 +131,6 @@ export default function OptimizedWelcome() {
       {/* Login & Register Buttons - Top Right */}
       <div className="absolute top-6 right-6 z-20 flex gap-3">
         <Button
-          onClick={() => setLocation("/register")}
-          variant="outline"
-          className="bg-white/90 hover:bg-white border-white/50 text-slate-800 hover:text-slate-900 shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-105"
-        >
-          <LogIn className="mr-2 h-4 w-4" />
-          Register
-        </Button>
-        <Button
           onClick={() => setLocation("/login")}
           variant="outline"
           className="bg-white/90 hover:bg-white border-white/50 text-slate-800 hover:text-slate-900 shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-105"

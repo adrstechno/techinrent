@@ -155,7 +155,7 @@ const Login = () => {
                         </FormLabel>
                         <FormControl>
                           <Input
-                            type="email"
+                            type="text"
                             placeholder="Enter your email address"
                             {...field}
                             disabled={isLoading}
@@ -216,14 +216,6 @@ const Login = () => {
                 <div className="mt-4 flex items-center justify-center gap-2 text-xs text-slate-400">
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                   Secure connection established
-                </div>
-                <div className="mt-4">
-                  <button
-                    onClick={() => navigate("/register")}
-                    className="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors duration-200"
-                  >
-                    Need an admin account? Register here
-                  </button>
                 </div>
               </div>
             </div>
