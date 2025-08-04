@@ -27,7 +27,7 @@ import SEO from "@/components/SEO";
 import { ArrowLeft, Shield, Lock, User } from "lucide-react";
 
 const loginSchema = z.object({
-  username: z.string().min(1, "Username is required"),
+  email: z.string().email("Please enter a valid email address"),
   password: z.string().min(1, "Password is required"),
 });
 
@@ -39,7 +39,7 @@ const Login = () => {
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
@@ -47,7 +47,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/login", {
+      const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -55,9 +55,15 @@ const Login = () => {
         body: JSON.stringify(data),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        throw new Error("Login failed");
+        throw new Error(result.message || "Login failed");
       }
+
+      // Store the token in localStorage
+      localStorage.setItem('adminToken', result.token);
+      localStorage.setItem('adminData', JSON.stringify(result.admin));
 
       toast({
         title: "Success",
@@ -68,7 +74,7 @@ const Login = () => {
     } catch (error) {
       toast({
         title: "Error",
-        description: "Invalid credentials",
+        description: error.message || "Invalid credentials",
         variant: "destructive",
       });
     } finally {
@@ -140,16 +146,17 @@ const Login = () => {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                   <FormField
                     control={form.control}
-                    name="username"
+                    name="email"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-slate-700 font-semibold flex items-center gap-2">
                           <User className="h-4 w-4" />
-                          Username
+                          Email Address
                         </FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Enter your username"
+                            type="email"
+                            placeholder="Enter your email address"
                             {...field}
                             disabled={isLoading}
                             className="h-12 bg-white/80 border-2 border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 rounded-xl text-slate-800 placeholder:text-slate-400 transition-all duration-200"
@@ -209,6 +216,14 @@ const Login = () => {
                 <div className="mt-4 flex items-center justify-center gap-2 text-xs text-slate-400">
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                   Secure connection established
+                </div>
+                <div className="mt-4">
+                  <button
+                    onClick={() => navigate("/register")}
+                    className="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors duration-200"
+                  >
+                    Need an admin account? Register here
+                  </button>
                 </div>
               </div>
             </div>
