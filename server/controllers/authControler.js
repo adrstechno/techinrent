@@ -10,7 +10,7 @@ exports.registerAdmin = async (req, res) => {
         }
 
         const existingAdmin = await Admin.findOne({email});
-        if(existiingAdmin) {
+        if(existingAdmin) {
             return res.status(400).json({message: 'Admin already exists'});
         }
 
@@ -44,9 +44,21 @@ exports.loginAdmin = async (req, res) => {
         if(!isPasswordValid) {
             return res.status(400).json({message: 'Invalid credentials'})
         }
-        const token = jwt.sign({id: existingAdmin._id}, process.env.JWT_SECRET, {expiresIn: '1d'})
+
+        const token = jwt.sign({id: existingAdmin._id}, process.env.JWT_SECRET, {expiresIn: '1d'});
+
+        res.status(200).json({
+            success: true,
+            message: 'Login successful',
+            token,
+            admin: {
+                id: existingAdmin._id,
+                email: existingAdmin.email
+            }
+        });
     }
     catch(error) {
-
+        console.error('Login error:', error);
+        res.status(500).json({success: false, message: 'Server error'});
     }
 }
