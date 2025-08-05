@@ -13,7 +13,6 @@ import SecureFormAdmin from '@/pages/SecureFormAdmin';
 const Welcome = lazy(() => import('@/components/OptimizedWelcome'));
 const Home = lazy(() => import('@/pages/Home'));
 const Login = lazy(() => import('@/pages/Login'));
-const Register = lazy(() => import('@/pages/Register'));
 const Admin = lazy(() => import('@/pages/Admin'));
 const ProviderDashboard = lazy(() => import('@/pages/ProviderDashboard'));
 const Terms = lazy(() => import('@/pages/Terms'));
@@ -64,7 +63,6 @@ function App() {
                   <Route path="/" component={Welcome} />
                   <Route path="/home" component={Home} />
                   <Route path="/login" component={Login} />
-                  <Route path="/register" component={Register} />
                   <Route path="/admin">
                     {() => <ProtectedRoute path="/admin" component={Admin} />}
                   </Route>
