@@ -19,12 +19,13 @@ const authRoutes = require('./routes/authRoutes');
 
 // Initializing express app
 const app = express();
-
 app.use(express.json());
+
 app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true               
+  origin: 'http://localhost:5173', // Adjust this to your frontend URL  
+  credentials: true // Allow credentials if needed
 }));
+
 
 app.use('/api/contact', contactRoutes);
 app.use('/api/book-demo', bookDemoRoutes);

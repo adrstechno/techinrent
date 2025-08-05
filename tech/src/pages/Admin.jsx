@@ -768,7 +768,7 @@ export default function Admin() {
   const contactQuery = useQuery({
     queryKey: ['contact-messages'],
     queryFn: async () => {
-      const response = await fetch('http://localhost:5000/api/admin/contacts/', {
+      const response = await fetch('http://localhost:5001/api/admin/contacts/', {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
@@ -788,7 +788,7 @@ export default function Admin() {
   const demoQuery = useQuery({
     queryKey: ['demo-requests'],
     queryFn: async () => {
-      const response = await fetch('http://localhost:5000/api/admin/demos/', {
+      const response = await fetch('http://localhost:5001/api/admin/demos/', {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
@@ -810,7 +810,7 @@ export default function Admin() {
   const providerQuery = useQuery({
     queryKey: ['provider-inquiries'],
     queryFn: async () => {
-      const response = await fetch('http://localhost:5000/api/admin/inquiries/', {
+      const response = await fetch('http://localhost:5001/api/admin/inquiries/', {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
@@ -1027,12 +1027,14 @@ export default function Admin() {
   };
 
   return (
-    <div className="min-h-screen bg-skyblue/30">
+     <div className="min-h-screen bg-skyblue/30">
       <div className="container mx-auto py-6 px-4 sm:px-6">
         <h1 className="text-2xl sm:text-3xl font-bold mb-4">Admin Dashboard</h1>
-        <p className="text-gray-600 mb-8">Manage your platform data and monitor activities</p>
-        
-        <Tabs defaultValue="contact" value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <p className="text-gray-700 mb-8">
+          Manage your platform data and monitor activities
+        </p>
+    
+           <Tabs defaultValue="contact" value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
             <TabsTrigger value="contact">Contact Messages</TabsTrigger>
             <TabsTrigger value="demo">Demo Requests</TabsTrigger>
@@ -1040,407 +1042,246 @@ export default function Admin() {
             <TabsTrigger value="linkedin-orders">LinkedIn Orders</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="contact" className="space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-              <h2 className="text-xl font-semibold">Contact Messages</h2>
-              <div className="flex flex-col sm:flex-row gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => exportToCSV(contactQuery.data, 'contact-messages')}
-                  disabled={contactQuery.isLoading || !contactQuery.data?.length}
-                  className="text-sm"
-                >
-                  <Download className="mr-2 h-4 w-4" />
-                  Export CSV
-                </Button>
-                <Button
-                  variant="outline" 
-                  onClick={() => contactQuery.refetch()}
-                  disabled={contactQuery.isLoading}
-                  className="text-sm"
-                >
-                  Refresh
-                </Button>
-              </div>
-            </div>
-
+        <TabsContent value="contact">
             {contactQuery.isLoading ? (
               <div className="text-center py-10">Loading messages...</div>
             ) : contactQuery.isError ? (
               <div className="text-center py-10 text-red-500">
-                Error loading contact messages: {contactQuery.error.message}
+                Error: {contactQuery.error.message}
               </div>
             ) : (
-              <div className="space-y-4">
-                {!contactQuery.data?.length ? (
-                  <div className="text-center py-10 text-gray-500">No contact messages found.</div>
-                ) : (
-                  contactQuery.data.map((message) => (
-                    <Card key={message.id} className={`max-w-2xl mx-auto ${message.isRead ? "opacity-70" : ""}`}>
-                      <CardHeader className="pb-2">
-                        <div className="flex justify-between items-start">
-                          <CardTitle className="text-lg">{message.subject || 'No Subject'}</CardTitle>
-                          <CardDescription className="flex items-center gap-1 mt-1">
-                            <Calendar className="h-3 w-3" /> 
-                            {formatDistanceToNow(new Date(message.createdAt), { addSuffix: true })}
-                          </CardDescription>
-                        </div>
-                        {!message.isRead && (
-                          <Badge variant="destructive">New</Badge>
-                        )}
-                      </CardHeader>
-                      <CardContent className="space-y-3">
-                        <div className="flex items-center gap-2">
-                          <User className="h-4 w-4 text-gray-500" />
-                          <span className="font-medium">{message.name || 'No Name'}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Mail className="h-4 w-4 text-gray-500" />
-                          {message.email || 'No Email'}
-                        </div>
-                        <Separator />
-                        <div className="pt-2 whitespace-pre-wrap text-gray-700 break-words">
-                          {message.message || 'No message content'}
-                        </div>
-                        <div className="pt-2 flex justify-end gap-2">
+              <div className="overflow-x-auto">
+                <div className="mb-4 flex justify-between">
+                  <Button
+                    variant="outline"
+                    onClick={() => exportToCSV(contactQuery.data, 'contact-messages')}
+                    disabled={!contactQuery.data?.length}
+                  >
+                    <Download className="mr-2 h-4 w-4" /> Export CSV
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => contactQuery.refetch()}
+                  >
+                    Refresh
+                  </Button>
+                </div>
+                <table className="min-w-full divide-y divide-gray-200 bg-white shadow rounded-md">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="px-4 py-2">Name</th>
+                      <th className="px-4 py-2">Email</th>
+                      <th className="px-4 py-2">Subject</th>
+                      <th className="px-4 py-2">Message</th>
+                      <th className="px-4 py-2">Date</th>
+                      <th className="px-4 py-2 text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {contactQuery.data.map((message) => (
+                      <tr key={message.id} className={message.isRead ? "opacity-70" : ""}>
+                        <td className="px-4 py-2">{message.fullname}</td>
+                        <td className="px-4 py-2">{message.email}</td>
+                        <td className="px-4 py-2">{message.subject || "no subject"}</td>
+                        <td className="px-4 py-2 whitespace-pre-wrap">{message.message}</td>
+                        <td className="px-4 py-2">{formatDistanceToNow(new Date(message.createdAt), { addSuffix: true })}</td>
+                        <td className="px-4 py-2 flex gap-2 justify-center">
                           {!message.isRead && (
-                            <Button
-                              variant="outline" 
-                              size="sm" 
-                              onClick={() => markContactAsRead(message.id)}
-                              disabled={contactQuery.isRefetching}
-                            >
-                              Mark as Read
-                            </Button>
+                            <Button size="sm" variant="outline" onClick={() => markContactAsRead(message.id)}>Mark Read</Button>
                           )}
                           <Button
-                            variant="outline" 
-                            size="sm" 
+                            size="sm"
+                            variant="outline"
+                            className="text-red-600"
                             onClick={() => deleteContactMessage(message.id)}
-                            disabled={contactQuery.isRefetching}
-                            className="text-red-600 hover:text-red-700"
                           >
                             <Trash2 className="h-4 w-4" />
-                            Delete
                           </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))
-                )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
           </TabsContent>
 
 
-
-          <TabsContent value="demo" className="space-y-6">
-  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-    <h2 className="text-xl font-semibold">Demo Requests</h2>
-    <div className="flex flex-col sm:flex-row gap-2">
-      <Button
-        variant="outline"
-        onClick={() => exportToCSV(demoQuery.data, 'demo-requests')}
-        disabled={demoQuery.isLoading || !demoQuery.data?.length}
-        className="text-sm"
-      >
-        <Download className="mr-2 h-4 w-4" />
-        Export CSV
-      </Button>
-      <Button
-        variant="outline"
-        onClick={() => demoQuery.refetch()}
-        disabled={demoQuery.isLoading}
-        className="text-sm"
-      >
-        Refresh
-      </Button>
-    </div>
-  </div>
-
-  {demoQuery.isLoading ? (
-    <div className="text-center py-10">Loading demo requests...</div>
-  ) : demoQuery.isError ? (
-    <div className="text-center py-10 text-red-500">
-      Error loading demo requests: {demoQuery.error.message}
-    </div>
-  ) : (
-    <div className="space-y-4">
-      {!demoQuery.data?.length ? (
-        <div className="text-center py-10 text-gray-500">
-          No demo requests found.
-        </div>
-      ) : (
-        demoQuery.data.map((request, index) => (
-          <Card
-            key={request.id || request._id || index}
-            className={`max-w-2xl mx-auto ${
-              request.isRead ? 'opacity-70' : ''
-            }`}
-          >
-            <CardHeader className="pb-2">
-              <div className="flex justify-between items-start">
-                <CardTitle className="text-lg">
-                  {request.firstName || ''} {request.lastName || ''}
-                </CardTitle>
-                <CardDescription className="flex items-center gap-1 mt-1">
-                  <Calendar className="h-3 w-3" />
-                  {request.createdAt
-                    ? formatDistanceToNow(new Date(request.createdAt), {
-                        addSuffix: true,
-                      })
-                    : 'Unknown date'}
-                </CardDescription>
+          <TabsContent value="demo">
+            {demoQuery.isLoading ? (
+              <div className="text-center py-10">Loading demo requests...</div>
+            ) : demoQuery.isError ? (
+              <div className="text-center py-10 text-red-500">
+                Error: {demoQuery.error.message}
               </div>
-              {!request.isRead && <Badge variant="destructive">New</Badge>}
-            </CardHeader>
-
-            <CardContent className="space-y-3">
-              <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-gray-500" />
-                {request.email || 'No Email'}
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-gray-500" />
-                {request.phone || 'No Phone'}
-              </div>
-              <div className="flex items-center gap-2">
-                <Building className="h-4 w-4 text-gray-500" />
-                {request.companyName || 'Not specified'}
-              </div>
-              <div className="flex items-center gap-2">
-                <Briefcase className="h-4 w-4 text-gray-500" />
-                {request.jobtitle || 'No Designation'}
-              </div>
-
-              <div className="pt-2 flex justify-end gap-2">
-                {!request.isRead && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => markDemoAsRead(request.id)}
-                    disabled={demoQuery.isRefetching}
-                  >
-                    Mark as Read
+            ) : (
+              <div className="overflow-x-auto">
+                <div className="mb-4 flex justify-between">
+                  <Button variant="outline" onClick={() => exportToCSV(demoQuery.data, 'demo-requests')}>
+                    <Download className="mr-2 h-4 w-4" /> Export CSV
                   </Button>
-                )}
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => deleteDemoRequest(request.id)}
-                  disabled={demoQuery.isRefetching}
-                  className="text-red-600 hover:text-red-700"
-                >
-                  <Trash2 className="h-4 w-4" />
-                  Delete
-                </Button>
+                  <Button variant="outline" onClick={() => demoQuery.refetch()}>Refresh</Button>
+                </div>
+                <table className="min-w-full divide-y divide-gray-200 bg-white shadow rounded-md">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="px-4 py-2">Name</th>
+                      <th className="px-4 py-2">Email</th>
+                      <th className="px-4 py-2">Phone</th>
+                      <th className="px-4 py-2">Company</th>
+                      <th className="px-4 py-2">Job Title</th>
+                      <th className="px-4 py-2">Date</th>
+                      <th className="px-4 py-2 text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {demoQuery.data.map((request, index) => (
+                      <tr key={request.id || request._id || index} className={request.isRead ? "opacity-70" : ""}>
+                        <td className="px-4 py-2">{request.firstName} {request.lastName}</td>
+                        <td className="px-4 py-2">{request.email}</td>
+                        <td className="px-4 py-2">{request.phone}</td>
+                        <td className="px-4 py-2">{request.companyName}</td>
+                        <td className="px-4 py-2">{request.jobtitle}</td>
+                        <td className="px-4 py-2">{formatDistanceToNow(new Date(request.createdAt), { addSuffix: true })}</td>
+                        <td className="px-4 py-2 flex gap-2 justify-center">
+                          {!request.isRead && (
+                            <Button size="sm" variant="outline" onClick={() => markDemoAsRead(request.id)}>Mark Read</Button>
+                          )}
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="text-red-600"
+                            onClick={() => deleteDemoRequest(request.id)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            </CardContent>
-          </Card>
-        ))
-      )}
-    </div>
-  )}
-</TabsContent>
+            )}
+          </TabsContent>
 
 
-          <TabsContent value="provider" className="space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-              <h2 className="text-xl font-semibold">Provider Registrations(getintouch)</h2>
-              <div className="flex flex-col sm:flex-row gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => exportToCSV(providerQuery.data, 'provider-inquiries')}
-                  disabled={providerQuery.isLoading || !providerQuery.data?.length}
-                  className="text-sm"
-                >
-                  <Download className="mr-2 h-4 w-4" />
-                  Export CSV
-                </Button>
-                <Button
-                  variant="outline" 
-                  onClick={() => providerQuery.refetch()}
-                  disabled={providerQuery.isLoading}
-                  className="text-sm"
-                >
-                  Refresh
-                </Button>
-              </div>
-            </div>
-
+          {/* PROVIDER REGISTRATIONS TABLE */}
+          <TabsContent value="provider">
             {providerQuery.isLoading ? (
               <div className="text-center py-10">Loading provider registrations...</div>
             ) : providerQuery.isError ? (
               <div className="text-center py-10 text-red-500">
-                Error loading provider registrations: {providerQuery.error.message}
+                Error: {providerQuery.error.message}
               </div>
             ) : (
-              <div className="space-y-4">
-                {!providerQuery.data?.length ? (
-                  <div className="text-center py-10 text-gray-500">No provider registrations found.</div>
-                ) : (
-                  providerQuery.data.map((inquiry) => (
-                    <Card key={inquiry.id} className={`max-w-2xl mx-auto ${inquiry.isRead ? "opacity-70" : ""}`}>
-                      <CardHeader className="pb-2">
-                        <div className="flex justify-between items-start">
-                          <CardTitle className="text-lg">{inquiry.name || 'No Name'}</CardTitle>
-                          <CardDescription className="flex items-center gap-1 mt-1">
-                            <Calendar className="h-3 w-3" /> 
-                            {formatDistanceToNow(new Date(inquiry.createdAt), { addSuffix: true })}
-                          </CardDescription>
-                        </div>
-                        {!inquiry.isRead && (
-                          <Badge variant="destructive">New</Badge>
-                        )}
-                        {inquiry.profileStatus && (
-                          <Badge variant="secondary" className="mt-1">
-                            {inquiry.profileStatus}
-                          </Badge>
-                        )}
-                      </CardHeader>
-                      <CardContent className="space-y-3">
-                        <div className="flex items-center gap-2">
-                          <Mail className="h-4 w-4 text-gray-500" />
-                          {inquiry.email || 'No Email'}
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Phone className="h-4 w-4 text-gray-500" />
-                          {inquiry.phone || 'No Phone'}
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Building className="h-4 w-4 text-gray-500" />
-                          {inquiry.linkedinUrl || 'No LinkedIn URL'}
-                        </div>
-                        <Separator />
-                        <div className="pt-2 whitespace-pre-wrap text-gray-700 break-words">
-                          {inquiry.additionalInfo || 'No additional information'}
-                        </div>
-                        <div className="pt-2 flex justify-end gap-2">
+              <div className="overflow-x-auto">
+                <div className="mb-4 flex justify-between">
+                  <Button variant="outline" onClick={() => exportToCSV(providerQuery.data, 'provider-inquiries')}>
+                    <Download className="mr-2 h-4 w-4" /> Export CSV
+                  </Button>
+                  <Button variant="outline" onClick={() => providerQuery.refetch()}>Refresh</Button>
+                </div>
+                <table className="min-w-full divide-y divide-gray-200 bg-white shadow rounded-md">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="px-4 py-2">Name</th>
+                      <th className="px-4 py-2">Email</th>
+                      <th className="px-4 py-2">Phone</th>
+                      <th className="px-4 py-2">LinkedIn URL</th>
+                      <th className="px-4 py-2">Status</th>
+                      <th className="px-4 py-2">Additional Info</th>
+                      <th className="px-4 py-2">Date</th>
+                      <th className="px-4 py-2 text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {providerQuery.data.map((inquiry) => (
+                      <tr key={inquiry.id} className={inquiry.isRead ? "opacity-70" : ""}>
+                        <td className="px-4 py-2">{inquiry.name}</td>
+                        <td className="px-4 py-2">{inquiry.email}</td>
+                        <td className="px-4 py-2">{inquiry.phone}</td>
+                        <td className="px-4 py-2">{inquiry.linkedinUrl}</td>
+                        <td className="px-4 py-2">{inquiry.profileStatus || '-'}</td>
+                        <td className="px-4 py-2 whitespace-pre-wrap">{inquiry.additionalInfo}</td>
+                        <td className="px-4 py-2">{formatDistanceToNow(new Date(inquiry.createdAt), { addSuffix: true })}</td>
+                        <td className="px-4 py-2 flex gap-2 justify-center">
                           {!inquiry.isRead && (
-                            <Button
-                              variant="outline" 
-                              size="sm" 
-                              onClick={() => markProviderAsRead(inquiry.id)}
-                              disabled={providerQuery.isRefetching}
-                            >
-                              Mark as Read
-                            </Button>
+                            <Button size="sm" variant="outline" onClick={() => markProviderAsRead(inquiry.id)}>Mark Read</Button>
                           )}
                           <Button
-                            variant="outline" 
-                            size="sm" 
+                            size="sm"
+                            variant="outline"
+                            className="text-red-600"
                             onClick={() => deleteProviderRegistration(inquiry.id)}
-                            disabled={providerQuery.isRefetching}
-                            className="text-red-600 hover:text-red-700"
                           >
                             <Trash2 className="h-4 w-4" />
-                            Delete
                           </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))
-                )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
           </TabsContent>
 
-          <TabsContent value="linkedin-orders" className="space-y-6">
-  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-    <h2 className="text-xl font-semibold">LinkedIn Orders</h2>
-    <div className="flex flex-col sm:flex-row gap-2">
-      <Button
-        variant="outline"
-        onClick={() => exportToCSV(linkedinQuery.data, 'linkedin-orders')}
-        disabled={linkedinQuery.isLoading || !linkedinQuery.data?.length}
-        className="text-sm"
-      >
-        <Download className="mr-2 h-4 w-4" />
-        Export CSV
-      </Button>
-      <Button
-        variant="outline"
-        onClick={() => linkedinQuery.refetch()}
-        disabled={linkedinQuery.isLoading}
-        className="text-sm"
-      >
-        Refresh
-      </Button>
-    </div>
-  </div>
-
-  {linkedinQuery.isLoading ? (
-    <div className="text-center py-10">Loading LinkedIn orders...</div>
-  ) : linkedinQuery.isError ? (
-    <div className="text-center py-10 text-red-500">
-      Error loading LinkedIn orders: {linkedinQuery.error.message}
-    </div>
-  ) : (
-    <div className="space-y-4">
-      {!linkedinQuery.data?.length ? (
-        <div className="text-center py-10 text-gray-500">No LinkedIn orders found.</div>
-      ) : (
-        linkedinQuery.data.map((order) => (
-          <Card key={order.id} className={`max-w-2xl mx-auto ${order.isRead ? "opacity-70" : ""}`}>
-            <CardHeader className="pb-2">
-              <div className="flex justify-between items-start">
-                <CardTitle className="text-lg">{order.fullName || 'No Name'}</CardTitle>
-                <CardDescription className="flex items-center gap-1 mt-1">
-                  <Calendar className="h-3 w-3" />
-                  {formatDistanceToNow(new Date(order.createdAt), { addSuffix: true })}
-                </CardDescription>
+          {/* LINKEDIN ORDERS TABLE */}
+          <TabsContent value="linkedin-orders">
+            {linkedinQuery.isLoading ? (
+              <div className="text-center py-10">Loading LinkedIn orders...</div>
+            ) : linkedinQuery.isError ? (
+              <div className="text-center py-10 text-red-500">
+                Error: {linkedinQuery.error.message}
               </div>
-              {!order.isRead && (
-                <Badge variant="destructive">New</Badge>
-              )}
-              {order.package && (
-                <Badge variant="secondary" className="mt-1">
-                  {order.package}
-                </Badge>
-              )}
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-gray-500" />
-                {order.email || 'No Email'}
-              </div>
-              <div className="flex items-center gap-2">
-                <Building className="h-4 w-4 text-gray-500" />
-                {order.linkedinUrl || 'No LinkedIn URL'}
-              </div>
-              <Separator />
-              <div className="pt-2 whitespace-pre-wrap text-gray-700 break-words">
-                {order.message || 'No message provided'}
-              </div>
-              <div className="pt-2 flex justify-end gap-2">
-                {!order.isRead && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => markLinkedinOrderAsRead(order.id)}
-                    disabled={linkedinQuery.isRefetching}
-                  >
-                    Mark as Read
+            ) : (
+              <div className="overflow-x-auto">
+                <div className="mb-4 flex justify-between">
+                  <Button variant="outline" onClick={() => exportToCSV(linkedinQuery.data, 'linkedin-orders')}>
+                    <Download className="mr-2 h-4 w-4" /> Export CSV
                   </Button>
-                )}
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => deleteLinkedinOrder(order.id)}
-                  disabled={linkedinQuery.isRefetching}
-                  className="text-red-600 hover:text-red-700"
-                >
-                  <Trash2 className="h-4 w-4" />
-                  Delete
-                </Button>
+                  <Button variant="outline" onClick={() => linkedinQuery.refetch()}>Refresh</Button>
+                </div>
+                <table className="min-w-full divide-y divide-gray-200 bg-white shadow rounded-md">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="px-4 py-2">Full Name</th>
+                      <th className="px-4 py-2">Email</th>
+                      <th className="px-4 py-2">LinkedIn URL</th>
+                      <th className="px-4 py-2">Package</th>
+                      <th className="px-4 py-2">Message</th>
+                      <th className="px-4 py-2">Date</th>
+                      <th className="px-4 py-2 text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {linkedinQuery.data.map((order) => (
+                      <tr key={order.id} className={order.isRead ? "opacity-70" : ""}>
+                        <td className="px-4 py-2">{order.fullName}</td>
+                        <td className="px-4 py-2">{order.email}</td>
+                        <td className="px-4 py-2">{order.linkedinUrl}</td>
+                        <td className="px-4 py-2">{order.package || '-'}</td>
+                        <td className="px-4 py-2 whitespace-pre-wrap">{order.message}</td>
+                        <td className="px-4 py-2">{formatDistanceToNow(new Date(order.createdAt), { addSuffix: true })}</td>
+                        <td className="px-4 py-2 flex gap-2 justify-center">
+                          {!order.isRead && (
+                            <Button size="sm" variant="outline" onClick={() => markLinkedinOrderAsRead(order.id)}>Mark Read</Button>
+                          )}
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="text-red-600"
+                            onClick={() => deleteLinkedinOrder(order.id)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            </CardContent>
-          </Card>
-        ))
-      )}
-    </div>
-  )}
-</TabsContent>
+            )}
+          </TabsContent>
 
         </Tabs>
       </div>
