@@ -6,9 +6,9 @@ const Contact = require('../models/Contact');
 
 exports.submitContact = async (req, res) => {
     try{
-        const { fullname, email, phone, message } = req.body;
+        const { fullname, email, phone, company, message } = req.body;
 
-        if( !fullname || !email || !message || !phone ){
+        if( !fullname || !email || !message || !phone || !company ) {
             return res.status(400).json({message: 'Please fill out all the fields.'})
         }
 
@@ -16,6 +16,7 @@ exports.submitContact = async (req, res) => {
             fullname,
             email,
             phone,
+            company,
             message
         });
         await newContact.save();

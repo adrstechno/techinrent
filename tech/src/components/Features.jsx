@@ -82,7 +82,7 @@ const Features = () => {
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section id="features" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -152,7 +152,9 @@ const Features = () => {
           </div>
         </motion.div>
 
+        {/* Benefits Section for Providers */}
         <motion.div
+          id="benefits"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -160,7 +162,7 @@ const Features = () => {
           className="mb-8"
         >
           <h2 className="text-2xl font-bold text-secondary mb-6 text-center">
-            For LinkedIn Account Providers
+            Benefits for LinkedIn Account Providers
           </h2>
           <motion.div
             variants={fadeIn}
@@ -211,6 +213,76 @@ const Features = () => {
             >
               Become a Provider
             </Button>
+          </motion.div>
+        </motion.div>
+
+        {/* Requirements Section for Providers */}
+        <motion.div
+          id="requirements"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeIn}
+          className="mt-12"
+        >
+          <h2 className="text-2xl font-bold text-secondary mb-6 text-center">
+            Provider Requirements
+          </h2>
+          <motion.div
+            variants={fadeIn}
+            className="bg-white border-2 border-primary/20 rounded-xl p-6 shadow-md max-w-4xl mx-auto"
+          >
+            <h3 className="text-xl font-bold mb-4 text-center">
+              Minimum Requirements to Become a Provider
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-semibold text-primary mb-3">
+                  Account Requirements
+                </h4>
+                <ul className="space-y-2">
+                  <li className="flex items-start">
+                    <span className="text-primary mr-2 mt-1">•</span>
+                    <span>LinkedIn account must be at least 6 months old</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-primary mr-2 mt-1">•</span>
+                    <span>Minimum 500+ connections</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-primary mr-2 mt-1">•</span>
+                    <span>Complete professional profile with photo</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-primary mr-2 mt-1">•</span>
+                    <span>No recent account restrictions or bans</span>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold text-primary mb-3">
+                  Provider Requirements
+                </h4>
+                <ul className="space-y-2">
+                  <li className="flex items-start">
+                    <span className="text-primary mr-2 mt-1">•</span>
+                    <span>Must be 18+ years old</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-primary mr-2 mt-1">•</span>
+                    <span>Valid government-issued ID for verification</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-primary mr-2 mt-1">•</span>
+                    <span>Reliable internet connection</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-primary mr-2 mt-1">•</span>
+                    <span>Agree to our terms and conditions</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </motion.div>
         </motion.div>
       </div>

@@ -3,14 +3,6 @@ import { useLocation } from "wouter";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -24,57 +16,61 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import Logo from "@/components/Logo";
 import SEO from "@/components/SEO";
-import { ArrowLeft, Shield, Lock, User } from "lucide-react";
+import { ArrowLeft, Shield, Lock, Mail, UserPlus } from "lucide-react";
 
-const loginSchema = z.object({
+const registerSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(1, "Password is required"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  confirmPassword: z.string().min(6, "Please confirm your password"),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
 });
 
-const Login = () => {
+const Register = () => {
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+        }),
       });
 
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message || "Login failed");
+        throw new Error(result.message || "Registration failed");
       }
-
-      // Store the token in localStorage
-      localStorage.setItem('adminToken', result.token);
-      localStorage.setItem('adminData', JSON.stringify(result.admin));
 
       toast({
         title: "Success",
-        description: "Login successful",
+        description: "Admin registered successfully! You can now login.",
       });
 
-      navigate("/admin");
+      navigate("/login");
     } catch (error) {
       toast({
         title: "Error",
-        description: error.message || "Invalid credentials",
+        description: error.message || "Registration failed",
         variant: "destructive",
       });
     } finally {
@@ -85,11 +81,11 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 via-violet-800 to-purple-800 relative overflow-hidden">
       <SEO
-        title="Admin Login - TechInRent"
-        description="Secure admin login portal for TechInRent administrators. Access the dashboard to manage LinkedIn account rentals and provider information."
-        keywords="admin login, admin portal, secure access, techinrent admin"
+        title="Admin Registration - TechInRent"
+        description="Register as an administrator for TechInRent platform. Create your admin account to manage LinkedIn account rentals and provider information."
+        keywords="admin registration, admin signup, create admin account, techinrent admin"
       />
-
+      
       {/* Animated background decorations matching the main site */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-gradient-to-r from-blue-400 to-cyan-300 opacity-30 animate-pulse" />
@@ -111,6 +107,18 @@ const Login = () => {
         </Button>
       </div>
 
+      {/* Login link */}
+      <div className="absolute top-6 right-6 z-20">
+        <Button
+          onClick={() => navigate("/login")}
+          variant="outline"
+          className="bg-white/90 hover:bg-white border-white/50 text-slate-800 hover:text-slate-900 shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-105"
+        >
+          <Shield className="mr-2 h-4 w-4" />
+          Login
+        </Button>
+      </div>
+
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           {/* Logo section with glow effects */}
@@ -122,26 +130,26 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Login card with glassmorphism effect */}
+          {/* Register card with glassmorphism effect */}
           <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border-2 border-white/40 relative overflow-hidden">
             {/* Subtle gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-white/30 rounded-3xl"></div>
-
+            
             <div className="relative z-10">
               {/* Header with icon */}
               <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
-                  <Shield className="h-8 w-8" />
+                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
+                  <UserPlus className="h-8 w-8" />
                 </div>
                 <h1 className="font-heading text-3xl font-bold text-transparent bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text mb-2">
-                  Admin Portal
+                  Create Admin Account
                 </h1>
                 <p className="text-slate-600 font-medium">
-                  Secure access to TechInRent dashboard
+                  Register as a TechInRent administrator
                 </p>
               </div>
 
-              {/* Login form */}
+              {/* Register form */}
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                   <FormField
@@ -150,14 +158,14 @@ const Login = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-slate-700 font-semibold flex items-center gap-2">
-                          <User className="h-4 w-4" />
+                          <Mail className="h-4 w-4" />
                           Email Address
                         </FormLabel>
                         <FormControl>
-                          <Input
+                          <Input 
                             type="email"
-                            placeholder="Enter your email address"
-                            {...field}
+                            placeholder="Enter your email address" 
+                            {...field} 
                             disabled={isLoading}
                             className="h-12 bg-white/80 border-2 border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 rounded-xl text-slate-800 placeholder:text-slate-400 transition-all duration-200"
                           />
@@ -178,7 +186,7 @@ const Login = () => {
                         <FormControl>
                           <Input
                             type="password"
-                            placeholder="Enter your password"
+                            placeholder="Create a strong password"
                             {...field}
                             disabled={isLoading}
                             className="h-12 bg-white/80 border-2 border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 rounded-xl text-slate-800 placeholder:text-slate-400 transition-all duration-200"
@@ -188,20 +196,42 @@ const Login = () => {
                       </FormItem>
                     )}
                   />
-                  <Button
-                    type="submit"
+                  <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-slate-700 font-semibold flex items-center gap-2">
+                          <Lock className="h-4 w-4" />
+                          Confirm Password
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            placeholder="Confirm your password"
+                            {...field}
+                            disabled={isLoading}
+                            className="h-12 bg-white/80 border-2 border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 rounded-xl text-slate-800 placeholder:text-slate-400 transition-all duration-200"
+                          />
+                        </FormControl>
+                        <FormMessage className="text-red-500" />
+                      </FormItem>
+                    )}
+                  />
+                  <Button 
+                    type="submit" 
                     disabled={isLoading}
-                    className="w-full h-12 bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 hover:from-blue-600 hover:via-purple-600 hover:to-indigo-600 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-200 border-0"
+                    className="w-full h-12 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 hover:from-green-600 hover:via-blue-600 hover:to-purple-600 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-200 border-0"
                   >
                     {isLoading ? (
                       <div className="flex items-center gap-2">
                         <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                        Logging in...
+                        Creating Account...
                       </div>
                     ) : (
                       <div className="flex items-center gap-2">
-                        <Shield className="h-4 w-4" />
-                        Access Dashboard
+                        <UserPlus className="h-4 w-4" />
+                        Create Admin Account
                       </div>
                     )}
                   </Button>
@@ -211,18 +241,18 @@ const Login = () => {
               {/* Footer */}
               <div className="mt-8 text-center">
                 <p className="text-sm text-slate-500 font-medium">
-                  🔒 Access restricted to administrators only
+                  🔒 Admin registration creates secure access credentials
                 </p>
                 <div className="mt-4 flex items-center justify-center gap-2 text-xs text-slate-400">
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  Secure connection established
+                  Secure registration process
                 </div>
                 <div className="mt-4">
                   <button
-                    onClick={() => navigate("/register")}
+                    onClick={() => navigate("/login")}
                     className="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors duration-200"
                   >
-                    Need an admin account? Register here
+                    Already have an account? Login here
                   </button>
                 </div>
               </div>
@@ -234,4 +264,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

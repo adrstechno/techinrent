@@ -93,12 +93,9 @@ const Navbar = ({ userType }) => {
               <button
                 key={index}
                 onClick={() => handleScrollToSection(item.section)}
-                className="relative text-gray-700 hover:text-primary transition-colors duration-200 focus:outline-none group"
+                className="text-gray-700 hover:text-primary transition-colors duration-200"
               >
                 {item.label}
-                <span
-                  className="absolute left-0 -bottom-1 h-[2px] w-0 bg-primary transition-all duration-300 group-hover:w-full group-focus:w-full"
-                />
               </button>
             ))}
 
