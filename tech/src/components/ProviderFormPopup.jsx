@@ -57,43 +57,58 @@ export default function ProviderFormPopup({ isOpen, onClose }) {
     },
   });
 
-  const onSubmit = async (data) => {
-    setIsSubmitting(true);
-    try {
-      const response = await fetch("/api/provider-signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+const onSubmit = async (data) => {
+  setIsSubmitting(true);
+  try {
+    const payload = {
+      fullName: data.fullName?.trim(),
+      email: data.email?.trim(),
+      phone: data.phone?.trim() || "N/A",
+      linkedIn: data.linkedinUrl?.trim(),
+      verification: data.profileStatus,
+      additionalInfo: data.additionalInfo?.trim() || "N/A",
+    };
 
-      if (!response.ok) {
-        throw new Error("Failed to submit form");
-      }
+    console.log("Sending to backend:", payload);
 
-      toast({
-        title: "Application Submitted!",
-        description: "We'll review your application and get back to you within 24 hours.",
-      });
+    const response = await fetch("http://localhost:5000/api/provider/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
 
-      form.reset();
-      onClose();
+    const result = await response.json();
+    console.log("Backend response:", result);
 
-      // Redirect to admin panel to show the new entry
-      setTimeout(() => {
-        setLocation("/admin");
-      }, 1500);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to submit application. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
+    if (!response.ok) {
+      throw new Error(result.error || "Failed to submit form");
     }
-  };
+
+    toast({
+      title: "Application Submitted!",
+      description: "We'll review your application and get back to you within 24 hours.",
+    });
+
+    form.reset();
+    onClose();
+
+    setTimeout(() => {
+      setLocation("/admin");
+    }, 1500);
+  } catch (error) {
+    toast({
+      title: "Error",
+      description: error.message || "Submission failed. Try again.",
+      variant: "destructive",
+    });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
+
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

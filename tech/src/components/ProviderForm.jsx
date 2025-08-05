@@ -8,6 +8,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { Shield, ShieldAlert } from "lucide-react";
+
 export default function ProviderForm({
   title = "Become a Provider",
   subtitle = "Join our network and start earning",
@@ -22,8 +23,10 @@ export default function ProviderForm({
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!name || !email || !profileLink || !message || !acceptTerms) {
       toast({
         title: "Missing Information",
@@ -32,13 +35,36 @@ export default function ProviderForm({
       });
       return;
     }
+
     setIsSubmitting(true);
-    // Simulate form submission
-    setTimeout(() => {
+
+    try {
+      const response = await fetch("http://localhost:5000/api/provider/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          fullname: name,
+          email: email,
+          phone: phone,
+          linkedin: profileLink,
+          verification: acceptTerms,
+          additionalInfo: message
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong. Please try again.");
+      }
+
       toast({
         title: "Application Submitted!",
         description: "Thank you for your interest. We'll review your application and get back to you soon."
       });
+
       // Reset form
       setName("");
       setEmail("");
@@ -46,9 +72,18 @@ export default function ProviderForm({
       setProfileLink("");
       setMessage("");
       setAcceptTerms(false);
+
+    } catch (error) {
+      toast({
+        title: "Submission Failed",
+        description: error.message,
+        variant: "destructive"
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -57,16 +92,13 @@ export default function ProviderForm({
       transition={{ duration: 0.6 }}
       className={`bg-white rounded-xl shadow-lg p-6 ${className}`}
     >
-      {title && (
-        <h3 className="text-2xl font-bold text-primary mb-2">{title}</h3>
-      )}
-      {subtitle && (
-        <p className="text-neutral-dark mb-6">{subtitle}</p>
-      )}
+      {title && <h3 className="text-2xl font-bold text-primary mb-2">{title}</h3>}
+      {subtitle && <p className="text-neutral-dark mb-6">{subtitle}</p>}
+
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="name">Full Name *</Label>
+            <Label htmlFor="name">Full Nametydfgchg *</Label>
             <Input
               id="name"
               placeholder="Your name"
@@ -87,6 +119,7 @@ export default function ProviderForm({
             />
           </div>
           <div className="space-y-2">
+            <Label htmlFor="phone">Phone Number</Label>
             <Input
               id="phone"
               type="tel"
@@ -112,7 +145,7 @@ export default function ProviderForm({
           <RadioGroup
             value={profileType}
             onValueChange={setProfileType}
-            className="mt-2 flex flex-col space-y-1 sm:space-y-2"
+            className="mt-2 flex flex-col space-y-2"
           >
             <div className="flex items-center space-x-2 rounded-lg border p-3 shadow-sm cursor-pointer hover:bg-gray-50">
               <RadioGroupItem value="verified" id="verified" />
@@ -120,13 +153,13 @@ export default function ProviderForm({
                 <Shield className="h-5 w-5 text-green-600 mr-2" />
                 <div>
                   <span className="font-semibold">Verified Profile</span>
-                  <p className="text-xs text-gray-500">My profile has 500+ connections and is regularly active</p>
+                  <p className="text-xs text-gray-500">500+ connections and active</p>
                 </div>
               </Label>
             </div>
             <div className="flex items-center space-x-2 rounded-lg border p-3 shadow-sm cursor-pointer hover:bg-gray-50">
-              <RadioGroupItem value="non-verified" id="non-verified" />
-              <Label htmlFor="non-verified" className="flex items-center cursor-pointer">
+              <RadioGroupItem value="nonVerified" id="nonVerified" />
+              <Label htmlFor="nonVerified" className="flex items-center cursor-pointer">
                 <ShieldAlert className="h-5 w-5 text-amber-600 mr-2" />
                 <div>
                   <span className="font-semibold">Non-Verified Profile</span>
@@ -141,7 +174,7 @@ export default function ProviderForm({
           <Label htmlFor="message">Additional Information *</Label>
           <Textarea
             id="message"
-            placeholder="Tell us about your LinkedIn profile, experience, industry, etc..."
+            placeholder="Tell us about your profile, experience, industry, etc..."
             rows={4}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
@@ -157,7 +190,7 @@ export default function ProviderForm({
             required
           />
           <Label htmlFor="terms" className="text-sm">
-            I agree to the terms and privacy policy, and consent to my profile being rented through this platform
+            I agree to the terms and privacy policy, and consent to my profile being rented through this platform.
           </Label>
         </div>
 

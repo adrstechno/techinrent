@@ -45,42 +45,51 @@ export default function BookDemoForm({ isOpen, onClose }) {
     }
   });
 
-  const onSubmit = async (data) => {
-    setIsSubmitting(true);
-    try {
-      // Make an actual API call to our backend
-      const response = await fetch('/api/demo-requests', {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
+const onSubmit = async (data) => {
+  setIsSubmitting(true);
+  try {
+    // Correct field names to match backend expectations
+    const payload = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      phone: data.phone,
+      companyName: data.company,
+      jobtitle: data.designation
+    };
 
-      if (!response.ok) {
-        throw new Error('Failed to submit demo request');
-      }
+    const response = await fetch('http://localhost:5000/api/book-demo/', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
 
-      console.log("Demo request submitted successfully:", data);
-      toast({
-        title: "Demo Request Submitted",
-        description: "We'll contact you within 24 hours to schedule your demo.",
-        variant: "default"
-      });
-
-      reset();
-      onClose();
-    } catch (error) {
-      console.error("Error submitting demo request:", error);
-      toast({
-        title: "Error",
-        description: "Failed to submit demo request. Please try again.",
-        variant: "destructive"
-      });
-    } finally {
-      setIsSubmitting(false);
+    if (!response.ok) {
+      throw new Error('Failed to submit demo request');
     }
-  };
+
+    toast({
+      title: "Demo Request Submitted",
+      description: "We'll contact you within 24 hours to schedule your demo.",
+      variant: "default"
+    });
+
+    reset();
+    onClose();
+  } catch (error) {
+    console.error("Error submitting demo request:", error);
+    toast({
+      title: "Error",
+      description: "Failed to submit demo request. Please try again.",
+      variant: "destructive"
+    });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
