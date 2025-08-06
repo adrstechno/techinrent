@@ -11,4 +11,3 @@ const bookDemoSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('BookDemo', bookDemoSchema);
-// This model is used to store demo booking requests in the database.

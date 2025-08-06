@@ -2,6 +2,7 @@ const Contact = require('../models/Contact');
 const BookDemo = require('../models/bookDemo');
 const GetInTouch = require('../models/getInTouch');
 const Provider = require('../models/provider')
+const Order = require('../models/order');
 
 // Fetch all contact form submissions
 exports.getAllContacts = async (req, res) => {
@@ -45,3 +46,14 @@ exports.getAllProviders = async (req, res) => {
         res.status(500).json({success: false, message: 'Failed to fetch providedrs', error: error.message});
     }
 }
+
+
+
+exports.getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find().sort({ createdAt: -1 });
+    res.status(200).json({ success: true, count:orders.length, data: orders });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Failed to fetch providedrs',error: err.message });
+  }
+};

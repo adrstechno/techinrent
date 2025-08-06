@@ -129,7 +129,7 @@ export default function OptimizedWelcome() {
       <FAQStructuredData />
 
       {/* Login & Register Buttons - Top Right */}
-      <div className="absolute top-6 right-6 z-20 flex gap-3">
+      {/* <div className="absolute top-6 right-6 z-20 flex gap-3">
         <Button
           onClick={() => setLocation("/login")}
           variant="outline"
@@ -138,7 +138,7 @@ export default function OptimizedWelcome() {
           <LogIn className="mr-2 h-4 w-4" />
           Login
         </Button>
-      </div>
+      </div> */}
       
       {/* Animated background decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">

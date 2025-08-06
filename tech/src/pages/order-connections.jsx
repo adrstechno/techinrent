@@ -1,3 +1,291 @@
+// import { useState } from 'react';
+// import { useLocation } from 'wouter';
+// import { Button } from '@/components/ui/button';
+// import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+// import { Input } from '@/components/ui/input';
+// import { Label } from '@/components/ui/label';
+// import { Badge } from '@/components/ui/badge';
+// import { Textarea } from '@/components/ui/textarea';
+// import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+// import { Copy, MessageCircle, Shield, CreditCard, Upload, CheckCircle, ExternalLink } from 'lucide-react';
+// import SEO from '@/components/SEO';
+// import Logo from '@/components/Logo';
+// import { useToast } from '@/hooks/use-toast';
+// import { useMutation } from '@tanstack/react-query';
+// import { apiRequest } from '@/lib/queryClient';
+
+// export default function OrderConnectionsPage() {
+//   const [, setLocation] = useLocation();
+//   const [selectedPackage, setSelectedPackage] = useState('');
+//   const [selectedPayment, setSelectedPayment] = useState('');
+//   const [linkedinUrl, setLinkedinUrl] = useState('');
+//   const [customerName, setCustomerName] = useState('');
+//   const [customerEmail, setCustomerEmail] = useState('');
+//   const [customerPhone, setCustomerPhone] = useState('');
+//   const [paymentDone, setPaymentDone] = useState('no');
+//   const [notes, setNotes] = useState('');
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [orderSubmitted, setOrderSubmitted] = useState(false);
+//   const [submittedOrderId, setSubmittedOrderId] = useState(null);
+//   const [showUploadScreen, setShowUploadScreen] = useState(false);
+//   const [screenshot, setScreenshot] = useState('');
+//   const [isUploading, setIsUploading] = useState(false);
+//   const { toast } = useToast();
+
+//   const packages = [
+//     { value: "25-50", label: "25-50 Connections", price: "2", popular: false },
+//     { value: "100", label: "100 Connections", price: "8", popular: false },
+//     { value: "250", label: "250 Connections", price: "20", popular: true },
+//     { value: "500", label: "500 Connections", price: "40", popular: false },
+//     { value: "1000", label: "1,000 Connections", price: "50", popular: true },
+//     { value: "2500", label: "2,500 Connections", price: "120", popular: false },
+//     { value: "5000", label: "5,000 Connections", price: "200", popular: false },
+//     { value: "7500", label: "7,500 Connections", price: "250", popular: false },
+//     { value: "10000", label: "10,000 Connections", price: "300", popular: false }
+//   ];
+
+//   const paymentMethods = [
+//     {
+//       id: "trc20-usdt",
+//       name: "TRC-20 USDT",
+//       address: "TExampleAddress1234567890",
+//       network: "Tron Network",
+//       icon: CreditCard
+//     },
+//     {
+//       id: "bep20-usdt",
+//       name: "BEP-20 USDT",
+//       address: "0xExampleAddress1234567890",
+//       network: "Binance Smart Chain",
+//       icon: CreditCard
+//     },
+//     {
+//       id: "binance-pay",
+//       name: "Binance Pay",
+//       address: "1234567890",
+//       network: "Binance Pay ID",
+//       icon: CreditCard
+//     }
+//   ];
+
+//   const orderMutation = useMutation({
+//     mutationFn: async (orderData) => {
+//       const response = await fetch('http://localhost:5001/api/order/', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(orderData),
+//       })
+//       if (!response.ok) {
+//         throw new Error('Failed to submit order');
+//       }
+
+//       return response.json();
+//     },
+//     onSuccess: (data) => {
+//       setOrderSubmitted(true);
+//       setSubmittedOrderId(data.order.id);
+//       if (paymentDone === 'yes') {
+//         setShowUploadScreen(true);
+//       } else {
+//         const selectedPackageData = packages.find(pkg => pkg.value === selectedPackage);
+//         const orderDetails = {
+//           orderId: data.order.id,
+//           connections: selectedPackageData.label.split(' ')[0] || selectedPackage,
+//           packageName: selectedPackageData.label,
+//           totalPrice: selectedPackageData.price,
+//           estimatedDelivery: "24-48 hours"
+//         };
+//         localStorage.setItem('lastOrderDetails', JSON.stringify(orderDetails));
+//         toast({
+//           title: "Order Submitted",
+//           description: "Your order has been successfully submitted. Redirecting to success page..."
+//         });
+//         setTimeout(() => {
+//           setLocation('/order-success');
+//         }, 3000);
+//       }
+//       toast({
+//         title: "Order Received",
+//         description: "Your LinkedIn connections order has been successfully placed!"
+//       });
+//     },
+//     onError: (error) => {
+//       toast({
+//         title: "Error",
+//         description: "Failed to submit order. Please try again.",
+//         variant: "destructive"
+//       });
+//     }
+//   });
+
+//   const uploadMutation = useMutation({
+//     mutationFn: async ({ orderId, screenshot }) => {
+//       const response = await apiRequest('POST', `/api/linkedin-connection-order/${orderId}/upload-screenshot`, {
+//         screenshot
+//       });
+//       return response.json();
+//     },
+//     onSuccess: (data) => {
+//       const selectedPackageData = packages.find(pkg => pkg.value === selectedPackage);
+//       const orderDetails = {
+//         orderId: data.order.id,
+//         connections: selectedPackageData.label.split(' ')[0] || selectedPackage,
+//         packageName: selectedPackageData.label,
+//         totalPrice: selectedPackageData.price,
+//         estimatedDelivery: "24-48 hours"
+//       };
+//       localStorage.setItem('lastOrderDetails', JSON.stringify(orderDetails));
+//       toast({
+//         title: "Screenshot Uploaded",
+//         description: "Your payment screenshot has been uploaded successfully!"
+//       });
+//       setTimeout(() => {
+//         setLocation('/order-success');
+//       }, 2000);
+//     },
+//     onError: (error) => {
+//       toast({
+//         title: "Error",
+//         description: "Failed to upload screenshot. Please try again.",
+//         variant: "destructive"
+//       });
+//     }
+//   });
+
+//   const getSelectedPrice = () => {
+//     if (selectedPackage) {
+//       const pkg = packages.find(p => p.value === selectedPackage);
+//       return pkg ? pkg.price : "0";
+//     }
+//     return "0";
+//   };
+
+//   const copyToClipboard = (text, type) => {
+//     navigator.clipboard.writeText(text);
+//     toast({
+//       title: "Copied",
+//       description: `Copied ${type} to clipboard!`
+//     });
+//   };
+
+//   const handleWhatsAppClick = () => {
+//     const message = `Hi, I'm interested in a bulk LinkedIn connections order. Current package: ${packages.find(p => p.value === selectedPackage)?.label || 'Not selected'}`;
+//     const whatsappUrl = `https://wa.me/917898711748?text=${encodeURIComponent(message)}`;
+//     window.open(whatsappUrl, '_blank');
+//   };
+
+//   const handleFileUpload = (event) => {
+//     const file = event.target.files?.[0];
+//     if (file) {
+//       const reader = new FileReader();
+//       reader.onload = (e) => {
+//         const base64 = e.target?.result;
+//         setScreenshot(base64);
+//       };
+//       reader.readAsDataURL(file);
+//     }
+//   };
+
+//   const handleUploadScreenshot = () => {
+//     if (!submittedOrderId || !screenshot) {
+//       toast({
+//         title: "Error",
+//         description: "Please select a screenshot to upload.",
+//         variant: "destructive"
+//       });
+//       return;
+//     }
+//     setIsUploading(true);
+//     uploadMutation.mutate({ orderId: submittedOrderId, screenshot });
+//   };
+
+//   const validateForm = () => {
+//     if (!selectedPackage) {
+//       toast({
+//         title: "Error",
+//         description: "Please select a package.",
+//         variant: "destructive"
+//       });
+//       return false;
+//     }
+//     if (!selectedPayment) {
+//       toast({
+//         title: "Error",
+//         description: "Please select a payment method.",
+//         variant: "destructive"
+//       });
+//       return false;
+//     }
+//     if (!linkedinUrl) {
+//       toast({
+//         title: "Error",
+//         description: "Please enter your LinkedIn profile URL.",
+//         variant: "destructive"
+//       });
+//       return false;
+//     }
+//     if (!linkedinUrl.includes('linkedin.com')) {
+//       toast({
+//         title: "Error",
+//         description: "Please enter a valid LinkedIn profile URL.",
+//         variant: "destructive"
+//       });
+//       return false;
+//     }
+//     if (!customerName.trim()) {
+//       toast({
+//         title: "Error",
+//         description: "Please enter your full name.",
+//         variant: "destructive"
+//       });
+//       return false;
+//     }
+//     if (!customerEmail.trim()) {
+//       toast({
+//         title: "Error",
+//         description: "Please enter your email address.",
+//         variant: "destructive"
+//       });
+//       return false;
+//     }
+//     if (!customerEmail.includes('@')) {
+//       toast({
+//         title: "Error",
+//         description: "Please enter a valid email address.",
+//         variant: "destructive"
+//       });
+//       return false;
+//     }
+//     return true;
+//   };
+
+//   const handleOrderSubmit = () => {
+//   if (!validateForm()) {
+//     return;
+//   }
+  
+//   setIsLoading(true);
+  
+//   const orderData = {
+//     package: packages.find(p => p.value === selectedPackage)?.label || '',
+//     cost: parseInt(getSelectedPrice()),
+//     fullname: customerName,
+//     email: customerEmail,
+//     phone: customerPhone,
+//     linkedin: linkedinUrl,
+//     additionalNotes: notes,
+//     paymentMethod: paymentMethods.find(p => p.id === selectedPayment)?.name || ''
+//   };
+  
+//   orderMutation.mutate(orderData);
+// };
+
+
+
+
 import { useState } from 'react';
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
@@ -13,7 +301,6 @@ import SEO from '@/components/SEO';
 import Logo from '@/components/Logo';
 import { useToast } from '@/hooks/use-toast';
 import { useMutation } from '@tanstack/react-query';
-import { apiRequest } from '@/lib/queryClient';
 
 export default function OrderConnectionsPage() {
   const [, setLocation] = useLocation();
@@ -29,8 +316,7 @@ export default function OrderConnectionsPage() {
   const [orderSubmitted, setOrderSubmitted] = useState(false);
   const [submittedOrderId, setSubmittedOrderId] = useState(null);
   const [showUploadScreen, setShowUploadScreen] = useState(false);
-  const [screenshot, setScreenshot] = useState('');
-  const [isUploading, setIsUploading] = useState(false);
+  const [screenshot, setScreenshot] = useState(null);
   const { toast } = useToast();
 
   const packages = [
@@ -71,21 +357,32 @@ export default function OrderConnectionsPage() {
 
   const orderMutation = useMutation({
     mutationFn: async (orderData) => {
-      const response = await apiRequest('POST', '/api/linkedin-connection-order', orderData);
+      const response = await fetch('http://localhost:5001/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to submit order');
+      }
+      
       return response.json();
     },
     onSuccess: (data) => {
       setOrderSubmitted(true);
-      setSubmittedOrderId(data.order.id);
+      setSubmittedOrderId(data.orderId || 'N/A');
       if (paymentDone === 'yes') {
         setShowUploadScreen(true);
       } else {
         const selectedPackageData = packages.find(pkg => pkg.value === selectedPackage);
         const orderDetails = {
-          orderId: data.order.id,
-          connections: selectedPackageData.label.split(' ')[0] || selectedPackage,
-          packageName: selectedPackageData.label,
-          totalPrice: selectedPackageData.price,
+          orderId: data.orderId,
+          connections: selectedPackageData?.label.split(' ')[0] || selectedPackage,
+          packageName: selectedPackageData?.label,
+          totalPrice: selectedPackageData?.price,
           estimatedDelivery: "24-48 hours"
         };
         localStorage.setItem('lastOrderDetails', JSON.stringify(orderDetails));
@@ -97,15 +394,11 @@ export default function OrderConnectionsPage() {
           setLocation('/order-success');
         }, 3000);
       }
-      toast({
-        title: "Order Received",
-        description: "Your LinkedIn connections order has been successfully placed!"
-      });
     },
     onError: (error) => {
       toast({
         title: "Error",
-        description: "Failed to submit order. Please try again.",
+        description: error.message || "Failed to submit order. Please try again.",
         variant: "destructive"
       });
     }
@@ -113,18 +406,27 @@ export default function OrderConnectionsPage() {
 
   const uploadMutation = useMutation({
     mutationFn: async ({ orderId, screenshot }) => {
-      const response = await apiRequest('POST', `/api/linkedin-connection-order/${orderId}/upload-screenshot`, {
-        screenshot
+      const formData = new FormData();
+      formData.append('screenshot', screenshot);
+      
+      const response = await fetch(`http://localhost:5001/api/orders/${orderId}/upload`, {
+        method: 'POST',
+        body: formData,
       });
+      
+      if (!response.ok) {
+        throw new Error('Failed to upload screenshot');
+      }
+      
       return response.json();
     },
     onSuccess: (data) => {
       const selectedPackageData = packages.find(pkg => pkg.value === selectedPackage);
       const orderDetails = {
-        orderId: data.order.id,
-        connections: selectedPackageData.label.split(' ')[0] || selectedPackage,
-        packageName: selectedPackageData.label,
-        totalPrice: selectedPackageData.price,
+        orderId: data.orderId,
+        connections: selectedPackageData?.label.split(' ')[0] || selectedPackage,
+        packageName: selectedPackageData?.label,
+        totalPrice: selectedPackageData?.price,
         estimatedDelivery: "24-48 hours"
       };
       localStorage.setItem('lastOrderDetails', JSON.stringify(orderDetails));
@@ -139,139 +441,35 @@ export default function OrderConnectionsPage() {
     onError: (error) => {
       toast({
         title: "Error",
-        description: "Failed to upload screenshot. Please try again.",
+        description: error.message || "Failed to upload screenshot. Please try again.",
         variant: "destructive"
       });
     }
   });
 
-  const getSelectedPrice = () => {
-    if (selectedPackage) {
-      const pkg = packages.find(p => p.value === selectedPackage);
-      return pkg ? pkg.price : "0";
-    }
-    return "0";
-  };
-
-  const copyToClipboard = (text, type) => {
-    navigator.clipboard.writeText(text);
-    toast({
-      title: "Copied",
-      description: `Copied ${type} to clipboard!`
-    });
-  };
-
-  const handleWhatsAppClick = () => {
-    const message = `Hi, I'm interested in a bulk LinkedIn connections order. Current package: ${packages.find(p => p.value === selectedPackage)?.label || 'Not selected'}`;
-    const whatsappUrl = `https://wa.me/917898711748?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
-  };
-
-  const handleFileUpload = (event) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const base64 = e.target?.result;
-        setScreenshot(base64);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleUploadScreenshot = () => {
-    if (!submittedOrderId || !screenshot) {
-      toast({
-        title: "Error",
-        description: "Please select a screenshot to upload.",
-        variant: "destructive"
-      });
-      return;
-    }
-    setIsUploading(true);
-    uploadMutation.mutate({ orderId: submittedOrderId, screenshot });
-  };
-
-  const validateForm = () => {
-    if (!selectedPackage) {
-      toast({
-        title: "Error",
-        description: "Please select a package.",
-        variant: "destructive"
-      });
-      return false;
-    }
-    if (!selectedPayment) {
-      toast({
-        title: "Error",
-        description: "Please select a payment method.",
-        variant: "destructive"
-      });
-      return false;
-    }
-    if (!linkedinUrl) {
-      toast({
-        title: "Error",
-        description: "Please enter your LinkedIn profile URL.",
-        variant: "destructive"
-      });
-      return false;
-    }
-    if (!linkedinUrl.includes('linkedin.com')) {
-      toast({
-        title: "Error",
-        description: "Please enter a valid LinkedIn profile URL.",
-        variant: "destructive"
-      });
-      return false;
-    }
-    if (!customerName.trim()) {
-      toast({
-        title: "Error",
-        description: "Please enter your full name.",
-        variant: "destructive"
-      });
-      return false;
-    }
-    if (!customerEmail.trim()) {
-      toast({
-        title: "Error",
-        description: "Please enter your email address.",
-        variant: "destructive"
-      });
-      return false;
-    }
-    if (!customerEmail.includes('@')) {
-      toast({
-        title: "Error",
-        description: "Please enter a valid email address.",
-        variant: "destructive"
-      });
-      return false;
-    }
-    return true;
-  };
+  // ... [Rest of your helper functions remain the same]
 
   const handleOrderSubmit = () => {
     if (!validateForm()) {
       return;
     }
+    
     setIsLoading(true);
+    
     const orderData = {
-      linkedinUrl,
-      packageType: selectedPackage,
-      connectionCount: packages.find(p => p.value === selectedPackage)?.label.split(' ')[0] || '',
-      price: getSelectedPrice(),
-      paymentMethod: paymentMethods.find(p => p.id === selectedPayment)?.name || '',
-      paymentDone: paymentDone === 'yes',
-      customerEmail,
-      customerName,
+      package: packages.find(p => p.value === selectedPackage)?.label || '',
+      cost: parseInt(getSelectedPrice()),
+      fullname: customerName,
+      email: customerEmail,
       phone: customerPhone,
-      notes
+      linkedin: linkedinUrl,
+      additionalNotes: notes,
+      paymentMethod: paymentMethods.find(p => p.id === selectedPayment)?.name || '',
+      paymentStatus: paymentDone === 'yes' ? 'completed' : 'pending'
     };
+    
     orderMutation.mutate(orderData);
   };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-purple-800 relative overflow-hidden mobile-scroll-optimize">
       <SEO
@@ -410,11 +608,10 @@ export default function OrderConnectionsPage() {
                   {packages.map((pkg) => (
                     <Card
                       key={pkg.value}
-                      className={`relative p-4 cursor-pointer transition-all duration-300 ${
-                        selectedPackage === pkg.value
-                          ? 'border-green-500 bg-gradient-to-r from-green-50 to-blue-50'
-                          : 'border-gray-300 hover:border-gray-400'
-                      }`}
+                      className={`relative p-4 cursor-pointer transition-all duration-300 ${selectedPackage === pkg.value
+                        ? 'border-green-500 bg-gradient-to-r from-green-50 to-blue-50'
+                        : 'border-gray-300 hover:border-gray-400'
+                        }`}
                       onClick={() => setSelectedPackage(pkg.value)}
                     >
                       {pkg.popular && (
@@ -458,11 +655,10 @@ export default function OrderConnectionsPage() {
                   {paymentMethods.map((method) => (
                     <div
                       key={method.id}
-                      className={`border-2 rounded-xl p-4 cursor-pointer transition-all duration-300 ${
-                        selectedPayment === method.id 
-                          ? 'border-green-500 bg-gradient-to-r from-green-50 to-blue-50' 
-                          : 'border-gray-300 hover:border-gray-400'
-                      }`}
+                      className={`border-2 rounded-xl p-4 cursor-pointer transition-all duration-300 ${selectedPayment === method.id
+                        ? 'border-green-500 bg-gradient-to-r from-green-50 to-blue-50'
+                        : 'border-gray-300 hover:border-gray-400'
+                        }`}
                       onClick={() => setSelectedPayment(method.id)}
                     >
                       <div className="flex items-center justify-between">
@@ -647,7 +843,7 @@ export default function OrderConnectionsPage() {
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                   <h4 className="font-semibold text-blue-800 mb-2">Important Note</h4>
                   <p className="text-sm text-blue-700">
-                    Uploading the payment screenshot is required to complete your order. 
+                    Uploading the payment screenshot is required to complete your order.
                     Our team will review and process your order within 24 hours.
                   </p>
                 </div>

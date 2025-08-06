@@ -171,7 +171,7 @@ import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 
 export default function ContactForm({ title = "", subtitle = "", className = "" }) {
-  const [name, setName] = useState("");
+  const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
@@ -182,7 +182,7 @@ export default function ContactForm({ title = "", subtitle = "", className = "" 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !email || !message || !acceptTerms) {
+    if (!fullname || !email || !message || !acceptTerms) {
       toast({
         title: "Validation Error",
         description: "Please fill in all required fields and accept the terms.",
@@ -192,13 +192,13 @@ export default function ContactForm({ title = "", subtitle = "", className = "" 
     }
     setIsSubmitting(true);
     try {
-      const response = await fetch("http://localhost:5000/api/contact/", {
+      const response = await fetch("http://localhost:5001/api/contact/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name,
+          fullname,
           email,
           phone,
           company,
@@ -217,7 +217,7 @@ export default function ContactForm({ title = "", subtitle = "", className = "" 
       });
 
       // Reset form
-      setName("");
+      setFullname("");
       setEmail("");
       setPhone("");
       setCompany("");
@@ -253,10 +253,10 @@ export default function ContactForm({ title = "", subtitle = "", className = "" 
           <div className="space-y-2">
             <Label htmlFor="name"> Full Name * </Label>
             <Input
-              id="name"
-              placeholder="Your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              id="fullname"
+              placeholder="Your full name"
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
               required
             />
           </div>

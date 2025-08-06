@@ -6,7 +6,9 @@ const providerSchema = new mongoose.Schema({
     phone: {type: String, required: true},
     linkedIn: {type: String, required: true},
     verification: {type: String, enum:["verified", "nonVerified"]},
-    additionalInfo: {type: String}
+    additionalInfo: {type: String},
+      createdAt: {type: Date, default: Date.now}
+
 })
 
 module.exports = mongoose.model('Provider', providerSchema);
