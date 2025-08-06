@@ -2,8 +2,14 @@ const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const cors = require('cors');
+// Load environment variables
+dotenv.config();
 
+// Connect to database
+connectDB();
 
+// Initialize express app
+const app = express();
 
 app.use(express.json());
 app.use(cors({
@@ -11,22 +17,25 @@ app.use(cors({
   credentials: true,
 }));
 
+require('dotenv').config();
+connectDB();
+// Importing routes
+// Middleware
+app.use(express.json());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
+
+// Routes
 const contactRoutes = require('./routes/contactRoutes');
 const bookDemoRoutes = require('./routes/bookDemoRoute');
 const getInTouchRoutes = require('./routes/getInTouchRoutes');
 const adminRoutes = require('./routes/adminRoutes');
-const providerRoutes = require('./routes/providerRoutes')
+const providerRoutes = require('./routes/providerRoutes');
+const orderRoutes = require('./routes/orderRoute');
 const formRoutes = require('./routes/formRoutes');
 const authRoutes = require('./routes/authRoutes');
-
-// Initializing express app
-const app = express();
-
-app.use(express.json());
-app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true               
-}));
 
 app.use('/api/contact', contactRoutes);
 app.use('/api/book-demo', bookDemoRoutes);
