@@ -446,6 +446,7 @@ import {
   Lock, ArrowRight, Check, Circle, ArrowUpRight, Zap
 } from "lucide-react";
 
+
 export default function OptimizedWelcome() {
   const [, setLocation] = useLocation();
   
@@ -610,40 +611,50 @@ export default function OptimizedWelcome() {
             onClick={() => setLocation('/buy-connections')}
             className="group w-full h-auto min-h-[100px] bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-500 hover:from-violet-600 hover:via-purple-600 hover:to-indigo-600 active:scale-95 text-white flex flex-col items-center justify-center px-8 py-8 transform hover:scale-105 transition-all duration-200 shadow-2xl border-2 border-white/30 rounded-2xl backdrop-blur-sm"
           >
-            <div className="flex items-center gap-3 font-heading text-2xl font-bold mb-3 text-center tracking-tight">
-              <Rocket className="w-6 h-6" /> Get LinkedIn Connections Now
+            <div className="flex items-center  font-heading text-2xl font-bold  text-center tracking-tight">
+             Get LinkedIn Connections Now
             </div>
-            <div className="font-body text-sm font-normal text-center leading-relaxed opacity-95 tracking-normal">
-              25 connections for $2 • Fast delivery • No login needed
+            <div className="font-body text-xl font-normal text-center leading-relaxed opacity-95 tracking-normal">
+               Fast delivery • No login needed
             </div>
           </Button>
         </div>
 
-        {/* Secondary CTAs */}
-        <div className="w-full flex flex-col gap-5 sm:flex-row sm:gap-6 justify-center items-center mb-8 max-w-3xl mx-auto px-4">
-          <Button
-            onClick={() => handleUserTypeSelect('taker')}
-            className="group w-full sm:flex-1 h-auto min-h-[80px] bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 hover:from-blue-600 hover:via-cyan-600 hover:to-teal-600 active:scale-95 text-white flex flex-col items-center justify-center px-6 py-4 transform hover:scale-105 transition-all duration-200 shadow-xl border border-white/30 rounded-xl backdrop-blur-sm"
-          >
-            <div className="flex items-center gap-2 font-heading text-lg font-semibold mb-2 text-center tracking-normal">
-              <Link2 className="w-5 h-5" /> Rent LinkedIn Account <br />Only for Companies
-            </div>
-            <div className="font-body text-xs font-normal text-center opacity-95 tracking-normal">
-              Access premium verified accounts
-            </div>
-          </Button>
-          <Button
-            onClick={() => handleUserTypeSelect('provider')}
-            className="group w-full sm:flex-1 h-auto min-h-[80px] bg-gradient-to-r from-green-500 via-emerald-500 to-cyan-500 hover:from-green-600 hover:via-emerald-600 hover:to-cyan-600 active:scale-95 text-white flex flex-col items-center justify-center px-6 py-4 transform hover:scale-105 transition-all duration-200 shadow-xl border border-white/30 rounded-xl backdrop-blur-sm"
-          >
-            <div className="flex items-center gap-2 font-heading text-lg font-semibold mb-2 text-center tracking-normal">
-              <DollarSign className="w-5 h-5" /> Earn Money
-            </div>
-            <div className="font-body text-xs font-normal text-center opacity-95 tracking-normal">
-              Monetize your LinkedIn presence
-            </div>
-          </Button>
-        </div>
+     
+{/* Secondary CTAs */}
+<div className="w-full flex flex-col gap-5 sm:flex-row sm:gap-6 justify-center items-center mb-8 max-w-3xl mx-auto px-4">
+
+  {/* LinkedIn Taker */}
+  <Button
+    onClick={() => handleUserTypeSelect('taker')}
+    className="group w-full sm:flex-1 h-auto min-h-[100px] bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 hover:from-blue-600 hover:via-cyan-600 hover:to-teal-600 active:scale-95 text-white flex flex-col items-center justify-center px-6 py-5 transition-all duration-200 shadow-xl border border-white/30 rounded-2xl backdrop-blur-sm"
+  >
+    <div className="flex items-center gap-2 mb-1 text-xl font-semibold font-heading text-center flex-col sm:flex-row">
+      <span className="leading-tight text-center">
+        Rent LinkedIn Account<br className="sm:hidden" />
+        <span className="text-xl font-medium text-white/90 block mt-1">Only for Companies • LinkedIn Taker</span>
+      </span>
+    </div>
+  
+  </Button>
+
+  {/* LinkedIn Provider */}
+  <Button
+    onClick={() => handleUserTypeSelect('provider')}
+    className="group w-full sm:flex-1 h-auto min-h-[100px] bg-gradient-to-r from-green-500 via-emerald-500 to-cyan-500 hover:from-green-600 hover:via-emerald-600 hover:to-cyan-600 active:scale-95 text-white flex flex-col items-center justify-center px-6 py-5 transition-all duration-200 shadow-xl border border-white/30 rounded-2xl backdrop-blur-sm"
+  >
+    <div className="flex items-center gap-2 mb-1 text-xl font-semibold font-heading text-center flex-col sm:flex-row">
+
+      <span className="leading-tight text-center">
+           
+        Earn Money<br className="sm:hidden" />
+        <span className="text-xl font-medium text-white/90 block mt-1">Become a LinkedIn Provider</span>
+      </span>
+    </div>
+   
+  </Button>
+
+</div>
 
         {/* Stats Section */}
         <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 max-w-4xl mx-auto mb-8 sm:mb-10 px-4">
