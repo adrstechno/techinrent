@@ -44,44 +44,58 @@ const Login = () => {
     },
   });
 
-  const onSubmit = async (data) => {
-    setIsLoading(true);
+const onSubmit = async (data) => {
+  setIsLoading(true);
+  try {
+    console.log('Sending login request with data:', data);
+
+    const response = await fetch("http://localhost:5000/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    console.log('Response status:', response.status);
+
+    let result;
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || "Login failed");
-      }
-
-      // Store the token in localStorage
-      localStorage.setItem('adminToken', result.token);
-      localStorage.setItem('adminData', JSON.stringify(result.admin));
-
-      toast({
-        title: "Success",
-        description: "Login successful",
-      });
-
-      navigate("/admin");
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: error.message || "Invalid credentials",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
+      result = await response.json(); // Parse JSON directly
+      console.log('Parsed response:', result); // Log the parsed result
+    } catch (parseError) {
+      console.error('Failed to parse JSON response:', parseError);
+      throw new Error("Server returned invalid response");
     }
-  };
 
+    if (!response.ok) {
+      throw new Error(result?.message || "Login failed");
+    }
+
+    if (!result.success || !result.token) {
+      throw new Error(result?.message || "Login failed - no token received");
+    }
+
+    localStorage.setItem('adminToken', result.token);
+    localStorage.setItem('adminData', JSON.stringify(result.admin));
+
+    toast({
+      title: "Success",
+      description: result.message || "Login successful",
+    });
+
+    navigate("/admin");
+  } catch (error) {
+    console.error('Login error:', error);
+    toast({
+      title: "Error",
+      description: error.message || "Invalid credentials",
+      variant: "destructive",
+    });
+  } finally {
+    setIsLoading(false);
+  }
+};
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 via-violet-800 to-purple-800 relative overflow-hidden">
       <SEO
