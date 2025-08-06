@@ -15,7 +15,7 @@ const Navbar = ({ userType }) => {
     if (isHomePage) {
       scrollToSection(id);
     } else {
-      window.location.href = `/home#${id}`;
+      window.location.href = `/buy-linkedin-on-rent#${id}`;
     }
   };
 
@@ -45,10 +45,6 @@ const Navbar = ({ userType }) => {
         {
           label: "Testimonials",
           section: "testimonials"
-        },
-        {
-          label: "Contact",
-          section: "contact"
         }
       ];
     } else if (userType === 'provider') {
@@ -110,12 +106,7 @@ const Navbar = ({ userType }) => {
 </Button>
             
 
-            <Button
-              onClick={() => handleScrollToSection("contact")}
-              className={buttonClass}
-            >
-              Get Started
-            </Button>
+           
           </div>
 
           {/* Mobile menu button */}
