@@ -99,17 +99,16 @@ const Navbar = ({ userType }) => {
               </button>
             ))}
 
-            {userType && (
-              <Button
-                onClick={handleLogout}
-                variant="outline"
-                size="sm"
-                className="flex items-center gap-2"
-              >
-                <LogOut className="h-4 w-4" />
-                Logout
-              </Button>
-            )}
+         
+             <Button
+ onClick={() => window.history.back()}
+
+  size="sm"
+  className="flex items-center gap-2 bg-purple-600 text-white"
+>
+  Return
+</Button>
+            
 
             <Button
               onClick={() => handleScrollToSection("contact")}
