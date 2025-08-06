@@ -19,8 +19,8 @@ export function ProtectedRoute({ path, component: Component }) {
         }
 
         console.log('Token found, verifying with backend...');
-        const response = await fetch("http://localhost:5000/api/auth/verify", { // Updated endpoint
-          method: "GET",
+        const response = await fetch("http://localhost:5000/api/auth/verify", {
+          method: "POST",
           headers: {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json",
