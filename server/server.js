@@ -3,9 +3,24 @@ const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const cors = require('cors');
-
+// Load environment variables
 dotenv.config();
 connectDB();
+
+
+app.use(express.json());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
+
+const contactRoutes = require('./routes/contactRoutes');
+const bookDemoRoutes = require('./routes/bookDemoRoute');
+const getInTouchRoutes = require('./routes/getInTouchRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const providerRoutes = require('./routes/providerRoutes')
+const formRoutes = require('./routes/formRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 // Initializing express app
 const app = express();
@@ -13,7 +28,7 @@ const app = express();
 app.use(express.json());
 app.use(cors({
   origin: 'http://localhost:5173',
-  credentials: true
+  credentials: true               
 }));
 
 // Import routes
