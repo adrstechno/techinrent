@@ -37,15 +37,15 @@
 // // Function to export data to CSV
 // function exportToCSV(data, filename) {
 //   if (!data || data.length === 0) return;
-  
+
 //   let csvContent = "";
 //   let headers = [];
-  
+
 //   // Determine the headers from the first object
 //   if (filename === 'contact-messages') {
 //     headers = ['ID', 'Name', 'Email', 'Subject', 'Message', 'Created At', 'Read Status'];
 //     csvContent = headers.join(',') + '\n';
-    
+
 //     data.forEach(row => {
 //       const values = [
 //         row.id,
@@ -61,7 +61,7 @@
 //   } else if (filename === 'demo-requests') {
 //     headers = ['ID', 'First Name', 'Last Name', 'Email', 'Phone', 'Company', 'Designation', 'Created At', 'Read Status'];
 //     csvContent = headers.join(',') + '\n';
-    
+
 //     data.forEach(row => {
 //       const values = [
 //         row.id,
@@ -79,7 +79,7 @@
 //   } else if (filename === 'provider-registrations') {
 //     headers = ['ID', 'Full Name', 'Email', 'Phone', 'LinkedIn URL', 'Profile Status', 'Additional Info', 'Created At', 'Read Status'];
 //     csvContent = headers.join(',') + '\n';
-    
+
 //     data.forEach(row => {
 //       const values = [
 //         row.id,
@@ -97,7 +97,7 @@
 //   } else if (filename === 'linkedin-connection-orders') {
 //     headers = ['ID', 'Customer Name', 'Email', 'Phone', 'LinkedIn URL', 'Connections', 'Package', 'Total Price', 'Payment Method', 'Status', 'Created At', 'Read Status'];
 //     csvContent = headers.join(',') + '\n';
-    
+
 //     data.forEach(row => {
 //       const values = [
 //         row.id,
@@ -116,7 +116,7 @@
 //       csvContent += values.join(',') + '\n';
 //     });
 //   }
-  
+
 //   // Create a Blob and download link
 //   const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
 //   const url = URL.createObjectURL(blob);
@@ -452,7 +452,7 @@
 //       <div className="container mx-auto py-6 px-4 sm:px-6">
 //         <h1 className="text-2xl sm:text-3xl font-bold mb-4">Admin Dashboard</h1>
 //         <p className="text-gray-600 mb-8">Manage your platform data and monitor activities</p>
-        
+
 //         <Tabs defaultValue="contact" value={activeTab} onValueChange={setActiveTab} className="space-y-6">
 //           <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
 //             <TabsTrigger value="contact">Contact Messages</TabsTrigger>
@@ -689,15 +689,15 @@ import {
 // Function to export data to CSV
 function exportToCSV(data, filename) {
   if (!data || data.length === 0) return;
-  
+
   let csvContent = "";
   let headers = [];
-  
+
   // Determine the headers from the first object
   if (filename === 'contact-messages') {
     headers = ['ID', 'Name', 'Email', 'Subject', 'Message', 'Created At', 'Read Status'];
     csvContent = headers.join(',') + '\n';
-    
+
     data.forEach(row => {
       const values = [
         row.id,
@@ -713,7 +713,7 @@ function exportToCSV(data, filename) {
   } else if (filename === 'demo-requests') {
     headers = ['ID', 'First Name', 'Last Name', 'Email', 'Phone', 'Company', 'Designation', 'Created At', 'Read Status'];
     csvContent = headers.join(',') + '\n';
-    
+
     data.forEach(row => {
       const values = [
         row.id,
@@ -731,7 +731,7 @@ function exportToCSV(data, filename) {
   } else if (filename === 'provider-inquiries') {
     headers = ['ID', 'Full Name', 'Email', 'Phone', 'LinkedIn URL', 'Profile Status', 'Additional Info', 'Created At', 'Read Status'];
     csvContent = headers.join(',') + '\n';
-    
+
     data.forEach(row => {
       const values = [
         row.id,
@@ -747,7 +747,7 @@ function exportToCSV(data, filename) {
       csvContent += values.join(',') + '\n';
     });
   }
-  
+
   // Create a Blob and download link
   const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
@@ -779,7 +779,7 @@ export default function Admin() {
       }
       const data = await response.json();
       console.log("Contact Messages Data:", data);
-    return Array.isArray(data.data) ? data.data : [];
+      return Array.isArray(data.data) ? data.data : [];
     },
     retry: 2,
   });
@@ -799,9 +799,9 @@ export default function Admin() {
       }
       const data = await response.json();
       console.log("Demo Requests Data:", data);
-      
-   
-        return Array.isArray(data.data) ? data.data : [];
+
+
+      return Array.isArray(data.data) ? data.data : [];
     },
     retry: 2,
   });
@@ -810,7 +810,7 @@ export default function Admin() {
   const providerQuery = useQuery({
     queryKey: ['provider-inquiries'],
     queryFn: async () => {
-      const response = await fetch('http://localhost:5001/api/admin/inquiries/', {
+      const response = await fetch('http://localhost:5001/api/admin/allproviders/', {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
@@ -821,15 +821,15 @@ export default function Admin() {
       }
       const data = await response.json();
       console.log("Provider Inquiries Data:", data);
-        return Array.isArray(data.data) ? data.data : [];
+      return Array.isArray(data.data) ? data.data : [];
     },
     retry: 2,
   });
- // Get LinkedIn connection orders
+  // Get LinkedIn connection orders
   const linkedinQuery = useQuery({
     queryKey: ['linkedin-connection-orders'],
     queryFn: async () => {
-      const response = await fetch('/api/linkedin-connection-orders', {
+     const response = await fetch('http://localhost:5001/api/admin/allorders/', {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
@@ -838,7 +838,9 @@ export default function Admin() {
       if (!response.ok) {
         throw new Error('Failed to fetch LinkedIn connection orders');
       }
-      return response.json();
+      const data = await response.json();
+      console.log("Provider Inquiries Data:", data);
+      return Array.isArray(data.data) ? data.data : [];
     },
     retry: 2,
     initialData: [],
@@ -853,11 +855,11 @@ export default function Admin() {
           'Content-Type': 'application/json',
         },
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to mark message as read');
       }
-      
+
       await contactQuery.refetch();
       toast({
         title: "Success",
@@ -882,11 +884,11 @@ export default function Admin() {
           'Content-Type': 'application/json',
         },
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to mark demo request as read');
       }
-      
+
       await demoQuery.refetch();
       toast({
         title: "Success",
@@ -904,18 +906,18 @@ export default function Admin() {
   // Mark provider registration as read
   const markProviderAsRead = async (id) => {
     try {
-      const response = await fetch(`/api/admin/inquiries/${id}/read`, {
+      const response = await fetch(`/api/admin/allproviders/${id}/read`, {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to mark provider registration as read');
       }
-      
+
       await providerQuery.refetch();
       toast({
         title: "Success",
@@ -930,6 +932,8 @@ export default function Admin() {
     }
   };
 
+  
+
   // Delete contact message
   const deleteContactMessage = async (id) => {
     if (!confirm("Are you sure you want to delete this contact message? This action cannot be undone.")) {
@@ -943,11 +947,11 @@ export default function Admin() {
           'Content-Type': 'application/json',
         },
       });
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       await contactQuery.refetch();
       toast({
         title: "Success",
@@ -975,11 +979,11 @@ export default function Admin() {
           'Content-Type': 'application/json',
         },
       });
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       await demoQuery.refetch();
       toast({
         title: "Success",
@@ -1007,11 +1011,11 @@ export default function Admin() {
           'Content-Type': 'application/json',
         },
       });
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       await providerQuery.refetch();
       toast({
         title: "Success",
@@ -1027,14 +1031,14 @@ export default function Admin() {
   };
 
   return (
-     <div className="min-h-screen bg-skyblue/30">
+    <div className="min-h-screen bg-skyblue/30">
       <div className="container mx-auto py-6 px-4 sm:px-6">
         <h1 className="text-2xl sm:text-3xl font-bold mb-4">Admin Dashboard</h1>
         <p className="text-gray-700 mb-8">
           Manage your platform data and monitor activities
         </p>
-    
-           <Tabs defaultValue="contact" value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+
+        <Tabs defaultValue="contact" value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
             <TabsTrigger value="contact">Contact Messages</TabsTrigger>
             <TabsTrigger value="demo">Demo Requests</TabsTrigger>
@@ -1042,7 +1046,7 @@ export default function Admin() {
             <TabsTrigger value="linkedin-orders">LinkedIn Orders</TabsTrigger>
           </TabsList>
 
-        <TabsContent value="contact">
+          <TabsContent value="contact">
             {contactQuery.isLoading ? (
               <div className="text-center py-10">Loading messages...</div>
             ) : contactQuery.isError ? (
@@ -1078,9 +1082,9 @@ export default function Admin() {
                     </tr>
                   </thead>
                   <tbody>
-                    {contactQuery.data.map((message) => (
+                    {contactQuery.data.map((message, index) => (
                       <tr key={message.id} className={message.isRead ? "opacity-70" : ""}>
-                        <td className="px-4 py-2">{message.fullname}</td>
+                        <td className="px-4 py-2" key={index} >{message.fullname}</td>
                         <td className="px-4 py-2">{message.email}</td>
                         <td className="px-4 py-2">{message.subject || "no subject"}</td>
                         <td className="px-4 py-2 whitespace-pre-wrap">{message.message}</td>
@@ -1197,13 +1201,20 @@ export default function Admin() {
                   <tbody>
                     {providerQuery.data.map((inquiry) => (
                       <tr key={inquiry.id} className={inquiry.isRead ? "opacity-70" : ""}>
-                        <td className="px-4 py-2">{inquiry.name}</td>
+                        <td className="px-4 py-2">{inquiry.fullName}</td>
                         <td className="px-4 py-2">{inquiry.email}</td>
                         <td className="px-4 py-2">{inquiry.phone}</td>
-                        <td className="px-4 py-2">{inquiry.linkedinUrl}</td>
-                        <td className="px-4 py-2">{inquiry.profileStatus || '-'}</td>
+                        <td className="px-4 py-2">{inquiry.linkedIn}</td>
+                        <td className="px-4 py-2">{inquiry.verification || '-'}</td>
                         <td className="px-4 py-2 whitespace-pre-wrap">{inquiry.additionalInfo}</td>
-                        <td className="px-4 py-2">{formatDistanceToNow(new Date(inquiry.createdAt), { addSuffix: true })}</td>
+                        <td className="px-4 py-2">
+                          {inquiry.createdAt && !isNaN(new Date(inquiry.createdAt)) ? (
+                            formatDistanceToNow(new Date(inquiry.createdAt), { addSuffix: true })
+                          ) : (
+                            "Invalid date"
+                          )}
+                        </td>
+
                         <td className="px-4 py-2 flex gap-2 justify-center">
                           {!inquiry.isRead && (
                             <Button size="sm" variant="outline" onClick={() => markProviderAsRead(inquiry.id)}>Mark Read</Button>
@@ -1256,11 +1267,11 @@ export default function Admin() {
                   <tbody>
                     {linkedinQuery.data.map((order) => (
                       <tr key={order.id} className={order.isRead ? "opacity-70" : ""}>
-                        <td className="px-4 py-2">{order.fullName}</td>
-                        <td className="px-4 py-2">{order.email}</td>
-                        <td className="px-4 py-2">{order.linkedinUrl}</td>
+                        <td className="px-4 py-2">{order.customer.fullname}</td>
+                        <td className="px-4 py-2">{order.customer.email}</td>
+                        <td className="px-4 py-2">{order.linkedin}</td>
                         <td className="px-4 py-2">{order.package || '-'}</td>
-                        <td className="px-4 py-2 whitespace-pre-wrap">{order.message}</td>
+                        <td className="px-4 py-2 whitespace-pre-wrap">${order.cost}</td>
                         <td className="px-4 py-2">{formatDistanceToNow(new Date(order.createdAt), { addSuffix: true })}</td>
                         <td className="px-4 py-2 flex gap-2 justify-center">
                           {!order.isRead && (
