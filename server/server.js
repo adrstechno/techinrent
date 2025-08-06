@@ -14,13 +14,6 @@ app.use(cors({
   credentials: true,
 }));
 
-const contactRoutes = require('./routes/contactRoutes');
-const bookDemoRoutes = require('./routes/bookDemoRoute');
-const getInTouchRoutes = require('./routes/getInTouchRoutes');
-const adminRoutes = require('./routes/adminRoutes');
-const providerRoutes = require('./routes/providerRoutes')
-const formRoutes = require('./routes/formRoutes');
-const authRoutes = require('./routes/authRoutes');
 
 // Initializing express app
 const app = express();
