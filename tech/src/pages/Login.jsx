@@ -83,7 +83,9 @@ const onSubmit = async (data) => {
       title: "Success",
       description: result.message || "Login successful",
     });
-
+   //refresh the page to update the state
+   
+   
     navigate("/admin");
   } catch (error) {
     console.error('Login error:', error);
