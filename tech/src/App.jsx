@@ -9,32 +9,31 @@ import { PageLoader } from '@/components/LoadingSpinner';
 import { ProtectedRoute } from '@/lib/protected-route';
 import SecureFormAdmin from '@/pages/SecureFormAdmin';
 
-// Lazy load components for better performance
-const Welcome = lazy(() => import('@/components/OptimizedWelcome'));
-const Home = lazy(() => import('@/pages/Home'));
-const Login = lazy(() => import('@/pages/Login'));
-const Admin = lazy(() => import('@/pages/Admin'));
-const ProviderDashboard = lazy(() => import('@/pages/ProviderDashboard'));
-const Terms = lazy(() => import('@/pages/Terms'));
-const Privacy = lazy(() => import('@/pages/Privacy'));
-const SecureForm = lazy(() => import('@/pages/SecureForm'));
-const AccountDetailPage = lazy(() => import('@/pages/AccountDetailPage'));
-const NotFound = lazy(() => import('@/pages/not-found'));
-const LinkedInRentingService = lazy(() => import('@/pages/LinkedInRentingService'));
-const EarnMoneyLinkedIn = lazy(() => import('@/pages/EarnMoneyLinkedIn'));
-const BuyLinkedInOnRent = lazy(() => import('@/pages/BuyLinkedInOnRent'));
-const LinkedInMarketplace = lazy(() => import('@/pages/LinkedInMarketplace'));
-const SocialMediaAccountRental = lazy(() => import('@/pages/SocialMediaAccountRental'));
-const Services = lazy(() => import('@/pages/Services_backup'));
-const ServerError = lazy(() => import('@/pages/ServerError'));
-const AdminLogin = lazy(() => import('@/pages/AdminLogin'));
-const AdminDashboard = lazy(() => import('@/pages/AdminDashboard'));
-const BuyConnectionsPage = lazy(() => import('@/pages/buy-connections'));
-const SelectPackage = lazy(() => import('@/pages/select-package'));
-const OrderSummary = lazy(() => import('@/pages/order-summary'));
-const OrderConnections = lazy(() => import('@/pages/order-connections'));
-const OrderSuccess = lazy(() => import('@/pages/OrderSuccess'));
-import Testimonials from './components/Testimonials';
+// Lazy load components
+const Welcome = lazy(() => import("@/components/OptimizedWelcome"));
+const Home = lazy(() => import("@/pages/Home"));
+const Login = lazy(() => import("@/pages/Login"));
+const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
+const ProviderDashboard = lazy(() => import("@/pages/ProviderDashboard"));
+const Terms = lazy(() => import("@/pages/Terms"));
+const Privacy = lazy(() => import("@/pages/Privacy"));
+const SecureForm = lazy(() => import("@/pages/SecureForm"));
+const AccountDetailPage = lazy(() => import("@/pages/AccountDetailPage"));
+const NotFound = lazy(() => import("@/pages/not-found"));
+const LinkedInRentingService = lazy(() => import("@/pages/LinkedInRentingService"));
+const EarnMoneyLinkedIn = lazy(() => import("@/pages/EarnMoneyLinkedIn"));
+const BuyLinkedInOnRent = lazy(() => import("@/pages/BuyLinkedInOnRent"));
+const LinkedInMarketplace = lazy(() => import("@/pages/LinkedInMarketplace"));
+const SocialMediaAccountRental = lazy(() => import("@/pages/SocialMediaAccountRental"));
+const Services = lazy(() => import("@/pages/Services_backup"));
+const ServerError = lazy(() => import("@/pages/ServerError"));
+const AdminLogin = lazy(() => import("@/pages/AdminLogin"));
+const BuyConnectionsPage = lazy(() => import("@/pages/buy-connections"));
+const SelectPackage = lazy(() => import("@/pages/select-package"));
+const OrderSummary = lazy(() => import("@/pages/order-summary"));
+const OrderConnections = lazy(() => import("@/pages/order-connections"));
+const OrderSuccess = lazy(() => import("@/pages/OrderSuccess"));
+import Testimonials from "./components/Testimonials";
 
 // Create QueryClient instance with optimized settings
 const queryClient = new QueryClient({
@@ -63,15 +62,9 @@ function App() {
                   <Route path="/" component={Welcome} />
                   <Route path="/home" component={Home} />
                   <Route path="/login" component={Login} />
-                  <Route path="/admin">
-                    {() => <ProtectedRoute path="/admin" component={Admin} />}
-                  </Route>
-                  <Route path="/admin/secure-forms">
-                    {() => <ProtectedRoute path="/admin/secure-forms" component={SecureFormAdmin} />}
-                  </Route>
-                  <Route path="/provider-dashboard">
-                    {() => <ProtectedRoute path="/provider-dashboard" component={ProviderDashboard} />}
-                  </Route>
+                  <ProtectedRoute path="/admin" component={AdminDashboard} />
+                  <ProtectedRoute path="/admin/secure-forms" component={SecureFormAdmin} />
+                  <ProtectedRoute path="/provider-dashboard" component={ProviderDashboard} />
                   <Route path="/terms" component={Terms} />
                   <Route path="/privacy" component={Privacy} />
                   <Route path="/secure-form/:accessUrl" component={SecureForm} />
