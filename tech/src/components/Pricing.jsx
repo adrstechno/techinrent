@@ -111,17 +111,7 @@ export default function Pricing() {
           ))}
         </div>
 
-        <div className="mt-12 text-center">
-          <p className="text-neutral-dark mb-4">
-            Need a custom solution? Contact us for specialized LinkedIn account solutions.
-          </p>
-          <Button
-            onClick={() => scrollToSection("contact")}
-            className="inline-block bg-primary hover:bg-primary-dark text-white"
-          >
-            Contact Sales
-          </Button>
-        </div>
+      
       </div>
     </section>
   );
