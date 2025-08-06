@@ -83,7 +83,6 @@ function App() {
                   <Route path="/admin-login" component={AdminLogin} />
                   <Route path="/testimonials" component={Testimonials} />
                   <Route path="/500" component={ServerError} />
-                  <Route component={NotFound} />
                 </Router>
               </Suspense>
               <Toaster />
