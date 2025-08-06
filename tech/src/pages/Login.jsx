@@ -97,7 +97,7 @@ const onSubmit = async (data) => {
   }
 };
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 via-violet-800 to-purple-800 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-violet-800 to-purple-800 relative overflow-hidden">
       <SEO
         title="Admin Login - TechInRent"
         description="Secure admin login portal for TechInRent administrators. Access the dashboard to manage LinkedIn account rentals and provider information."
