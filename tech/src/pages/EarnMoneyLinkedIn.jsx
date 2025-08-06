@@ -123,7 +123,7 @@ export default function EarnMoneyLinkedIn() {
             transition={{ duration: 0.8 }}
             className="text-center space-y-8"
           >
-            <Badge className="inline-block bg-green-100 text-green-800 hover:bg-green-200">
+            <Badge className="inline-block text-xl bg-green-100 text-green-800 hover:bg-green-200">
               💰 Start Earning Today
             </Badge>
             <div className="space-y-6">
@@ -140,7 +140,7 @@ export default function EarnMoneyLinkedIn() {
             <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-lg max-w-2xl mx-auto">
               <div className="text-center space-y-4">
                 <div className="font-heading text-4xl md:text-5xl font-bold text-green-600">
-                  $150-$500
+                  upto $20
                 </div>
                 <div className="space-y-2">
                   <div className="font-body text-lg md:text-xl font-semibold text-gray-800">
@@ -241,8 +241,8 @@ export default function EarnMoneyLinkedIn() {
           </div>
         </div>
       </section>
-
-      {/* Income Benefits */}
+{/* 
+      Income Benefits
       <section className="py-16 px-4 bg-white/30">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
@@ -321,7 +321,7 @@ export default function EarnMoneyLinkedIn() {
             </Card>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* FAQ Section */}
       <section className="py-16 px-4 bg-white/50">
