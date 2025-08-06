@@ -363,7 +363,7 @@ export default function EarnMoneyLinkedIn() {
             onClick={() => setIsProviderFormOpen(true)}
           >
             <ArrowRight className="mr-2 h-5 w-5" />
-            Start Earning Now
+          Become a Provider
           </Button>
         </div>
       </section>
