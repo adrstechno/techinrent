@@ -9,14 +9,41 @@ export function ProtectedRoute({ path, component: Component }) {
   useEffect(() => {
     async function checkAuth() {
       try {
-        const response = await fetch("/api/user");
+        const token = localStorage.getItem('adminToken');
+
+        if (!token) {
+          console.log('No token found, redirecting to login');
+          setIsAuthenticated(false);
+          navigate("/login");
+          return;
+        }
+
+        console.log('Token found, verifying with backend...');
+        const response = await fetch("http://localhost:5000/api/auth/verify", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        console.log('Verify response status:', response.status);
+
         if (response.ok) {
+          const result = await response.json();
+          console.log('Token verification successful:', result);
           setIsAuthenticated(true);
         } else {
+          console.log('Token verification failed, removing token');
+          localStorage.removeItem('adminToken');
+          localStorage.removeItem('adminData');
           setIsAuthenticated(false);
           navigate("/login");
         }
       } catch (error) {
+        console.error('Auth check error:', error);
+        localStorage.removeItem('adminToken');
+        localStorage.removeItem('adminData');
         setIsAuthenticated(false);
         navigate("/login");
       }
@@ -29,7 +56,6 @@ export function ProtectedRoute({ path, component: Component }) {
       path={path}
       component={() => {
         if (isAuthenticated === null) {
-          // Loading state
           return (
             <div className="min-h-screen flex items-center justify-center">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -37,7 +63,6 @@ export function ProtectedRoute({ path, component: Component }) {
           );
         }
         if (isAuthenticated === false) {
-          // This shouldn't render since we navigate away, but just in case
           return null;
         }
         return <Component />;
