@@ -112,7 +112,7 @@ export default function Admin() {
   const contactQuery = useQuery({
     queryKey: ['contact-messages'],
     queryFn: async () => {
-      const response = await fetch('http://localhost:5001/api/admin/contacts/', {
+      const response = await fetch('http://localhost:5000/api/admin/contacts/', {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ export default function Admin() {
   const demoQuery = useQuery({
     queryKey: ['demo-requests'],
     queryFn: async () => {
-      const response = await fetch('http://localhost:5001/api/admin/demos/', {
+      const response = await fetch('http://localhost:5000/api/admin/demos/', {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
@@ -154,7 +154,7 @@ export default function Admin() {
   const providerQuery = useQuery({
     queryKey: ['provider-inquiries'],
     queryFn: async () => {
-      const response = await fetch('http://localhost:5001/api/admin/allproviders/', {
+      const response = await fetch('http://localhost:5000/api/admin/allproviders/', {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
@@ -173,7 +173,7 @@ export default function Admin() {
   const linkedinQuery = useQuery({
     queryKey: ['linkedin-connection-orders'],
     queryFn: async () => {
-     const response = await fetch('http://localhost:5001/api/admin/allorders/', {
+     const response = await fetch('http://localhost:5000/api/admin/allorders/', {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',

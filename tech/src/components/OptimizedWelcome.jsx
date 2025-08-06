@@ -118,7 +118,7 @@ export default function OptimizedWelcome() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 via-violet-800 to-purple-800 relative overflow-hidden mobile-scroll-optimize">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-violet-800 to-purple-800 relative overflow-hidden mobile-scroll-optimize">
       <SEO
         title="Buy Real LinkedIn Connections Starting $2 - TechInRent | LinkedIn Growth Service"
         description="Buy real LinkedIn connections from $2. TechInRent offers verified LinkedIn growth services. No login required, 24-48hr delivery, 100% safe process. Get authentic human connections instantly with crypto payment options."
@@ -127,18 +127,6 @@ export default function OptimizedWelcome() {
       />
       <ServiceStructuredData />
       <FAQStructuredData />
-
-      {/* Login & Register Buttons - Top Right */}
-      {/* <div className="absolute top-6 right-6 z-20 flex gap-3">
-        <Button
-          onClick={() => setLocation("/login")}
-          variant="outline"
-          className="bg-white/90 hover:bg-white border-white/50 text-slate-800 hover:text-slate-900 shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-105"
-        >
-          <LogIn className="mr-2 h-4 w-4" />
-          Login
-        </Button>
-      </div> */}
       
       {/* Animated background decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -152,8 +140,8 @@ export default function OptimizedWelcome() {
       <div className="relative z-10 w-full max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-8 md:py-16 text-center flex flex-col items-center justify-center min-h-screen safe-area-inset">
         <div className="mb-8 transform hover:scale-105 transition-transform duration-300 relative group motion-reduce-mobile">
           {/* Sophisticated glow effects */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-400/40 via-cyan-400/40 via-teal-400/40 to-emerald-400/40 rounded-full blur-2xl animate-pulse md:blur-3xl"></div>
-          <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-violet-400/25 via-purple-400/25 via-indigo-400/25 to-blue-400/25 rounded-full blur-xl animate-pulse" style={{animationDelay: '1s'}}></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-400/40 via-cyan-400/40 to-emerald-400/40 rounded-full blur-2xl animate-pulse md:blur-3xl"></div>
+          <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-violet-400/25  via-indigo-400/25 to-blue-400/25 rounded-full blur-xl animate-pulse" style={{animationDelay: '1s'}}></div>
           <div className="absolute inset-0 bg-white/10 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 md:duration-500"></div>
           <div className="relative z-10 drop-shadow-xl md:drop-shadow-2xl">
             <Logo size="lg" animated={true} />

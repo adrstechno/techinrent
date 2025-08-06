@@ -14,7 +14,7 @@ import { Route } from "wouter";
 const Welcome = lazy(() => import("@/components/OptimizedWelcome"));
 const Home = lazy(() => import("@/pages/Home"));
 const Login = lazy(() => import("@/pages/Login"));
-const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
+const Admin = lazy(() => import("@/pages/Admin"));
 const ProviderDashboard = lazy(() => import("@/pages/ProviderDashboard"));
 const Terms = lazy(() => import("@/pages/Terms"));
 const Privacy = lazy(() => import("@/pages/Privacy"));
@@ -62,7 +62,7 @@ function App() {
                   <Route path="/" component={Welcome} />
                   <Route path="/home" component={Home} />
                   <Route path="/login" component={Login} />
-                  <ProtectedRoute path="/admin" component={AdminDashboard} />
+                  <ProtectedRoute path="/admin" component={Admin} />
                   <ProtectedRoute path="/admin/secure-forms" component={SecureFormAdmin} />
                   <ProtectedRoute path="/provider-dashboard" component={ProviderDashboard} />
                   <Route path="/terms" component={Terms} />
@@ -83,7 +83,6 @@ function App() {
                   <Route path="/admin-login" component={AdminLogin} />
                   <Route path="/testimonials" component={Testimonials} />
                   <Route path="/500" component={ServerError} />
-                  <Route component={NotFound} />
                 </Router>
               </Suspense>
               <Toaster />
