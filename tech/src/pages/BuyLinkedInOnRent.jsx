@@ -47,12 +47,12 @@ export default function BuyLinkedInOnRent() {
     {
       icon: Users,
       title: "Established Networks",
-      description: "Access accounts with thousands of connections in your target industry and market."
+      description: "Gain instant access to high-impact accounts with thousands of industry-specific connections for your reach and influence "
     },
     {
       icon: Target,
       title: "Industry-Specific",
-      description: "Choose from accounts tailored to specific industries and professional niches."
+      description: "Target the right audience with accounts designed for professionals across specialized markets and sectors."
     }
   ];
 
@@ -221,22 +221,7 @@ export default function BuyLinkedInOnRent() {
           </div>
         </div>
       </section>
-      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
-          <p className="text-xl mb-8 opacity-90">
-            Start renting verified LinkedIn accounts today and see immediate results
-          </p>
-          <Button
-            size="lg"
-            variant="secondary"
-            onClick={() => setLocation("/home")}
-          >
-            <ArrowRight className="mr-2 h-5 w-5" />
-            Browse Available Accounts
-          </Button>
-        </div>
-      </section>
+     
     </div>
   );
 }
