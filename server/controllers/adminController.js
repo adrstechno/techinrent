@@ -2,7 +2,9 @@ const Contact = require('../models/Contact');
 const BookDemo = require('../models/bookDemo');
 const GetInTouch = require('../models/getInTouch');
 const Provider = require('../models/provider')
+const formResponse = require('../models/Response');
 const Order = require('../models/order');
+const Response = require('../models/Response');
 
 // Fetch all contact form submissions
 exports.getAllContacts = async (req, res) => {
@@ -47,7 +49,36 @@ exports.getAllProviders = async (req, res) => {
     }
 }
 
+exports.getResponsesByFormId = async (req, res) => {
+  try {
+    const { formId } = req.params;
+    console.log('Searching for formId:', formId);
 
+    const responses = await formResponse.find({ formId });
+    res.json(responses);
+    console.log(responses);
+
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching responses', error: err.message });
+  }
+};
+
+// controllers/responseController.js (add this too)
+exports.deleteSingleResponse = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deleted = await Response.findByIdAndDelete(id);
+
+    if (!deleted) {
+      return res.status(404).json({ success: false, message: 'Response not found' });
+    }
+
+    res.status(200).json({ success: true, message: 'Response deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error', error: error.message });
+  }
+};
 
 exports.getAllOrders = async (req, res) => {
   try {
@@ -55,5 +86,22 @@ exports.getAllOrders = async (req, res) => {
     res.status(200).json({ success: true, count:orders.length, data: orders });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Failed to fetch providedrs',error: err.message });
+  }
+};
+
+exports.toggleReadStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const response = await Response.findById(id);
+    if (!response) return res.status(404).json({ message: 'Response not found' });
+
+    response.read = !response.read; // toggle
+    await response.save();
+
+    res.status(200).json({ message: `Marked as ${response.read ? 'read' : 'unread'}`, response });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to update read status' });
   }
 };

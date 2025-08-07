@@ -1,50 +1,16 @@
-const FormLink = require("../models/FormLink");
+const form = require('../models/Form');
+const{ v4: uuidv4 } = require('uuid');
 
-exports.getFormByToken = async (req, res) => {
-  const { token } = req.params;
-  try {
-    const formLink = await FormLink.findOne({ token });
+exports.createForm = async (req, res) => {
+  try{
+    const formId = uuidv4();
+    const newForm = new form({ formId });
 
-    if (!formLink) return res.status(404).json({ message: "Invalid link" });
-    if (formLink.isUsed) return res.status(403).json({ message: "Form already submitted" });
-
-    res.json({ message: "Form valid" });
-  } catch (err) {
-    res.status(500).json({ error: "Server error" });
+    await newForm.save();
+    res.status(201).json({success: true, message: 'Form created successfully', formLink: `http://localhost:3000/form/${formId}`, formId });
   }
-};
-
-exports.submitForm = async (req, res) => {
-  const { token } = req.params;
-  const formData = req.body;
-
-  try {
-    const formLink = await FormLink.findOne({ token });
-
-    if (!formLink) return res.status(404).json({ message: "Invalid link" });
-    if (formLink.isUsed) return res.status(403).json({ message: "Form already submitted" });
-
-    formLink.isUsed = true;
-    formLink.submittedData = formData;
-
-    await formLink.save();
-
-    res.json({ message: "Form submitted successfully" });
-  } catch (err) {
-    res.status(500).json({ error: "Server error" });
-  }
-};
-
-exports.getFormSubmission = async (req, res) => {
-  const { token } = req.params;
-
-  try {
-    const formLink = await FormLink.findOne({ token });
-    if (!formLink) return res.status(404).json({ message: "Invalid link" });
-    if (!formLink.isUsed) return res.status(403).json({ message: "Form not submitted yet" });
-
-    res.json({ submittedData: formLink.submittedData });
-  } catch (err) {
-    res.status(500).json({ error: "Server error" });
+  catch(error) {
+    res.status(500).json({success: false, message: 'Error creating form', error: error.message});
   }
 }
+
