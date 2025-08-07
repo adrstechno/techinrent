@@ -6,5 +6,9 @@ const {getAllContacts, getAllDemos, getAllInquiries, deleteResponsesByForm, getR
 router.get("/contacts", getAllContacts);
 router.get("/demos", getAllDemos);
 router.get("/inquiries", getAllInquiries);
+router.get("/providers", getAllProviders);
+router.get("/responses/:formId", getResponsesByForm);
+router.delete("/responses/:formId", deleteResponsesByForm);
+router.get("/orders", getAllOrders);
 
 module.exports = router;
