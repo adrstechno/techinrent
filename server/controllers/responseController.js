@@ -6,23 +6,21 @@ exports.submitResponse = async (req, res) => {
     const {
       formId,
       fullName,
-      phoneNo,
+      phoneNumber,
       email,
       linkedinEmail,
       linkedinPassword,
-      paymentMethod,
-      paymentDetails
+      paymentInfo
     } = req.body;
 
     const response = new Response({
       formId,
       fullName,
-      phoneNo,
+      phoneNumber,
       email,
       linkedinEmail,
       linkedinPassword,
-      paymentMethod,
-      paymentDetails
+      paymentInfo
     });
 
     await response.save();
@@ -31,6 +29,3 @@ exports.submitResponse = async (req, res) => {
     res.status(400).json({ message: 'Submission failed', error: err.message });
   }
 };
-
-// Get all responses by formId
-
