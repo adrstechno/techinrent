@@ -1365,7 +1365,7 @@ import Logo from '@/components/Logo';
 import { useToast } from '@/hooks/use-toast';
 import { useMutation } from '@tanstack/react-query';
 
-const API_BASE_URL = 'http://localhost:5001/api/orders';
+const API_BASE_URL = 'http://localhost:5000/api/orders';
 
 export default function OrderSummaryPage() {
   const [, setLocation] = useLocation();
