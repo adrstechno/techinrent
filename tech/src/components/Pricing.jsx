@@ -2,58 +2,55 @@ import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import { scrollToSection } from "@/lib/utils";
 export default function Pricing() {
-  const pricingTiers = [
-    {
-      name: "Basic",
-      description: "Perfect for small businesses and startups",
-      priceRange: "$50-100",
-      period: "/month",
-      features: [
-        "500-2,000 connections",
-        "Basic profile setup",
-        "3+ years account age",
-        "Industry-specific networks",
-        "Standard LinkedIn features"
-      ],
-      popular: false,
-      buttonStyle: "outline",
-      buttonText: "Get Started"
-    },
-    {
-      name: "Professional",
-      description: "Ideal for growing businesses and sales teams",
-      priceRange: "$150-300",
-      period: "/month",
-      features: [
-        "2,000-5,000+ connections",
-        "LinkedIn Premium features",
-        "5+ years account age",
-        "High SSI scores (70-90)",
-        "InMail credits included",
-        "Quality recommendations"
-      ],
-      popular: true,
-      buttonStyle: "default",
-      buttonText: "Most Popular"
-    },
-    {
-      name: "Enterprise",
-      description: "For large organizations and enterprise sales",
-      priceRange: "$400-500",
-      period: "/month",
-      features: [
-        "5,000+ industry connections",
-        "Sales Navigator or Recruiter",
-        "8+ years account age",
-        "Executive-level positioning",
-        "High SSI scores (85-100)",
-        "Priority support included"
-      ],
-      popular: false,
-      buttonStyle: "outline",
-      buttonText: "Contact Sales"
-    }
-  ];
+ const pricingTiers = [
+  {
+    name: "Basic",
+    description: "Perfect for small businesses and startups",
+    priceRange: "$50-100",
+    period: "/month",
+    features: [
+      "Basic profile setup",
+      "InMail credits included",
+      "Whatsapp credits included",
+      "LinkedIn features"
+    ],
+    buttonText: "Get Started",
+    buttonStyle: "outline"
+  },
+  {
+    name: "Professional",
+    description: "Ideal for growing businesses and sales teams",
+    priceRange: "$100-200",
+    period: "/month",
+    features: [
+      "1+ years account age",
+      "Industry-specific networks",
+      "High SSI scores (70-90)",
+      "50+ InMail credits capacity",
+      "Quality recommendations"
+    ],
+    buttonText: "Most Popular",
+    buttonStyle: "default"
+  },
+  {
+    name: "Enterprise",
+    description: "For large organizations and enterprise sales",
+    priceRange: "$150-300",
+    period: "/month",
+    features: [
+      "Sales Navigator or Recruiter",
+      "Advanced targeting",
+      "CRM integration",
+      "3+ years account age",
+      "Executive-level positioning",
+      "High SSI scores (85-100)",
+      "Priority support included"
+    ],
+    buttonText: "Contact Sales",
+    buttonStyle: "outline"
+  }
+];
+
   return (
     <section id="pricing" className="py-16 bg-neutral-light">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -94,18 +91,40 @@ export default function Pricing() {
                     </li>
                   ))}
                 </ul>
-                <Button
-                  onClick={() => scrollToSection("browse")}
-                  className={`
-                    block text-center w-full px-6 py-3 h-auto
-                    ${tier.buttonStyle === 'outline'
-                      ? 'bg-white border border-primary text-primary hover:bg-primary hover:text-white'
-                      : 'bg-primary text-white hover:bg-primary-dark'}
-                  `}
-                  variant={tier.buttonStyle === 'outline' ? 'outline' : 'default'}
-                >
-                  {tier.buttonText}
-                </Button>
+              <Button
+  onClick={() => {
+    const message = `
+Hello!
+
+TechInRent is offering an exciting plan:
+
+Plan Name: ${tier.name}
+Description: ${tier.description}
+Price Range: ${tier.priceRange} ${tier.period}
+
+What's included:
+${tier.features.map((f) => `- ${f}`).join('\n')}
+
+If you're looking to boost your LinkedIn connections or grow professionally, this plan might be perfect for you.
+
+Let me know if you’re interested — I’ll help you connect with the team.
+`;
+
+    const whatsappURL = `https://wa.me/?text=${encodeURIComponent(message)}`;
+
+    window.open(whatsappURL, "_blank");
+  }}
+  className={`
+    block text-center w-full px-6 py-3 h-auto
+    ${tier.buttonStyle === 'outline'
+      ? 'bg-white border border-primary text-primary hover:bg-primary hover:text-white'
+      : 'bg-primary text-white hover:bg-primary-dark'}
+  `}
+  variant={tier.buttonStyle === 'outline' ? 'outline' : 'default'}
+>
+  {tier.buttonText}
+</Button>
+
               </div>
             </div>
           ))}

@@ -236,7 +236,7 @@ export default function BuyLinkedInOnRent() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+    <div className="min-h-screen ">
       <SEO
         title="Buy LinkedIn on Rent - Verified Accounts for Lead Generation | TechInRent"
         description="Buy LinkedIn accounts on rent from TechInRent."
@@ -277,7 +277,7 @@ export default function BuyLinkedInOnRent() {
         {/* Benefits Section */}
         <section className="py-6 px-4 sm:px-6 bg-white">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
+            <div className="text-center mb-5">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Why Buy LinkedIn Accounts on Rent?
               </h2>
