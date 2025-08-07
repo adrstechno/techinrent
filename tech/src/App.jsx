@@ -9,6 +9,7 @@ import { PageLoader } from "@/components/LoadingSpinner";
 import { ProtectedRoute } from "@/lib/protected-route";
 import SecureFormAdmin from "@/pages/SecureFormAdmin";
 import { Route } from "wouter";
+import { useEffect, useState } from "react";
 
 // Lazy load components
 const Welcome = lazy(() => import("@/components/OptimizedWelcome"));
@@ -35,7 +36,8 @@ const OrderSummary = lazy(() => import("@/pages/order-summary"));
 const OrderConnections = lazy(() => import("@/pages/order-connections"));
 const OrderSuccess = lazy(() => import("@/pages/OrderSuccess"));
 import Testimonials from "./components/Testimonials";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // QueryClient instance
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -50,6 +52,25 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  useEffect(() => {
+    showMaintenanceToast();
+  }, []);
+   const showMaintenanceToast = () => {
+   toast.info(
+  <div className="text-left text-sm">
+    <strong className="block text-base">🚧 Under Maintenance</strong>
+    <p>The site is down temporarily. Please check back later.</p>
+  </div>,
+  {
+    position: 'bottom-right',
+    autoClose: false,
+    closeOnClick: false,
+    closeButton: false,
+    draggable: false,
+    theme: 'dark',
+      className: 'bg-yellow-400 text-gray-800 px-3 py-2 rounded-md max-w-[90%] text-sm shadow-md z-[9999]',
+  }
+);}
   return (
     <QueryClientProvider client={queryClient}>
       <HelmetProvider>
@@ -86,6 +107,7 @@ function App() {
                 </Router>
               </Suspense>
               <Toaster />
+                <ToastContainer />
             </div>
           </PerformanceOptimizer>
         </ErrorBoundary>
