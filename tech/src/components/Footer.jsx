@@ -555,7 +555,7 @@ export default function Footer() {
   <p className="text-gray-500 text-sm">
     &copy; {new Date().getFullYear()} TechInRent. All rights reserved.
   </p>
-  <p className="text-white text-base mt-2">Under maintenance</p>
+ 
 </div>
 
           <div className="mt-4 md:mt-0 flex items-center space-x-4">
