@@ -2,6 +2,8 @@ const Contact = require('../models/Contact');
 const BookDemo = require('../models/bookDemo');
 const GetInTouch = require('../models/getInTouch');
 const Provider = require('../models/provider')
+const formResponse = require('../models/formResponse');
+const Form = require('../models/Form');
 
 // Fetch all contact form submissions
 exports.getAllContacts = async (req, res) => {
@@ -45,3 +47,28 @@ exports.getAllProviders = async (req, res) => {
         res.status(500).json({success: false, message: 'Failed to fetch providedrs', error: error.message});
     }
 }
+
+exports.getResponsesByForm = async (req, res) => {
+  const { formId } = req.params;
+
+  try {
+    const responses = await FormResponse.find({ formId }).sort({ submittedAt: -1 });
+
+    res.status(200).json({ success: true, data: responses });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error', error: error.message });
+  }
+};
+
+// controllers/responseController.js (add this too)
+exports.deleteResponsesByForm = async (req, res) => {
+  const { formId } = req.params;
+
+  try {
+    await FormResponse.deleteMany({ formId });
+
+    res.status(200).json({ success: true, message: 'All responses deleted for the form' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error', error: error.message });
+  }
+};

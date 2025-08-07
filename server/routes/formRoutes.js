@@ -1,8 +1,7 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { getFormByToken, submitForm } = require("../controllers/formController");
+const { createForm } = require('../controllers/formController');
 
-router.get("/form/:token", getFormByToken);
-router.post("/form/:token", submitForm);
+router.post('/create', createForm); // POST /api/forms/create
 
 module.exports = router;
