@@ -154,7 +154,7 @@ export default function Admin() {
   const providerQuery = useQuery({
     queryKey: ['provider-inquiries'],
     queryFn: async () => {
-      const response = await fetch('http://localhost:5000/api/admin/allproviders/', {
+      const response = await fetch('http://localhost:5000/api/admin/providers/', {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
@@ -173,7 +173,7 @@ export default function Admin() {
   const linkedinQuery = useQuery({
     queryKey: ['linkedin-connection-orders'],
     queryFn: async () => {
-     const response = await fetch('http://localhost:5000/api/admin/allorders/', {
+     const response = await fetch('http://localhost:5000/api/admin/orders', {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
