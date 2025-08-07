@@ -4,6 +4,7 @@ const GetInTouch = require('../models/getInTouch');
 const Provider = require('../models/provider')
 const formResponse = require('../models/Response');
 const Order = require('../models/order');
+const Response = require('../models/Response');
 
 // Fetch all contact form submissions
 exports.getAllContacts = async (req, res) => {
@@ -81,5 +82,22 @@ exports.getAllOrders = async (req, res) => {
     res.status(200).json({ success: true, count:orders.length, data: orders });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Failed to fetch providedrs',error: err.message });
+  }
+};
+
+exports.toggleReadStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const response = await Response.findById(id);
+    if (!response) return res.status(404).json({ message: 'Response not found' });
+
+    response.read = !response.read; // toggle
+    await response.save();
+
+    res.status(200).json({ message: `Marked as ${response.read ? 'read' : 'unread'}`, response });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to update read status' });
   }
 };
