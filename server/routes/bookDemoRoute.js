@@ -5,4 +5,3 @@ const { bookDemo } = require('../controllers/bookDemoController');
 router.post('/', bookDemo);
 
 module.exports = router;
-// This route handles demo booking requests and connects to the bookDemo controller.

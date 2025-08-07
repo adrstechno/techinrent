@@ -153,7 +153,7 @@ const Features = () => {
         </motion.div>
 
         {/* Benefits Section for Providers */}
-        <motion.div
+        {/* <motion.div
           id="benefits"
           initial="hidden"
           whileInView="visible"
@@ -214,10 +214,10 @@ const Features = () => {
               Become a Provider
             </Button>
           </motion.div>
-        </motion.div>
+        </motion.div> */}
 
         {/* Requirements Section for Providers */}
-        <motion.div
+        {/* <motion.div
           id="requirements"
           initial="hidden"
           whileInView="visible"
@@ -284,14 +284,14 @@ const Features = () => {
               </div>
             </div>
           </motion.div>
-        </motion.div>
+        </motion.div> */}
       </div>
 
       {/* Provider Form Popup */}
-      <ProviderFormPopup
+      {/* <ProviderFormPopup
         isOpen={isProviderFormOpen}
         onClose={() => setIsProviderFormOpen(false)}
-      />
+      /> */}
     </section>
   );
 };

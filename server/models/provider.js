@@ -5,8 +5,10 @@ const providerSchema = new mongoose.Schema({
     email: {type: String, required: true, unique: true},
     phone: {type: String, required: true},
     linkedIn: {type: String, required: true},
-    verification: {type: String, enum:["verified", "non-verified"]},
-    additionalInfo: {type: String}
+    verification: {type: String, enum:["verified", "nonVerified"]},
+    additionalInfo: {type: String},
+      createdAt: {type: Date, default: Date.now}
+
 })
 
 module.exports = mongoose.model('Provider', providerSchema);

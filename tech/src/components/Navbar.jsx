@@ -15,7 +15,7 @@ const Navbar = ({ userType }) => {
     if (isHomePage) {
       scrollToSection(id);
     } else {
-      window.location.href = `/home#${id}`;
+      window.location.href = `/buy-linkedin-on-rent#${id}`;
     }
   };
 
@@ -45,10 +45,6 @@ const Navbar = ({ userType }) => {
         {
           label: "Testimonials",
           section: "testimonials"
-        },
-        {
-          label: "Contact",
-          section: "contact"
         }
       ];
     } else if (userType === 'provider') {
@@ -99,24 +95,18 @@ const Navbar = ({ userType }) => {
               </button>
             ))}
 
-            {userType && (
-              <Button
-                onClick={handleLogout}
-                variant="outline"
-                size="sm"
-                className="flex items-center gap-2"
-              >
-                <LogOut className="h-4 w-4" />
-                Logout
-              </Button>
-            )}
+         
+             <Button
+ onClick={() => window.history.back()}
 
-            <Button
-              onClick={() => handleScrollToSection("contact")}
-              className={buttonClass}
-            >
-              Get Started
-            </Button>
+  size="sm"
+  className="flex items-center gap-2 bg-purple-600 text-white"
+>
+  Return
+</Button>
+            
+
+           
           </div>
 
           {/* Mobile menu button */}

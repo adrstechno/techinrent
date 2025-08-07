@@ -1,9 +1,4 @@
 const BookDemo = require('../models/bookDemo');
-
-// @desc   Handle new demo booking
-// @route  POST /api/book-demo
-// @access Public
-
 exports.bookDemo = async (req, res) => {
     try{
         const {firstName, lastName, email, phone, companyName, jobtitle} = req.body;

@@ -136,7 +136,7 @@ export default function HowItWorks() {
             </motion.div>
           </div>
 
-          {/* Middle section info card */}
+          {/* Middle section info card
           <div className="lg:col-span-1">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -183,7 +183,7 @@ export default function HowItWorks() {
                 className="bg-white rounded-xl shadow-lg p-6"
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

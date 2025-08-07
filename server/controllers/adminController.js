@@ -3,7 +3,7 @@ const BookDemo = require('../models/bookDemo');
 const GetInTouch = require('../models/getInTouch');
 const Provider = require('../models/provider')
 const formResponse = require('../models/formResponse');
-const Form = require('../models/Form');
+const Order = require('../models/order');
 
 // Fetch all contact form submissions
 exports.getAllContacts = async (req, res) => {
@@ -52,7 +52,7 @@ exports.getResponsesByForm = async (req, res) => {
   const { formId } = req.params;
 
   try {
-    const responses = await FormResponse.find({ formId }).sort({ submittedAt: -1 });
+    const responses = await formResponse.find({ formId }).sort({ submittedAt: -1 });
 
     res.status(200).json({ success: true, data: responses });
   } catch (error) {
@@ -65,10 +65,19 @@ exports.deleteResponsesByForm = async (req, res) => {
   const { formId } = req.params;
 
   try {
-    await FormResponse.deleteMany({ formId });
+    await formResponse.deleteMany({ formId });
 
     res.status(200).json({ success: true, message: 'All responses deleted for the form' });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error', error: error.message });
+  }
+}
+
+exports.getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find().sort({ createdAt: -1 });
+    res.status(200).json({ success: true, count:orders.length, data: orders });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Failed to fetch providedrs',error: err.message });
   }
 };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm  } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
@@ -36,6 +36,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import ContactForm from "./ContactForm";
 
+
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
@@ -48,6 +49,7 @@ const contactFormSchema = z.object({
 export default function Contact() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   const form = useForm({
     resolver: zodResolver(contactFormSchema),
@@ -60,25 +62,28 @@ export default function Contact() {
     }
   });
 
-  const onSubmit = async (data) => {
-    setIsSubmitting(true);
-    try {
-      await apiRequest('POST', '/api/contact', data);
-      toast({
-        title: "Message sent successfully!",
-        description: "We'll get back to you within 24 hours.",
-      });
-      form.reset();
-    } catch (error) {
-      toast({
-        title: "Error sending message",
-        description: "Please try again or contact us directly.",
-        variant: "destructive"
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+const onSubmit = async (data) => {
+  setIsSubmitting(true);
+  try {
+   await apiRequest("POST", "http://localhost:5001/api/get-in-touch/", data);
+
+    toast({
+      title: "Message sent successfully!",
+      description: "We'll get back to you within 24 hours.",
+    });
+    form.reset(); 
+  } catch (error) {
+    toast({
+      title: "Error sending message",
+      description: error.message,
+      variant: "destructive",
+    });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
+
   return (
     <section id="contact" className="py-16 bg-skyblue">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

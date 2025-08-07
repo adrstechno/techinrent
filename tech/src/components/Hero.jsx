@@ -10,14 +10,17 @@ import {
   Target,
   Shield,
   Wallet,
-  Settings
+  Settings,
+  MessageCircle
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import BookDemoForm from "./BookDemoForm";
+import { useLocation } from "wouter";
 
 export default function Hero() {
   const [userType, setUserType] = useState(null);
   const [isBookingDemo, setIsBookingDemo] = useState(false);
+ const [, setLocation] = useLocation();
 
   useEffect(() => {
     // Check if user type is stored in localStorage
@@ -165,17 +168,19 @@ export default function Hero() {
             className="mt-8 flex flex-col sm:flex-row gap-4"
           >
             <Button
-              onClick={() => scrollToSection("how-it-works")}
+              onClick={() => setLocation("/home")}
               className="bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary"
             >
+                <Linkedin className="mr-2 h-5 w-5" />
               Get Started
             </Button>
             <Button
-              onClick={() => setIsBookingDemo(true)}
+         onClick={() => setLocation("/home")}
               variant="outline"
               className="bg-white hover:bg-gray-50"
             >
-              Book My Demo
+              <MessageCircle className="mr-2 h-5 w-5" />
+                Contact Us
             </Button>
           </motion.div>
         </div>
@@ -351,36 +356,10 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Side content or CTA (1/3 width) */}
-          <div className="lg:col-span-1">
-            <motion.div
-              variants={fadeIn}
-              initial="hidden"
-              animate="visible"
-              className="bg-white rounded-xl shadow-lg p-6"
-            >
-              <h3 className="text-xl font-bold text-center mb-4">Ready to Start?</h3>
-              <p className="text-center text-gray-600 mb-4">
-                {userType === 'taker'
-                  ? "Book a demo and see how we can accelerate your leads"
-                  : "Get started earning with your LinkedIn account today"
-                }
-              </p>
-              <Button
-                onClick={() => setIsBookingDemo(true)}
-                className="w-full"
-              >
-                {userType === 'taker' ? "Book Demo" : "Get Started"}
-              </Button>
-            </motion.div>
-          </div>
+         
         </div>
       </div>
 
-      <BookDemoForm
-        isOpen={isBookingDemo}
-        onClose={() => setIsBookingDemo(false)}
-      />
     </section>
   );
 }
