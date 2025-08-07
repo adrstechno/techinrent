@@ -51,8 +51,12 @@ exports.getAllProviders = async (req, res) => {
 exports.getResponsesByFormId = async (req, res) => {
   try {
     const { formId } = req.params;
-    const responses = await Response.find({ formId });
+    console.log('Searching for formId:', formId);
+
+    const responses = await formResponse.find({ formId });
     res.json(responses);
+    console.log(responses);
+
   } catch (err) {
     res.status(500).json({ message: 'Error fetching responses', error: err.message });
   }
