@@ -26,5 +26,6 @@ const upload = multer({ storage });
 router.post('/', orderController.createOrder);
 router.get('/:orderId', orderController.getOrder);
 router.post('/:orderId/upload', upload.single('screenshot'), uploadController.uploadScreenshot);
+router.delete('delete/:orderId', orderController.deleteOrder);
 
 module.exports = router;

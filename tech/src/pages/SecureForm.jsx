@@ -78,7 +78,7 @@ export default function SecureForm() {
       if (!accessUrl) {
         throw new Error("No access URL provided");
       }
-      const res = await fetch(`/api/secure-forms/check/${accessUrl}`);
+      const res = await fetch(`/api/secure-form/${accessUrl}`);
       if (!res.ok) {
         const error = await res.json();
         throw new Error(error.message || "Invalid or expired form URL");

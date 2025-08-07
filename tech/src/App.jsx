@@ -8,7 +8,7 @@ import PerformanceOptimizer, { CriticalCSS } from "@/components/PerformanceOptim
 import { PageLoader } from "@/components/LoadingSpinner";
 import { ProtectedRoute } from "@/lib/protected-route";
 import SecureFormAdmin from "@/pages/SecureFormAdmin";
-import { Route } from "wouter";
+
 import { useEffect, useState } from "react";
 
 // Lazy load components
@@ -63,7 +63,7 @@ function App() {
     <p>The site is down temporarily. Please check back later.</p>
   </div>,
   {
-    position: 'bottom-right',
+    position: 'bottom-left',
     autoClose: false,
     closeOnClick: false,
     closeButton: false,
