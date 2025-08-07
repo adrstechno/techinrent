@@ -2,7 +2,7 @@ const Contact = require('../models/Contact');
 const BookDemo = require('../models/bookDemo');
 const GetInTouch = require('../models/getInTouch');
 const Provider = require('../models/provider')
-const formResponse = require('../models/formResponse');
+const formResponse = require('../models/Response');
 const Order = require('../models/order');
 
 // Fetch all contact form submissions
