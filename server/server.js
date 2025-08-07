@@ -42,7 +42,6 @@ app.use('/api/get-in-touch', getInTouchRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/provider', providerRoutes);
 app.use('/api/orders', orderRoutes);
-app.use('/api/form', formRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/forms', formRoutes);
 app.use('/api/forms', responseRoutes);

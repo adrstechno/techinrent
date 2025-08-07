@@ -48,15 +48,13 @@ exports.getAllProviders = async (req, res) => {
     }
 }
 
-exports.getResponsesByForm = async (req, res) => {
-  const { formId } = req.params;
-
+exports.getResponsesByFormId = async (req, res) => {
   try {
-    const responses = await formResponse.find({ formId }).sort({ submittedAt: -1 });
-
-    res.status(200).json({ success: true, data: responses });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    const { formId } = req.params;
+    const responses = await Response.find({ formId });
+    res.json(responses);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching responses', error: err.message });
   }
 };
 
