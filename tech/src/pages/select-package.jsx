@@ -141,11 +141,11 @@ export default function SelectPackagePage() {
                   Select the number of connections you want to add to your LinkedIn profile
                 </CardDescription>
               </CardHeader>
-              <CardContent className="px-6 pb-8">
-                <RadioGroup value={selectedPackage} onValueChange={setSelectedPackage} className="space-y-5">
+              <CardContent className="px-6 pb-8 ">
+                <RadioGroup value={selectedPackage} onValueChange={setSelectedPackage} className="space-y-5 rounded-sm outline-none focus:outline-none focus:ring-0 focus:border-none">
                   {packages.map((pkg) => (
-                    <div key={pkg.value} className="relative">
-                      <div className={`flex items-center space-x-4 p-5 rounded-xl border-2 transition-all duration-200 cursor-pointer hover:shadow-lg ${
+                    <div key={pkg.value} className="relative ">
+                      <div className={`flex items-center space-x-4 p-5 rounded-xl border-2 transition-all duration-200 cursor-pointer hover:shadow-lg  ${
                         selectedPackage === pkg.value
                           ? 'border-purple-500 bg-purple-50 shadow-md'
                           : 'border-gray-200 hover:border-purple-300'
