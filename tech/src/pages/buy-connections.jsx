@@ -668,7 +668,7 @@ const toggleFaq = (index) => {
     },
     {
       icon: <Lock className="w-5 h-5 text-blue-600" />,
-      title: '100% Safe',
+      title: 'Secure Service',
       description: 'Verified profiles with zero risk'
     },
     {
@@ -937,10 +937,10 @@ const toggleFaq = (index) => {
           
           <div className="max-w-4xl mx-auto space-y-4">
             {faqs.map((faq, index) => (
-              <Card key={index} className="border border-gray-200  transition-colors">
+              <Card key={index} className=" border-gray-200  transition-colors">
                 <button 
                   onClick={() => toggleFaq(index)}
-                  className="w-full flex items-center justify-between p-6 text-left"
+                  className="w-full flex items-center justify-between p-6 text-left rounded-sm outline-none focus:outline-none focus:ring-0 focus:border-none"
                 >
                   <div className="flex items-center gap-4">
                     <HelpCircle className="w-5 h-5 text-blue-500" />
@@ -953,7 +953,7 @@ const toggleFaq = (index) => {
                   )}
                 </button>
                 {activeFaq === index && (
-                  <div className="px-6 pb-6 text-gray-600">
+                  <div className="px-6 mt-5 pb-6 text-gray-600">
                     {faq.answer}
                   </div>
                 )}
