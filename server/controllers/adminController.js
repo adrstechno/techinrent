@@ -60,17 +60,21 @@ exports.getResponsesByFormId = async (req, res) => {
 };
 
 // controllers/responseController.js (add this too)
-exports.deleteResponsesByForm = async (req, res) => {
-  const { formId } = req.params;
+exports.deleteSingleResponse = async (req, res) => {
+  const { id } = req.params;
 
   try {
-    await formResponse.deleteMany({ formId });
+    const deleted = await Response.findByIdAndDelete(id);
 
-    res.status(200).json({ success: true, message: 'All responses deleted for the form' });
+    if (!deleted) {
+      return res.status(404).json({ success: false, message: 'Response not found' });
+    }
+
+    res.status(200).json({ success: true, message: 'Response deleted successfully' });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error', error: error.message });
   }
-}
+};
 
 exports.getAllOrders = async (req, res) => {
   try {
