@@ -65,7 +65,7 @@ export default function Contact() {
 const onSubmit = async (data) => {
   setIsSubmitting(true);
   try {
-   await apiRequest("POST", "http://localhost:5000/api/get-in-touch/", data);
+   await apiRequest("POST", "https://api-tech-in-rent.onrender.com/", data);
 
     toast({
       title: "Message sent successfully!",
