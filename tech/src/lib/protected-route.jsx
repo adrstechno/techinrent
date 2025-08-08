@@ -27,6 +27,7 @@ export function ProtectedRoute({ path, component: Component }) {
             "Content-Type": "application/json",
           },
         });
+        
 
         console.log('Verify response status:', response.status);
 
