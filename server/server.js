@@ -15,7 +15,7 @@ const allowedOrigins = [
 const app = express();
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
    credentials: true
 }));
