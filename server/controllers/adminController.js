@@ -71,6 +71,16 @@ exports.getResponsesByFormId = async (req, res) => {
   }
 };
 
+exports.getAllResponses = async (req, res) => {
+  try {
+    const responses = await formResponse.find().sort({createdAt: -1});
+    res.status(200).json({success: true, count: responses.length, data: responses});
+  }
+  catch(error) {
+    res.status(500).json({success: false, message: 'Failed to fetch responses', error: error.message})
+  }
+}
+
 // controllers/responseController.js (add this too)
 exports.deleteSingleResponse = async (req, res) => {
   const { id } = req.params;
