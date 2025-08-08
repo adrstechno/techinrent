@@ -49,7 +49,7 @@ const onSubmit = async (data) => {
   try {
     console.log('Sending login request with data:', data);
 
-    const response = await fetch("http://localhost:5000/api/auth/login", {
+    const response = await fetch("https://api-tech-in-rent.onrender.com/api/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
