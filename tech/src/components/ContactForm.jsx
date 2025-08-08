@@ -169,6 +169,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
+const API_URI = "https://api-tech-in-rent.onrender.com"
 
 export default function ContactForm({ title = "", subtitle = "", className = "" }) {
   const [fullname, setFullname] = useState("");
@@ -192,7 +193,7 @@ export default function ContactForm({ title = "", subtitle = "", className = "" 
     }
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/contact/", {
+      const response = await fetch(`${API_URI}/api/contact/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
