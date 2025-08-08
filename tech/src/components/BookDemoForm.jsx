@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
+const API_URI = "https://api-tech-in-rent.onrender.com"
 
 // Define the schema for the demo request form
 const bookDemoSchema = z.object({
@@ -58,7 +59,7 @@ const onSubmit = async (data) => {
       jobtitle: data.designation
     };
 
-    const response = await fetch('http://localhost:5000/api/book-demo/', {
+    const response = await fetch('https://api-tech-in-rent.onrender.com/api/book-demo/', {
       method: "POST",
      headers: {
   "Content-Type": "application/json"
