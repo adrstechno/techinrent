@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Route, useLocation } from "wouter";
 import { Loader2 } from "lucide-react";
+const API_URI = "https://api-tech-in-rent.onrender.com"
 
 export function ProtectedRoute({ path, component: Component }) {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -19,7 +20,7 @@ export function ProtectedRoute({ path, component: Component }) {
         }
 
         console.log('Token found, verifying with backend...');
-        const response = await fetch("/api/auth/verify", {
+        const response = await fetch(`${API_URI}/api/auth/verify`, {
           method: "POST",
           headers: {
             "Authorization": `Bearer ${token}`,
