@@ -8,13 +8,15 @@ const path = require('path');
 dotenv.config();
 connectDB();
 
+const allowedOrigins = [
+  'https://tech-in-rent.vercel.app/'
+];
+
 const app = express();
 
+app.use(cors());
 app.use(express.json());
-app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174'],
-  credentials: true,
-}));
+
 
 // Import routes
 const contactRoutes = require('./routes/contactRoutes');
