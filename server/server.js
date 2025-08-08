@@ -12,7 +12,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://tech-in-rent.vercel.app/'],
+  origin: ['http://localhost:5173', 'https://tech-in-rent.vercel.app/', '216.198.79.1'],
   credentials: true,
 }));
 
