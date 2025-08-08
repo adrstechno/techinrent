@@ -9,12 +9,16 @@ dotenv.config();
 connectDB();
 
 const allowedOrigins = [
-  'https://tech-in-rent.vercel.app/'
+  '216.198.79.1:5173',
 ];
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+   credentials: true
+}));
 app.use(express.json());
 
 
