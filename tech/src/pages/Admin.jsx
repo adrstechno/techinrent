@@ -33,6 +33,7 @@ import {
   MessageCircle,
   Trash2
 } from "lucide-react";
+const API_URI = "https://api-tech-in-rent.onrender.com"
 
 // Function to export data to CSV (aligned with backend models)
 function exportToCSV(data, filename) {
@@ -168,28 +169,28 @@ export default function Admin() {
   // React Query hooks for fetching data
   const contactQuery = useQuery({
     queryKey: ['contact-messages'],
-    queryFn: () => fetcher('/api/admin/contacts'),
+    queryFn: () => fetcher(`${API_URI}/api/admin/contacts`),
   });
 
   const demoQuery = useQuery({
     queryKey: ['demo-requests'],
-    queryFn: () => fetcher('/api/admin/demos'),
+    queryFn: () => fetcher(`${API_URI}/api/admin/demos`),
   });
 
   const providerQuery = useQuery({
     queryKey: ['provider-inquiries'],
-    queryFn: () => fetcher('/api/admin/providers'),
+    queryFn: () => fetcher(`${API_URI}/api/admin/providers`),
   });
 
   const linkedinOrdersQuery = useQuery({
     queryKey: ['linkedin-connection-orders'],
-    queryFn: () => fetcher('/api/admin/orders'),
+    queryFn: () => fetcher(`${API_URI}/api/admin/orders`),
   });
 
 
     const viewFomrsQuery = useQuery({
     queryKey: ['view-forms'],
-    queryFn: () => fetcher('/api/admin/all-responses'),
+    queryFn: () => fetcher(`${API_URI}/api/admin/all-responses`),
   });
 
   // Note: Admin backend exposes read-only list endpoints for these tabs.
