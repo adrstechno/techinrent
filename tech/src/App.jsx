@@ -41,8 +41,8 @@ const queryClient = new QueryClient({
       staleTime: 5 * 60 * 1000,
       gcTime: 30 * 60 * 1000,
       refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      retry: false,
+      refetchOnMount: true, // Enable refetch on mount for admin data
+      retry: 1,
     },
   },
 });
