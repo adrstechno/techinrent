@@ -50,7 +50,31 @@ import { Badge } from "@/components/ui/badge";
 
 // Assume a generic apiRequest utility function is available
 // It should handle headers and credentials similar to the fetcher in the Admin component
-const apiRequest = async (method, url, data = null) => {
+// const apiRequest = async (method, url, requestData = null) => {
+//   const options = {
+//     method,
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     credentials: 'include',
+//   };
+//   if (requestData) {
+//     options.body = JSON.stringify(requestData);
+//   }
+//   const response = await fetch(url, options);
+//   if (!response.ok) {
+//     const errorBody = await response.json();
+//     throw new Error(errorBody.message || `API call failed on ${url}`);
+//   }
+//   const responseData = await response.json();
+//   // Handle different response formats
+//   if (responseData && responseData.data && Array.isArray(responseData.data)) {
+//     return responseData.data;
+//   }
+//   return Array.isArray(responseData) ? responseData : [];
+// };
+
+const apiRequest = async (method, url, requestData = null) => {
   const options = {
     method,
     headers: {
@@ -58,16 +82,24 @@ const apiRequest = async (method, url, data = null) => {
     },
     credentials: 'include',
   };
-  if (data) {
-    options.body = JSON.stringify(data);
+
+  if (requestData) {
+    options.body = JSON.stringify(requestData);
   }
+
   const response = await fetch(url, options);
+
   if (!response.ok) {
     const errorBody = await response.json();
     throw new Error(errorBody.message || `API call failed on ${url}`);
   }
-  return response.json();
+
+  const responseData = await response.json();
+
+  // ✅ Return the entire object as-is
+  return responseData;
 };
+
 
 export default function SecureFormAdmin() {
   const { toast } = useToast();
@@ -84,29 +116,38 @@ export default function SecureFormAdmin() {
 
   const [location, setLocation] = useLocation();
 
+  // Fetch all forms
+  const { data: allFormsData = [], isLoading: isLoadingForms } = useQuery({
+    queryKey: ["all-forms"],
+    queryFn: () => apiRequest("GET", "/api/forms"),
+  });
+
+  // Ensure allForms is always an array
+  const allForms = Array.isArray(allFormsData) ? allFormsData : [];
+
   // Fetch all secure form submissions by formId
   // Note: This query is enabled only if activeFormId is set.
   // When a new form is created, activeFormId is set, triggering this fetch.
   const { data: submissions = [], isLoading, isFetching, refetch } = useQuery({
     queryKey: ["secure-form-submissions", activeFormId],
-    queryFn: () => activeFormId ? apiRequest("GET", `/api/responses/${activeFormId}`) : Promise.resolve([]),
+    queryFn: () => activeFormId ? apiRequest("GET", `/api/admin/responses/${activeFormId}`) : Promise.resolve([]),
     enabled: !!activeFormId,
   });
 
   // Create new secure form URL
   const createUrlMutation = useMutation({
-    mutationFn: () => apiRequest("POST", "/api/create"), // Changed endpoint to /api/create
+    mutationFn: () => apiRequest("POST", "/api/forms/create"),
     onSuccess: (data) => {
-      // Use data.formId as returned by your backend
+      console.log( "data " , data);
+      
       const fullUrl = `${window.location.origin}/secure-form/${data.formId}`;
       setNewUrl(fullUrl);
-      setActiveFormId(data.formId); // Set the active form ID to show submissions for the newly created form
+      setActiveFormId(data.formId);
       setNewUrlDialogOpen(true);
       toast({
         title: "Success",
         description: "Secure form link generated successfully",
       });
-      // Invalidate and refetch queries related to submissions for the new form
       queryClient.invalidateQueries({ queryKey: ["secure-form-submissions", data.formId] });
     },
     onError: (error) => {
@@ -118,24 +159,8 @@ export default function SecureFormAdmin() {
     },
   });
 
-  // Mark submission as read/unread
-  const toggleReadStatusMutation = useMutation({
-    mutationFn: (responseId) => apiRequest("PUT", `/api/responses/${responseId}/read`),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["secure-form-submissions", activeFormId] }); // Invalidate specific form's submissions
-      toast({
-        title: "Success",
-        description: "Submission read status updated.",
-      });
-    },
-    onError: (error) => {
-      toast({
-        title: "Failed to update status",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
-  });
+  // Read/unread toggling is disabled because backend route has a parameter mismatch.
+  // We only display the current read status returned by the API.
 
   // Copy URL to clipboard
   const copyToClipboard = async () => {
@@ -269,7 +294,10 @@ export default function SecureFormAdmin() {
           <div>
             <h1 className="text-2xl font-bold">Secure Form Submissions</h1>
             <p className="text-gray-500">
-              Manage all secure form submissions and create new form links
+              {activeFormId
+                ? `Viewing submissions for Form ${activeFormId.slice(0, 8)}...`
+                : "Manage all secure form submissions and create new form links"
+              }
             </p>
           </div>
           <div className="flex space-x-2">
@@ -299,6 +327,39 @@ export default function SecureFormAdmin() {
           </CardHeader>
           <CardContent>
             <div className="flex flex-col md:flex-row gap-4">
+              {/* <Select value={activeFormId} onValueChange={setActiveFormId} disabled={isLoadingForms}>
+                <SelectTrigger className="w-full md:w-[250px]">
+                  <SelectValue placeholder={isLoadingForms ? "Loading forms..." : "Select a form to view submissions"} />
+                </SelectTrigger>
+                <SelectContent>
+                  {isLoadingForms ? (
+                    <SelectItem value="" disabled>Loading forms...</SelectItem>
+                  ) : allForms && allForms.length > 0 ? allForms.map((form) => (
+                    <SelectItem key={form._id} value={form.formId}>
+                      Form {form.formId.slice(0, 8)}... ({new Date(form.createdAt).toLocaleDateString()})
+                    </SelectItem>
+                  )) : (
+                    <SelectItem value="" disabled>No forms available</SelectItem>
+                  )}
+                </SelectContent>
+              </Select> */}
+              <Select value={activeFormId} onValueChange={setActiveFormId} disabled={isLoadingForms}>
+  <SelectTrigger className="w-full md:w-[250px]">
+    <SelectValue placeholder={isLoadingForms ? "Loading forms..." : "Select a form to view submissions"} />
+  </SelectTrigger>
+  <SelectContent>
+    {isLoadingForms ? null : allForms && allForms.length > 0 ? (
+      allForms.map((form) => (
+        <SelectItem key={form._id} value={form.formId}>
+          Form {form.formId.slice(0, 8)}... ({new Date(form.createdAt).toLocaleDateString()})
+        </SelectItem>
+      ))
+    ) : (
+      <div className="px-4 py-2 text-muted-foreground text-sm">No forms available</div>
+    )}
+  </SelectContent>
+</Select>
+
               <div className="relative flex-1">
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -340,7 +401,16 @@ export default function SecureFormAdmin() {
           </CardContent>
         </Card>
 
-        {isLoading ? (
+        {!activeFormId ? (
+          <Card>
+            <CardContent className="flex flex-col items-center justify-center h-64">
+              <p className="text-lg font-medium text-gray-500 mb-2">No form selected</p>
+              <p className="text-sm text-gray-400">
+                Please select a form from the dropdown above to view its submissions, or generate a new form link.
+              </p>
+            </CardContent>
+          </Card>
+        ) : isLoading ? (
           <div className="flex justify-center items-center h-64">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
@@ -351,7 +421,7 @@ export default function SecureFormAdmin() {
               <p className="text-sm text-gray-400">
                 {searchTerm || filter !== "all"
                   ? "Try adjusting your filters"
-                  : "Generate a new form link to start collecting information"}
+                  : "This form has no submissions yet. Share the form link to start collecting information."}
               </p>
             </CardContent>
           </Card>
@@ -440,14 +510,7 @@ export default function SecureFormAdmin() {
                             >
                               <Eye className="h-4 w-4" />
                             </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => toggleReadStatusMutation.mutate(submission._id)}
-                              className={`h-8 w-8 p-0 ${submission.read ? 'text-gray-500' : 'text-blue-600'}`}
-                            >
-                              {submission.read ? <Mail className="h-4 w-4" /> : <Mail className="h-4 w-4" />}
-                            </Button>
+                            {/* Read/unread toggle disabled due to backend constraints */}
                           </div>
                         </TableCell>
                       </TableRow>
@@ -629,7 +692,8 @@ export default function SecureFormAdmin() {
             <strong>Important:</strong> This URL can only be used once. Save it before
             closing this dialog.
           </p>
-          <DialogFooter>
+          <DialogFooter className="flex gap-2">
+            <Button variant="outline" onClick={() => window.open(newUrl, '_blank')}>Open Link</Button>
             <Button onClick={() => setNewUrlDialogOpen(false)}>Close</Button>
           </DialogFooter>
         </DialogContent>

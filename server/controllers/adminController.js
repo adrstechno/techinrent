@@ -5,6 +5,7 @@ const Provider = require('../models/provider')
 const formResponse = require('../models/Response');
 const Order = require('../models/order');
 const Response = require('../models/Response');
+const Form = require('../models/Form');
 
 // Fetch all contact form submissions
 exports.getAllContacts = async (req, res) => {
@@ -54,7 +55,14 @@ exports.getResponsesByFormId = async (req, res) => {
     const { formId } = req.params;
     console.log('Searching for formId:', formId);
 
-    const responses = await formResponse.find({ formId });
+    // Find the form by its UUID string to get the ObjectId
+    const form = await Form.findOne({ formId });
+    if (!form) {
+      return res.status(404).json({ message: 'Form not found' });
+    }
+
+    // Find responses using the Form's ObjectId
+    const responses = await formResponse.find({ formId: form._id });
     res.json(responses);
     console.log(responses);
 
@@ -62,6 +70,18 @@ exports.getResponsesByFormId = async (req, res) => {
     res.status(500).json({ message: 'Error fetching responses', error: err.message });
   }
 };
+
+
+///respnse all 
+exports.getAllResponses = async (req, res) => {
+  try {
+    const responses = await formResponse.find().sort({createdAt: -1});
+    res.status(200).json({success: true, count: responses.length, data: responses});
+  }
+  catch(error) {
+    res.status(500).json({success: false, message: 'Failed to fetch responses', error: error.message})
+  }
+}
 
 // controllers/responseController.js (add this too)
 exports.deleteSingleResponse = async (req, res) => {

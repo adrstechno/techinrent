@@ -14,3 +14,12 @@ exports.createForm = async (req, res) => {
   }
 }
 
+// Get all forms
+exports.getAllForms = async (req, res) => {
+  try {
+    const forms = await form.find().sort({ createdAt: -1 });
+    res.status(200).json({ success: true, count: forms.length, data: forms });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error fetching forms', error: error.message });
+  }
+}
