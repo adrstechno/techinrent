@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "wouter";
 import {
   Tabs,
@@ -34,7 +34,7 @@ import {
   Trash2
 } from "lucide-react";
 
-// Function to export data to CSV
+// Function to export data to CSV (aligned with backend models)
 function exportToCSV(data, filename) {
   if (!data || data.length === 0) return;
 
@@ -42,71 +42,72 @@ function exportToCSV(data, filename) {
   let headers = [];
 
   if (filename === 'contact-messages') {
-    headers = ['ID', 'Name', 'Email', 'Subject', 'Message', 'Created At', 'Read Status'];
+    // Contact model: { _id, fullname, email, phone, company, message, createdAt }
+    headers = ['ID', 'Full Name', 'Email', 'Phone', 'Company', 'Message', 'Created At'];
     csvContent = headers.join(',') + '\n';
     data.forEach(row => {
       const values = [
-        row.id,
-        `"${row.name?.replace(/"/g, '""') || ''}"`,
+        row._id,
+        `"${row.fullname?.replace(/"/g, '""') || ''}"`,
         `"${row.email?.replace(/"/g, '""') || ''}"`,
-        `"${row.subject?.replace(/"/g, '""') || ''}"`,
+        `"${row.phone?.replace(/"/g, '""') || ''}"`,
+        `"${row.company?.replace(/"/g, '""') || ''}"`,
         `"${row.message?.replace(/"/g, '""') || ''}"`,
-        new Date(row.createdAt).toLocaleString(),
-        row.isRead ? 'Read' : 'Unread'
+        new Date(row.createdAt).toLocaleString()
       ];
       csvContent += values.join(',') + '\n';
     });
   } else if (filename === 'demo-requests') {
-    headers = ['ID', 'First Name', 'Last Name', 'Email', 'Phone', 'Company', 'Designation', 'Created At', 'Read Status'];
+    // BookDemo model: { _id, firstName, lastName, email, phone, companyName, jobtitle, createdAt }
+    headers = ['ID', 'First Name', 'Last Name', 'Email', 'Phone', 'Company', 'Job Title', 'Created At'];
     csvContent = headers.join(',') + '\n';
     data.forEach(row => {
       const values = [
-        row.id,
+        row._id,
         `"${row.firstName?.replace(/"/g, '""') || ''}"`,
         `"${row.lastName?.replace(/"/g, '""') || ''}"`,
         `"${row.email?.replace(/"/g, '""') || ''}"`,
         `"${row.phone?.replace(/"/g, '""') || ''}"`,
-        `"${row.company?.replace(/"/g, '""') || 'Not specified'}"`,
-        `"${row.designation?.replace(/"/g, '""') || ''}"`,
-        new Date(row.createdAt).toLocaleString(),
-        row.isRead ? 'Read' : 'Unread'
+        `"${row.companyName?.replace(/"/g, '""') || ''}"`,
+        `"${row.jobtitle?.replace(/"/g, '""') || ''}"`,
+        new Date(row.createdAt).toLocaleString()
       ];
       csvContent += values.join(',') + '\n';
     });
   } else if (filename === 'provider-registrations') {
-    headers = ['ID', 'Full Name', 'Email', 'Phone', 'LinkedIn URL', 'Profile Status', 'Additional Info', 'Created At', 'Read Status'];
+    // Provider model: { _id, fullName, email, phone, linkedIn, verification, additionalInfo, createdAt }
+    headers = ['ID', 'Full Name', 'Email', 'Phone', 'LinkedIn URL', 'Verification', 'Additional Info', 'Created At'];
     csvContent = headers.join(',') + '\n';
     data.forEach(row => {
       const values = [
-        row.id,
+        row._id,
         `"${row.fullName?.replace(/"/g, '""') || ''}"`,
         `"${row.email?.replace(/"/g, '""') || ''}"`,
         `"${row.phone?.replace(/"/g, '""') || ''}"`,
-        `"${row.linkedinUrl?.replace(/"/g, '""') || ''}"`,
-        row.profileStatus,
+        `"${row.linkedIn?.replace(/"/g, '""') || ''}"`,
+        `"${row.verification || ''}"`,
         `"${row.additionalInfo?.replace(/"/g, '""') || ''}"`,
-        new Date(row.createdAt).toLocaleString(),
-        row.isRead ? 'Read' : 'Unread'
+        new Date(row.createdAt).toLocaleString()
       ];
       csvContent += values.join(',') + '\n';
     });
   } else if (filename === 'linkedin-connection-orders') {
-    headers = ['ID', 'Customer Name', 'Email', 'Phone', 'LinkedIn URL', 'Connections', 'Package', 'Total Price', 'Payment Method', 'Status', 'Created At', 'Read Status'];
+    // Order model: { _id, package, cost, customer{fullname,email,phone}, linkedin, additionalNotes, paymentMethod, paymentStatus, status, createdAt }
+    headers = ['ID', 'Customer Name', 'Email', 'Phone', 'LinkedIn URL', 'Package', 'Total Price', 'Payment Method', 'Payment Status', 'Order Status', 'Created At'];
     csvContent = headers.join(',') + '\n';
     data.forEach(row => {
       const values = [
-        row.id,
-        `"${row.customerName?.replace(/"/g, '""') || ''}"`,
-        `"${row.email?.replace(/"/g, '""') || ''}"`,
-        `"${row.phone?.replace(/"/g, '""') || ''}"`,
-        `"${row.linkedinUrl?.replace(/"/g, '""') || ''}"`,
-        row.connections,
-        `"${row.packageName?.replace(/"/g, '""') || ''}"`,
-        `$${row.totalPrice}`,
+        row._id,
+        `"${row.customer?.fullname?.replace(/"/g, '""') || ''}"`,
+        `"${row.customer?.email?.replace(/"/g, '""') || ''}"`,
+        `"${row.customer?.phone?.replace(/"/g, '""') || ''}"`,
+        `"${row.linkedin?.replace(/"/g, '""') || ''}"`,
+        `"${row.package?.replace(/"/g, '""') || ''}"`,
+        row.cost ?? '',
         `"${row.paymentMethod?.replace(/"/g, '""') || ''}"`,
-        row.status,
-        new Date(row.createdAt).toLocaleString(),
-        row.isRead ? 'Read' : 'Unread'
+        `"${row.paymentStatus || ''}"`,
+        `"${row.status || ''}"`,
+        new Date(row.createdAt).toLocaleString()
       ];
       csvContent += values.join(',') + '\n';
     });
@@ -135,6 +136,7 @@ const fetcher = async (url) => {
     throw new Error(`Failed to fetch data from ${url}`);
   }
   const data = await response.json();
+  // Backend returns data in format: { success: true, count: X, data: [...] }
   return data.data || [];
 };
 
@@ -147,70 +149,26 @@ export default function Admin() {
   const contactQuery = useQuery({
     queryKey: ['contact-messages'],
     queryFn: () => fetcher('/api/admin/contacts'),
-    initialData: [],
   });
 
   const demoQuery = useQuery({
     queryKey: ['demo-requests'],
     queryFn: () => fetcher('/api/admin/demos'),
-    initialData: [],
   });
 
   const providerQuery = useQuery({
     queryKey: ['provider-inquiries'],
     queryFn: () => fetcher('/api/admin/providers'),
-    initialData: [],
   });
 
   const linkedinOrdersQuery = useQuery({
     queryKey: ['linkedin-connection-orders'],
     queryFn: () => fetcher('/api/admin/orders'),
-    initialData: [],
   });
 
-  // Function to handle mutations (mark as read, delete, update)
-  const createMutation = (url, method, successMessage, errorMessage, refetchQueries) => {
-    return useMutation({
-      mutationFn: ({ id, payload }) => fetch(
-        payload ? `${url}/${id}` : `${url}/${id}`, {
-        method,
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: payload ? JSON.stringify(payload) : undefined,
-      }).then(res => {
-        if (!res.ok) throw new Error(errorMessage);
-        return res.json();
-      }),
-      onSuccess: () => {
-        toast({ title: "Success", description: successMessage });
-        refetchQueries.forEach(queryKey => queryClient.invalidateQueries({ queryKey }));
-      },
-      onError: (error) => {
-        toast({ title: "Error", description: error.message || errorMessage, variant: "destructive" });
-      },
-    });
-  };
-
-  // Mark as read mutations
-  const markContactAsReadMutation = createMutation('/api/admin/contacts', 'POST', 'Message marked as read', 'Failed to mark message as read', ['contact-messages']);
-  const markDemoAsReadMutation = createMutation('/api/admin/demos', 'POST', 'Demo request marked as read', 'Failed to mark demo request as read', ['demo-requests']);
-  const markProviderAsReadMutation = createMutation('/api/admin/providers', 'POST', 'Provider registration marked as read', 'Failed to mark provider registration as read', ['provider-inquiries']);
-  const markLinkedinOrderAsReadMutation = createMutation('/api/admin/orders', 'POST', 'Order marked as read', 'Failed to mark order as read', ['linkedin-connection-orders']);
-
-  // Delete mutations
-  const deleteContactMutation = createMutation('/api/admin/contacts', 'DELETE', 'Contact message deleted successfully', 'Failed to delete contact message', ['contact-messages']);
-  const deleteDemoMutation = createMutation('/api/admin/demos', 'DELETE', 'Demo request deleted successfully', 'Failed to delete demo request', ['demo-requests']);
-  const deleteProviderMutation = createMutation('/api/admin/inquiries', 'DELETE', 'Provider registration deleted successfully', 'Failed to delete provider registration', ['provider-inquiries']);
-  const deleteLinkedinOrderMutation = createMutation('/api/admin/orders', 'DELETE', 'LinkedIn order deleted successfully', 'Failed to delete LinkedIn order', ['linkedin-connection-orders']);
-
-  // Update order status mutation
-  const updateLinkedInOrderStatusMutation = createMutation('/api/admin/orders', 'PUT', 'Order status updated successfully', 'Failed to update order status', ['linkedin-connection-orders']);
-
-  const handleDelete = (mutationFn, id, message) => {
-    if (window.confirm(`Are you sure you want to delete this ${message}? This action cannot be undone.`)) {
-      mutationFn.mutate({ id });
-    }
-  };
+  // Note: Admin backend exposes read-only list endpoints for these tabs.
+  // Actions like mark-as-read/delete/update are not available in the backend,
+  // so the UI below only displays data without mutation controls.
 
   const renderLoading = () => <div className="text-center py-10">Loading...</div>;
   const renderError = (error) => <div className="text-center py-10 text-red-500">Error: {error.message}</div>;
@@ -269,51 +227,39 @@ export default function Admin() {
               renderLoading()
             ) : contactQuery.isError ? (
               renderError(contactQuery.error)
-            ) : contactQuery.data?.length === 0 ? (
+            ) : !contactQuery.data || contactQuery.data.length === 0 ? (
               renderNoData('contact messages')
             ) : (
               <div className="space-y-4">
                 {contactQuery.data.map(message => (
-                  <Card key={message.id} className={`max-w-2xl mx-auto ${message.isRead ? "opacity-70" : ""}`}>
+                  <Card key={message._id} className="max-w-2xl mx-auto">
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-start">
                         <div>
-                          <CardTitle className="text-lg">{message.subject || "No Subject"}</CardTitle>
+                          <CardTitle className="text-lg">Contact Message</CardTitle>
                           <CardDescription className="flex items-center gap-1 mt-1">
                             <Calendar className="h-3 w-3" />
                             {formatDistanceToNow(new Date(message.createdAt), { addSuffix: true })}
                           </CardDescription>
                         </div>
-                        {!message.isRead && (<Badge>New</Badge>)}
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-3">
                       <div className="flex items-center gap-2">
                         <User className="h-4 w-4 text-gray-500" />
-                        <span className="font-medium">{message.name}</span>
+                        <span className="font-medium">{message.fullname}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Mail className="h-4 w-4 text-gray-500" />
                         <span>{message.email}</span>
                       </div>
+                      <div className="flex items-center gap-2">
+                        <Building className="h-4 w-4 text-gray-500" />
+                        <span>{message.company}</span>
+                      </div>
                       <Separator />
                       <div className="pt-2 whitespace-pre-wrap text-gray-700 break-words">
                         {message.message}
-                      </div>
-                      <div className="pt-2 flex justify-end gap-2">
-                        {!message.isRead && (
-                          <Button variant="outline" size="sm" onClick={() => markContactAsReadMutation.mutate({ id: message.id })}>
-                            Mark as Read
-                          </Button>
-                        )}
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleDelete(deleteContactMutation, message.id, 'contact message')}
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
                       </div>
                     </CardContent>
                   </Card>
@@ -348,12 +294,12 @@ export default function Admin() {
               renderLoading()
             ) : demoQuery.isError ? (
               renderError(demoQuery.error)
-            ) : demoQuery.data?.length === 0 ? (
+            ) : !demoQuery.data || demoQuery.data.length === 0 ? (
               renderNoData('demo requests')
             ) : (
               <div className="space-y-4">
                 {demoQuery.data.map(request => (
-                  <Card key={request.id || request._id} className={`max-w-2xl mx-auto ${request.isRead ? "opacity-70" : ""}`}>
+                  <Card key={request._id} className="max-w-2xl mx-auto">
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-start">
                         <div>
@@ -363,7 +309,6 @@ export default function Admin() {
                             {formatDistanceToNow(new Date(request.createdAt), { addSuffix: true })}
                           </CardDescription>
                         </div>
-                        {!request.isRead && (<Badge>New</Badge>)}
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-3">
@@ -377,26 +322,11 @@ export default function Admin() {
                       </div>
                       <div className="flex items-center gap-2">
                         <Building className="h-4 w-4 text-gray-500" />
-                        <span>{request.company || "Not specified"}</span>
+                        <span>{request.companyName || "Not specified"}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Briefcase className="h-4 w-4 text-gray-500" />
-                        <span>{request.designation}</span>
-                      </div>
-                      <div className="pt-2 flex justify-end gap-2">
-                        {!request.isRead && (
-                          <Button variant="outline" size="sm" onClick={() => markDemoAsReadMutation.mutate({ id: request.id })}>
-                            Mark as Read
-                          </Button>
-                        )}
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleDelete(deleteDemoMutation, request.id, 'demo request')}
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                        <span>{request.jobtitle}</span>
                       </div>
                     </CardContent>
                   </Card>
@@ -431,12 +361,12 @@ export default function Admin() {
               renderLoading()
             ) : providerQuery.isError ? (
               renderError(providerQuery.error)
-            ) : providerQuery.data?.length === 0 ? (
+            ) : !providerQuery.data || providerQuery.data.length === 0 ? (
               renderNoData('provider registrations')
             ) : (
               <div className="space-y-4">
                 {providerQuery.data.map(provider => (
-                  <Card key={provider.id} className={`max-w-2xl mx-auto ${provider.isRead ? "opacity-70" : ""}`}>
+                  <Card key={provider._id} className="max-w-2xl mx-auto">
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-start">
                         <div>
@@ -446,7 +376,6 @@ export default function Admin() {
                             {formatDistanceToNow(new Date(provider.createdAt), { addSuffix: true })}
                           </CardDescription>
                         </div>
-                        {!provider.isRead && (<Badge>New</Badge>)}
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-3">
@@ -464,7 +393,7 @@ export default function Admin() {
                         <Clipboard className="h-4 w-4 text-gray-500" />
                         <span>
                           <a
-                            href={provider.linkedinUrl}
+                            href={provider.linkedIn}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-blue-500 hover:underline"
@@ -474,8 +403,8 @@ export default function Admin() {
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Badge variant={provider.profileStatus === 'verified' ? 'default' : 'outline'}>
-                          {provider.profileStatus === 'verified' ? 'Verified Profile' : 'Non-Verified Profile'}
+                        <Badge variant={provider.verification === 'verified' ? 'default' : 'outline'}>
+                          {provider.verification === 'verified' ? 'Verified Profile' : 'Non-Verified Profile'}
                         </Badge>
                       </div>
                       {provider.additionalInfo && (
@@ -487,21 +416,6 @@ export default function Admin() {
                           </div>
                         </>
                       )}
-                      <div className="pt-2 flex justify-end gap-2">
-                        {!provider.isRead && (
-                          <Button variant="outline" size="sm" onClick={() => markProviderAsReadMutation.mutate({ id: provider.id })}>
-                            Mark as Read
-                          </Button>
-                        )}
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleDelete(deleteProviderMutation, provider.id, 'provider registration')}
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
                     </CardContent>
                   </Card>
                 ))}
@@ -599,27 +513,26 @@ export default function Admin() {
               renderLoading()
             ) : linkedinOrdersQuery.isError ? (
               renderError(linkedinOrdersQuery.error)
-            ) : linkedinOrdersQuery.data?.length === 0 ? (
+            ) : !linkedinOrdersQuery.data || linkedinOrdersQuery.data.length === 0 ? (
               renderNoData('LinkedIn connection orders')
             ) : (
               <div className="grid gap-4">
                 {linkedinOrdersQuery.data.map(order => (
-                  <Card key={order.id} className="w-full">
+                  <Card key={order._id} className="w-full">
                     <CardHeader>
                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <div className="flex-1">
                           <CardTitle className="text-base sm:text-lg">
-                            Order #{order.id} - {order.customerName}
+                            Order #{order._id} - {order.customer?.fullname}
                           </CardTitle>
                           <CardDescription className="text-sm">
-                            {order.connections} connections • {order.packageName} • ${order.totalPrice}
+                            {order.package} • ${order.cost}
                           </CardDescription>
                         </div>
                         <div className="flex gap-2">
                           <Badge variant={order.status === 'completed' ? 'default' : order.status === 'processing' ? 'secondary' : 'outline'}>
                             {order.status}
                           </Badge>
-                          {!order.isRead && (<Badge variant="destructive">Unread</Badge>)}
                         </div>
                       </div>
                     </CardHeader>
@@ -629,20 +542,20 @@ export default function Admin() {
                           <div className="flex items-center gap-2">
                             <Mail className="h-4 w-4 text-gray-500" />
                             <span className="font-medium">Email:</span>
-                            <span>{order.email}</span>
+                            <span>{order.customer?.email}</span>
                           </div>
-                          {order.phone && (
+                          {order.customer?.phone && (
                             <div className="flex items-center gap-2">
                               <Phone className="h-4 w-4 text-gray-500" />
                               <span className="font-medium">Phone:</span>
-                              <span>{order.phone}</span>
+                              <span>{order.customer?.phone}</span>
                             </div>
                           )}
                           <div className="flex items-start gap-2">
                             <Building className="h-4 w-4 text-gray-500 mt-0.5" />
                             <span className="font-medium">LinkedIn:</span>
-                            <a href={order.linkedinUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline break-all">
-                              {order.linkedinUrl}
+                            <a href={order.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline break-all">
+                              {order.linkedin}
                             </a>
                           </div>
                           <div className="flex items-center gap-2">
@@ -650,11 +563,11 @@ export default function Admin() {
                             <span className="font-medium">Payment Method:</span>
                             <span>{order.paymentMethod}</span>
                           </div>
-                          {order.notes && (
+                          {order.additionalNotes && (
                             <div className="flex items-start gap-2">
                               <MessageCircle className="h-4 w-4 text-gray-500 mt-0.5" />
                               <span className="font-medium">Notes:</span>
-                              <span className="text-gray-700 break-words">{order.notes}</span>
+                              <span className="text-gray-700 break-words">{order.additionalNotes}</span>
                             </div>
                           )}
                         </div>
@@ -706,47 +619,6 @@ export default function Admin() {
                       </div>
 
                       <Separator className="my-4" />
-
-                      <div className="flex flex-wrap gap-2 justify-between items-center">
-                        <div className="flex flex-wrap gap-2">
-                          {!order.isRead && (
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => markLinkedinOrderAsReadMutation.mutate({ id: order.id })}
-                              className="text-xs"
-                            >
-                              Mark as Read
-                            </Button>
-                          )}
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => updateLinkedInOrderStatusMutation.mutate({ id: order.id, payload: { status: 'processing' } })}
-                            disabled={order.status === 'processing'}
-                            className="text-xs"
-                          >
-                            Mark Processing
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => updateLinkedInOrderStatusMutation.mutate({ id: order.id, payload: { status: 'completed' } })}
-                            disabled={order.status === 'completed'}
-                            className="text-xs"
-                          >
-                            Mark Completed
-                          </Button>
-                        </div>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleDelete(deleteLinkedinOrderMutation, order.id, 'LinkedIn order')}
-                          className="text-xs text-red-600 hover:text-red-700 hover:bg-red-50"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
                     </CardContent>
                   </Card>
                 ))}
