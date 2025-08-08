@@ -26,6 +26,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
+const API_URI = "https://api-tech-in-rent.onrender.com"
 
 const providerFormSchema = z.object({
   fullName: z.string().min(2, "Full name must be at least 2 characters"),
@@ -71,7 +72,7 @@ const onSubmit = async (data) => {
 
     console.log("Sending to backend:", payload);
 
-    const response = await fetch("http://localhost:5000/api/provider/", {
+    const response = await fetch("https://api-tech-in-rent.onrender.com/api/provider/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
