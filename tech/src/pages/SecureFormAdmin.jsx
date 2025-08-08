@@ -50,6 +50,30 @@ import { Badge } from "@/components/ui/badge";
 
 // Assume a generic apiRequest utility function is available
 // It should handle headers and credentials similar to the fetcher in the Admin component
+// const apiRequest = async (method, url, requestData = null) => {
+//   const options = {
+//     method,
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     credentials: 'include',
+//   };
+//   if (requestData) {
+//     options.body = JSON.stringify(requestData);
+//   }
+//   const response = await fetch(url, options);
+//   if (!response.ok) {
+//     const errorBody = await response.json();
+//     throw new Error(errorBody.message || `API call failed on ${url}`);
+//   }
+//   const responseData = await response.json();
+//   // Handle different response formats
+//   if (responseData && responseData.data && Array.isArray(responseData.data)) {
+//     return responseData.data;
+//   }
+//   return Array.isArray(responseData) ? responseData : [];
+// };
+
 const apiRequest = async (method, url, requestData = null) => {
   const options = {
     method,
@@ -58,21 +82,24 @@ const apiRequest = async (method, url, requestData = null) => {
     },
     credentials: 'include',
   };
+
   if (requestData) {
     options.body = JSON.stringify(requestData);
   }
+
   const response = await fetch(url, options);
+
   if (!response.ok) {
     const errorBody = await response.json();
     throw new Error(errorBody.message || `API call failed on ${url}`);
   }
+
   const responseData = await response.json();
-  // Handle different response formats
-  if (responseData && responseData.data && Array.isArray(responseData.data)) {
-    return responseData.data;
-  }
-  return Array.isArray(responseData) ? responseData : [];
+
+  // ✅ Return the entire object as-is
+  return responseData;
 };
+
 
 export default function SecureFormAdmin() {
   const { toast } = useToast();
@@ -111,6 +138,8 @@ export default function SecureFormAdmin() {
   const createUrlMutation = useMutation({
     mutationFn: () => apiRequest("POST", "/api/forms/create"),
     onSuccess: (data) => {
+      console.log( "data " , data);
+      
       const fullUrl = `${window.location.origin}/secure-form/${data.formId}`;
       setNewUrl(fullUrl);
       setActiveFormId(data.formId);
@@ -298,7 +327,7 @@ export default function SecureFormAdmin() {
           </CardHeader>
           <CardContent>
             <div className="flex flex-col md:flex-row gap-4">
-              <Select value={activeFormId} onValueChange={setActiveFormId} disabled={isLoadingForms}>
+              {/* <Select value={activeFormId} onValueChange={setActiveFormId} disabled={isLoadingForms}>
                 <SelectTrigger className="w-full md:w-[250px]">
                   <SelectValue placeholder={isLoadingForms ? "Loading forms..." : "Select a form to view submissions"} />
                 </SelectTrigger>
@@ -313,7 +342,24 @@ export default function SecureFormAdmin() {
                     <SelectItem value="" disabled>No forms available</SelectItem>
                   )}
                 </SelectContent>
-              </Select>
+              </Select> */}
+              <Select value={activeFormId} onValueChange={setActiveFormId} disabled={isLoadingForms}>
+  <SelectTrigger className="w-full md:w-[250px]">
+    <SelectValue placeholder={isLoadingForms ? "Loading forms..." : "Select a form to view submissions"} />
+  </SelectTrigger>
+  <SelectContent>
+    {isLoadingForms ? null : allForms && allForms.length > 0 ? (
+      allForms.map((form) => (
+        <SelectItem key={form._id} value={form.formId}>
+          Form {form.formId.slice(0, 8)}... ({new Date(form.createdAt).toLocaleDateString()})
+        </SelectItem>
+      ))
+    ) : (
+      <div className="px-4 py-2 text-muted-foreground text-sm">No forms available</div>
+    )}
+  </SelectContent>
+</Select>
+
               <div className="relative flex-1">
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input

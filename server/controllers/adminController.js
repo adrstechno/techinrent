@@ -71,6 +71,11 @@ exports.getResponsesByFormId = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
+=======
+
+///respnse all 
+>>>>>>> sapeksh
 exports.getAllResponses = async (req, res) => {
   try {
     const responses = await formResponse.find().sort({createdAt: -1});

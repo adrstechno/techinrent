@@ -20,10 +20,23 @@ import Logo from "@/components/Logo";
 import { useLocation } from "wouter";
 import ProviderFormPopup from "@/components/ProviderFormPopup";
 
+
 export default function EarnMoneyLinkedIn() {
   const [, setLocation] = useLocation();
   const [isProviderFormOpen, setIsProviderFormOpen] = useState(false);
-  
+  const fadeIn = {
+    hidden: {
+      opacity: 0,
+      y: 20
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6
+      }
+    }
+  };
   const seoData = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -152,16 +165,26 @@ export default function EarnMoneyLinkedIn() {
                 </div>
               </div>
             </div>
-            <div className="pt-8">
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white font-semibold px-8 py-3 rounded-lg shadow-lg transform transition hover:scale-105"
-                onClick={() => setLocation("/home")}
-              >
-                <DollarSign className="mr-2 h-5 w-5" />
-                Start Earning Money
-              </Button>
-            </div>
+           <div className="pt-10 flex flex-col sm:flex-row gap-5 sm:gap-6 justify-center items-center">
+  <Button 
+    size="lg"
+    className="bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white font-semibold px-8 py-3 rounded-xl shadow-md transition-transform transform hover:scale-105"
+    onClick={() => setLocation("/home")}
+  >
+    <DollarSign className="mr-2 h-5 w-5" />
+    Start Earning Money
+  </Button>
+
+  <Button 
+    size="lg"
+    className="bg-gradient-to-r from-emerald-500 to-emerald-700 hover:from-emerald-600 hover:to-emerald-800 text-white font-semibold px-8 py-3 rounded-xl shadow-md transition-transform transform hover:scale-105"
+    onClick={() => setIsProviderFormOpen(true)}
+  >
+    <DollarSign className="mr-2 h-5 w-5" />
+    Become a Provider
+  </Button>
+</div>
+
           </motion.div>
         </div>
       </section>
@@ -204,6 +227,103 @@ export default function EarnMoneyLinkedIn() {
           </div>
         </div>
       </section>
+
+    {/* Benefits Section for Providers */}
+<div id="benefits" className="mb-16 px-4">
+  <h2 className="text-3xl font-bold text-center text-Black
+ mb-8">
+    Benefits for LinkedIn Account Providers
+  </h2>
+  <div className="bg-white border  rounded-2xl p-6 md:p-10 shadow-lg max-w-6xl mx-auto">
+    <h3 className="text-2xl font-semibold mb-4 text-gray-800">
+      Monetize Your LinkedIn Account Securely & Passively
+    </h3>
+    <p className="text-gray-600 mb-6 leading-relaxed">
+      Turn your professional LinkedIn account into a revenue-generating asset by renting it to verified businesses through our secure system.
+    </p>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+      {/* Left Column */}
+      <div className="bg-green-50 p-5 rounded-xl">
+        <h4 className="text-lg font-semibold text-green-800 mb-3">
+          Why Partner With Us?
+        </h4>
+        <ul className="list-disc list-inside text-gray-700 space-y-2">
+          <li>Passive monthly income</li>
+          <li>Zero technical involvement required</li>
+          <li>Account protection ensured</li>
+          <li>Fully compliant process</li>
+        </ul>
+      </div>
+
+      {/* Right Column */}
+      <div className="bg-green-50 p-5 rounded-xl">
+        <h4 className="text-lg font-semibold text-green-800 mb-2">
+          Who Uses Your Account?
+        </h4>
+        <p className="text-gray-700 text-sm leading-relaxed">
+          We work with vetted, corporate clients who need accounts for outbound communication, lead generation, and business outreach — not for personal use or spam.
+        </p>
+      </div>
+    </div>
+
+    <div className="text-center">
+      <Button
+        onClick={() => setIsProviderFormOpen(true)}
+        className="bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white px-6 py-3 rounded-lg text-lg font-medium transition duration-300"
+      >
+        Become a Provider
+      </Button>
+    </div>
+  </div>
+</div>
+
+{/* Requirements Section for Providers */}
+<div id="requirements" className="mt-20 px-4">
+  <h2 className="text-3xl font-bold text-center text-black mb-8">
+    Provider Requirements
+  </h2>
+  <div className="bg-white border border-primary/20 rounded-2xl p-6 md:p-10 shadow-lg max-w-5xl mx-auto">
+    <h3 className="text-2xl font-semibold text-center mb-6 text-gray-800">
+      Minimum Requirements to Become a Provider
+    </h3>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {/* Account Requirements */}
+      <div>
+        <h4 className="text-lg font-semibold text-primary mb-3">
+          Account Requirements
+        </h4>
+        <ul className="list-disc list-inside text-gray-700 space-y-2">
+          <li>LinkedIn account must be at least 6 months old</li>
+          <li>Minimum 500+ connections</li>
+          <li>Complete professional profile with photo</li>
+          <li>No recent account restrictions or bans</li>
+        </ul>
+      </div>
+
+      {/* Provider Requirements */}
+      <div>
+        <h4 className="text-lg font-semibold text-primary mb-3">
+          Provider Requirements
+        </h4>
+        <ul className="list-disc list-inside text-gray-700 space-y-2">
+          <li>Must be 18+ years old</li>
+          <li>Valid government-issued ID for verification</li>
+          <li>Reliable internet connection</li>
+          <li>Agree to our terms and conditions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{/* Provider Form Popup */}
+<ProviderFormPopup
+  isOpen={isProviderFormOpen}
+  onClose={() => setIsProviderFormOpen(false)}
+/>
+
 
       {/* How to Start Earning */}
       <section className="py-16 px-4">

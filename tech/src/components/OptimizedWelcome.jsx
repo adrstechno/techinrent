@@ -689,101 +689,71 @@ export default function OptimizedWelcome() {
               At TechInRent, we empower professionals, businesses, and agencies to grow and scale faster on LinkedIn — the world's #1 B2B social network. 
               Whether you're building authority, generating leads, or expanding your digital footprint, our LinkedIn growth services are designed to give you an edge — fast, safe, and hassle-free.
             </p>
-            
-            <div className="grid lg:grid-cols-3 gap-8">
-              {/* Connection Boost */}
-              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-8 rounded-2xl border border-blue-200 hover:shadow-lg transition-shadow duration-300">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                    <UserPlus className="w-5 h-5 text-blue-600" />
-                  </div>
-                  <h3 className="font-heading text-xl font-bold text-blue-700 tracking-tight">LinkedIn Connection Boost</h3>
-                </div>
-                <p className="text-gray-700 mb-6 font-medium leading-relaxed">
-                  Increase your visibility and credibility on LinkedIn with targeted, real connections.
-                </p>
-                <ul className="text-gray-700 space-y-3 font-medium">
-                  <li className="flex items-start gap-2">
-                    <Check className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                    <span>No login required</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Check className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                    <span>Only profile URL is needed</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Check className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                    <span>100% safe – no risk to your account</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Check className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                    <span>Tailored to your industry or region</span>
-                  </li>
-                </ul>
-              </div>
-              
-              {/* Auto-Growth */}
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-2xl border border-green-200 hover:shadow-lg transition-shadow duration-300">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                    <TrendingUp className="w-5 h-5 text-green-600" />
-                  </div>
-                  <h3 className="font-heading text-xl font-bold text-green-700 tracking-tight">LinkedIn Auto-Growth</h3>
-                </div>
-                <p className="text-gray-700 mb-6 font-medium leading-relaxed">
-                  Organic Growth, On Autopilot - Your LinkedIn profile grows consistently with daily connections and strategic visibility.
-                </p>
-                <ul className="text-gray-700 space-y-3 font-medium">
-                  <li className="flex items-start gap-2">
-                    <Circle className="w-5 h-5 text-green-600 flex-shrink-0" fill="currentColor" />
-                    <span>Connects with decision-makers and professionals</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Circle className="w-5 h-5 text-green-600 flex-shrink-0" fill="currentColor" />
-                    <span>Drives inbound interest and profile views</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Circle className="w-5 h-5 text-green-600 flex-shrink-0" fill="currentColor" />
-                    <span>Enhances profile reputation over time</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Circle className="w-5 h-5 text-green-600 flex-shrink-0" fill="currentColor" />
-                    <span>All managed by our expert growth team</span>
-                  </li>
-                </ul>
-              </div>
-              
-              {/* Followers */}
-              <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-2xl border border-purple-200 hover:shadow-lg transition-shadow duration-300">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                    <BarChart2 className="w-5 h-5 text-purple-600" />
-                  </div>
-                  <h3 className="font-heading text-xl font-bold text-purple-700 tracking-tight">LinkedIn Followers</h3>
-                </div>
-                <p className="text-gray-700 mb-6 font-medium leading-relaxed">
-                  Build Instant Authority - Increase your follower count organically, giving your brand the social proof it needs.
-                </p>
-                <ul className="text-gray-700 space-y-3 font-medium">
-                  <li className="flex items-start gap-2">
-                    <Zap className="w-5 h-5 text-purple-600 flex-shrink-0" />
-                    <span>Instant trust boost for profile visitors</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Zap className="w-5 h-5 text-purple-600 flex-shrink-0" />
-                    <span>Gain credibility in your field</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Zap className="w-5 h-5 text-purple-600 flex-shrink-0" />
-                    <span>Suitable for entrepreneurs and thought leaders</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Zap className="w-5 h-5 text-purple-600 flex-shrink-0" />
-                    <span>Discreet and secure – no account access needed</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
+         <div className="grid lg:grid-cols-3 gap-8">
+  {/* LinkedIn Connection Boost */}
+  <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-8 rounded-2xl border border-blue-200 hover:shadow-lg transition-shadow duration-300">
+    <div className="flex items-center gap-3 mb-4">
+      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+        <UserPlus className="w-6 h-6 text-blue-600" />
+      </div>
+      <h3 className="font-heading text-xl font-bold text-blue-700 tracking-tight">
+        LinkedIn Connection Boost
+      </h3>
+    </div>
+    <p className="text-gray-700 mb-6 font-medium leading-relaxed">
+      Increase your visibility and credibility on LinkedIn with targeted, real connections.
+    </p>
+    <ul className="list-disc list-inside text-blue-700 space-y-3 font-medium">
+      <li>No login required</li>
+      <li>Only profile URL is needed</li>
+      <li>100% safe, no risk to your account</li>
+      <li>Tailored to your industry or region</li>
+    </ul>
+  </div>
+
+  {/* LinkedIn Auto-Growth */}
+  <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-2xl border border-green-200 hover:shadow-lg transition-shadow duration-300">
+    <div className="flex items-center gap-3 mb-4">
+      <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+        <TrendingUp className="w-6 h-6 text-green-600" />
+      </div>
+      <h3 className="font-heading text-xl font-bold text-green-700 tracking-tight">
+        LinkedIn Auto-Growth
+      </h3>
+    </div>
+    <p className="text-gray-700 mb-6 font-medium leading-relaxed">
+      Organic Growth, On Autopilot – Your LinkedIn profile grows consistently with daily connections.
+    </p>
+    <ul className="list-disc list-inside text-green-700 space-y-3 font-medium">
+      <li>Connects with decision-makers and professionals</li>
+      <li>Drives inbound interest and profile views</li>
+      <li>Enhances profile reputation over time</li>
+      <li>All managed by our expert growth team</li>
+    </ul>
+  </div>
+
+  {/* LinkedIn Followers */}
+  <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-2xl border border-purple-200 hover:shadow-lg transition-shadow duration-300">
+    <div className="flex items-center gap-3 mb-4">
+      <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+        <BarChart2 className="w-6 h-6 text-purple-600" />
+      </div>
+      <h3 className="font-heading text-xl font-bold text-purple-700 tracking-tight">
+        LinkedIn Followers
+      </h3>
+    </div>
+    <p className="text-gray-700 mb-6 font-medium leading-relaxed">
+      Build Instant Authority – Increase your follower count organically, giving your brand the social proof it needs.
+    </p>
+    <ul className="list-disc list-inside text-purple-700 space-y-3 font-medium">
+      <li>Instant trust boost for profile visitors</li>
+      <li>Gain credibility in your field</li>
+      <li>Suitable for entrepreneurs and thought leaders</li>
+      <li>Discreet and secure – no account access needed</li>
+    </ul>
+  </div>
+</div>
+
           </div>
 
           {/* Benefits Section */}

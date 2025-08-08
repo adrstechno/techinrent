@@ -71,7 +71,7 @@ const onSubmit = async (data) => {
 
     console.log("Sending to backend:", payload);
 
-    const response = await fetch("http://localhost:5001/api/provider/", {
+    const response = await fetch("http://localhost:5000/api/provider/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

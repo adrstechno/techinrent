@@ -36,7 +36,7 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="py-20 bg-gradient-to-br from-blue-50 to-purple-50 relative overflow-hidden">
+    <section id="how-it-works" className="py-10  relative overflow-hidden">
       {/* Optimized background elements for mobile performance */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
