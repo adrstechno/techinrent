@@ -13,4 +13,16 @@ export default defineConfig({
       '@/hooks': path.resolve(__dirname, './src/hooks'),
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+      },
+      '/uploads': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+      },
+    },
+  },
 });
