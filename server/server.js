@@ -8,18 +8,28 @@ const path = require('path');
 dotenv.config();
 connectDB();
 
-const allowedOrigins = [
-  'https://tech-in-rent.vercel.app' // Your Vercel frontend
-];
+
 
 const app = express();
 
+const allowedOrigins = [
+  'https://tech-in-rent.vercel.app', // production frontend
+  'http://localhost:3000'            // local development
+];
+
 app.use(cors({
-  origin: 'allowedOrigins',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-   credentials: true
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
-app.use(express.json());
 
 
 // Import routes
