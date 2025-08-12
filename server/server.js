@@ -9,13 +9,13 @@ dotenv.config();
 connectDB();
 
 const allowedOrigins = [
-  '216.198.79.1:5173',
+  'https://tech-in-rent.vercel.app' // Your Vercel frontend
 ];
 
 const app = express();
 
 app.use(cors({
-  origin: '*',
+  origin: 'allowedOrigins',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
    credentials: true
 }));
