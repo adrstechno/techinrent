@@ -29,8 +29,8 @@ import {
   CheckCircle,
   ExternalLink,
 } from "lucide-react";
-import SEO from "@/components/SEO";
-import Logo from "@/components/Logo";
+import SEO from "@/components/service/SEO";
+import Logo from "@/components/service/Logo";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 
