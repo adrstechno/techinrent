@@ -26,7 +26,7 @@ import { ArrowLeft, Shield, Lock, User } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess, loginFailure } from "../store/slices/authSlice";
 
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "https://tech-in-rent.onrender.com/api";
 
 const loginSchema = z.object({
   userName: z.string().min(1, "Username is required"),
