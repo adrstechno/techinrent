@@ -1,61 +1,38 @@
-import { Component } from "react";
-import { AlertCircle, RefreshCw } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from "../components/ui/card";
+import React, { Component } from "react";
 
 class ErrorBoundary extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hasError: false,
-      error: null
-    };
-  }
-
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    console.error('Error boundary caught an error:', error, errorInfo);
-  }
-
-  handleRetry = () => {
-    this.setState({ hasError: false, error: null });
+  state = {
+    error: null,
+    errorInfo: null,
   };
 
+  componentDidCatch(error, errorInfo) {
+    this.setState({
+      error: error,
+      errorInfo: errorInfo,
+    });
+    console.error("Error boundary caught an error:", error, errorInfo);
+  }
+
   render() {
-    if (this.state.hasError) {
-      if (this.props.fallback) {
-        return this.props.fallback;
-      }
+    if (this.state.error) {
       return (
-        <Card className="w-full max-w-md mx-auto my-8">
-          <CardHeader className="text-center">
-            <div className="flex justify-center mb-4">
-              <AlertCircle className="h-12 w-12 text-red-500" />
-            </div>
-            <CardTitle className="text-red-600">Something went wrong</CardTitle>
-            <CardDescription>
-              We encountered an unexpected error. Please try refreshing the page or contact support if the problem persists.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="text-center">
-            <Button onClick={this.handleRetry} className="mr-2">
-              <RefreshCw className="h-4 w-4 mr-2" />
-              Try Again
-            </Button>
-            <Button variant="outline" onClick={() => window.location.reload()}>
-              Refresh Page
-            </Button>
-          </CardContent>
-        </Card>
+        <div className="min-h-screen flex items-center justify-center p-4">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative max-w-md">
+            <h2 className="text-lg font-bold">Something went wrong</h2>
+            <p>{this.state.error.toString()}</p>
+            <p className="mt-2 text-sm">
+              Please try refreshing the page or contact support if the issue
+              persists.
+            </p>
+            <details className="mt-4">
+              <summary className="cursor-pointer">Error Details</summary>
+              <pre className="text-xs mt-2">
+                {this.state.errorInfo?.componentStack}
+              </pre>
+            </details>
+          </div>
+        </div>
       );
     }
     return this.props.children;

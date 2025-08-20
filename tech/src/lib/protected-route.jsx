@@ -1,70 +1,114 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Route, useLocation } from "wouter";
 import { Loader2 } from "lucide-react";
-const API_URI = "https://api-tech-in-rent.onrender.com"
+
+const API_BASE = "http://localhost:5000/api";
 
 export function ProtectedRoute({ path, component: Component }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(() =>
+    Boolean(localStorage.getItem("adminToken"))
+  );
   const [, navigate] = useLocation();
+  const hasCheckedRef = useRef(false);
+  const isVerifyingRef = useRef(false);
 
   useEffect(() => {
+    if (hasCheckedRef.current) return;
+    hasCheckedRef.current = true;
+
+    let isMounted = true;
+
     async function checkAuth() {
+      if (isVerifyingRef.current) return;
+      isVerifyingRef.current = true;
+
       try {
-        const token = localStorage.getItem('adminToken');
+        const token = localStorage.getItem("adminToken");
 
         if (!token) {
-          console.log('No token found, redirecting to login');
-          setIsAuthenticated(false);
-          navigate("/login");
+          console.log("No token found, redirecting to login");
+          if (isMounted) setIsAuthenticated(false);
           return;
         }
 
-        console.log('Token found, verifying with backend...');
-        const response = await fetch(`${API_URI}/api/auth/verify`, {
+        console.log("Token found:", token);
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => {
+          controller.abort();
+          console.error("Verify request timed out");
+        }, 5000);
+
+        const response = await fetch(`${API_BASE}/auth/verify`, {
           method: "POST",
           headers: {
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
+          signal: controller.signal,
         });
-        
 
-        console.log('Verify response status:', response.status);
+        clearTimeout(timeoutId);
 
-        if (response.ok) {
-          const result = await response.json();
-          console.log('Token verification successful:', result);
-          setIsAuthenticated(true);
+        const text = await response.text();
+        console.log("Verify response:", {
+          status: response.status,
+          body: text,
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            `Token verification failed: ${response.status} ${text}`
+          );
+        }
+
+        let result;
+        try {
+          result = JSON.parse(text);
+        } catch (parseError) {
+          throw new Error(`Failed to parse response: ${parseError.message}`);
+        }
+
+        if (result.success) {
+          console.log("Token verification successful:", result);
+          if (isMounted) {
+            setIsAuthenticated(true);
+            console.log("Set isAuthenticated to true");
+            isVerifyingRef.current = false;
+          }
         } else {
-          console.log('Token verification failed, removing token');
-          localStorage.removeItem('adminToken');
-          localStorage.removeItem('adminData');
-          setIsAuthenticated(false);
-          navigate("/login");
+          throw new Error(`Invalid verification response: ${text}`);
         }
       } catch (error) {
-        console.error('Auth check error:', error);
-        localStorage.removeItem('adminToken');
-        localStorage.removeItem('adminData');
-        setIsAuthenticated(false);
-        navigate("/login");
+        console.error("Auth check error:", error.message, error);
+        localStorage.removeItem("adminToken");
+        localStorage.removeItem("adminData");
+        if (isMounted) {
+          setIsAuthenticated(false);
+          console.log("Set isAuthenticated to false");
+          isVerifyingRef.current = false;
+        }
       }
     }
+
     checkAuth();
+
+    return () => {
+      isMounted = false;
+    };
   }, [navigate]);
+
+  // Removed 10s timeout and spinner to avoid blocking UI
 
   return (
     <Route
       path={path}
       component={() => {
-        if (isAuthenticated === null) {
-          return (
-            <div className="min-h-screen flex items-center justify-center">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-          );
-        }
+        console.log(
+          "Rendering ProtectedRoute, isAuthenticated:",
+          isAuthenticated
+        );
         if (isAuthenticated === false) {
+          navigate("/login");
           return null;
         }
         return <Component />;

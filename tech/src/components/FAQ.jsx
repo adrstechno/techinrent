@@ -12,13 +12,15 @@ export default function FAQSection() {
   const {
     data: faqs,
     isLoading,
-    error
+    error,
   } = useQuery({
-    queryKey: ['faqs'],
+    queryKey: ["faqs"],
     queryFn: async () => {
-      const response = await fetch('/api/faqs');
+      const response = await fetch(
+        "https://tech-in-rent.onrender.com/api/faqs"
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch FAQs');
+        throw new Error("Failed to fetch FAQs");
       }
       return response.json();
     },
@@ -30,28 +32,33 @@ export default function FAQSection() {
     {
       id: "1",
       question: "How does the LinkedIn account rental process work?",
-      answer: "Simply browse our available accounts, select one that matches your industry and needs, choose your rental duration, complete the payment, and receive secure access credentials. You'll have full access to the account during your rental period while our team manages the backend security."
+      answer:
+        "Simply browse our available accounts, select one that matches your industry and needs, choose your rental duration, complete the payment, and receive secure access credentials. You'll have full access to the account during your rental period while our team manages the backend security.",
     },
     {
       id: "2",
       question: "Is it safe to use rented LinkedIn accounts?",
-      answer: "Yes, we implement strict security practices, including IP masking and browser fingerprinting, to ensure account security. Additionally, we follow ethical usage guidelines and provide clients with best practices to maintain account integrity."
+      answer:
+        "Yes, we implement strict security practices, including IP masking and browser fingerprinting, to ensure account security. Additionally, we follow ethical usage guidelines and provide clients with best practices to maintain account integrity.",
     },
     {
       id: "3",
       question: "What security measures do you have in place?",
-      answer: "We use multiple layers of protection, including IP rotation, VPN protection, and secure access protocols. Each account is continuously monitored for any suspicious activity, and we perform regular security audits. All communications and credentials are encrypted, and we provide dedicated access methods for each client."
+      answer:
+        "We use multiple layers of protection, including IP rotation, VPN protection, and secure access protocols. Each account is continuously monitored for any suspicious activity, and we perform regular security audits. All communications and credentials are encrypted, and we provide dedicated access methods for each client.",
     },
     {
       id: "4",
       question: "Can I modify the LinkedIn profile during rental?",
-      answer: "While you have access to most account features, we don't allow major profile changes or modifications that would alter the account's core identity. This helps maintain the account's authenticity and long-term viability. We can provide guidelines on permitted activities and offer additional services for specific messaging campaigns."
+      answer:
+        "While you have access to most account features, we don't allow major profile changes or modifications that would alter the account's core identity. This helps maintain the account's authenticity and long-term viability. We can provide guidelines on permitted activities and offer additional services for specific messaging campaigns.",
     },
     {
       id: "5",
       question: "What happens if there's an issue with my rented account?",
-      answer: "If you experience any technical issues or account problems, we'll either resolve it promptly or provide you with an equivalent replacement account. We also offer prorated refunds for any significant downtime that impacts your business activities."
-    }
+      answer:
+        "If you experience any technical issues or account problems, we'll either resolve it promptly or provide you with an equivalent replacement account. We also offer prorated refunds for any significant downtime that impacts your business activities.",
+    },
   ];
   const displayedFaqs = faqs || fallbackFaqs;
 
@@ -63,14 +70,18 @@ export default function FAQSection() {
             Frequently Asked Questions
           </h2>
           <p className="mt-4 text-lg text-neutral-dark">
-            Find answers to common questions about our LinkedIn account rental service
+            Find answers to common questions about our LinkedIn account rental
+            service
           </p>
         </div>
 
         {isLoading ? (
           <div className="space-y-6">
             {[1, 2, 3, 4, 5].map((i) => (
-              <Card key={i} className="bg-white rounded-xl overflow-hidden shadow-sm">
+              <Card
+                key={i}
+                className="bg-white cursor-pointer rounded-xl overflow-hidden shadow-sm"
+              >
                 <div className="p-6">
                   <Skeleton className="h-6 w-3/4 mb-6" />
                   <Skeleton className="h-4 w-full mb-2" />
@@ -86,12 +97,12 @@ export default function FAQSection() {
               <AccordionItem
                 key={faq.id}
                 value={`faq-${faq.id}`}
-                className="bg-white rounded-xl overflow-hidden shadow-sm border-0"
+                className="bg-white rounded-xl cursor-pointer overflow-hidden shadow-sm border-0"
               >
-                <AccordionTrigger className="p-5 text-left font-inter font-semibold text-lg hover:no-underline">
+                <AccordionTrigger className="p-5 text-left cursor-pointer font-inter font-semibold text-lg hover:no-underline">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="p-6 pt-0 mt-2 text-neutral-dark">
+                <AccordionContent className="p-6 pt-0 mt-2  text-neutral-dark">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>

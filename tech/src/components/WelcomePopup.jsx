@@ -23,7 +23,7 @@ const WelcomePopup = () => {
 
   const handleUserTypeSelect = (type) => {
     // Save user type in localStorage
-    localStorage.setItem('userType', type);
+    localStorage.setItem("userType", type);
     setIsOpen(false);
     // Here you would typically redirect or show different content
     // based on the user type selection
@@ -37,7 +37,8 @@ const WelcomePopup = () => {
             Welcome to TechInRent
           </DialogTitle>
           <DialogDescription className="text-center">
-            Choose your role to get started with our LinkedIn account rental service.
+            Choose your role to get started with our LinkedIn account rental
+            service.
           </DialogDescription>
         </DialogHeader>
         <button
@@ -49,7 +50,7 @@ const WelcomePopup = () => {
         </button>
         <div className="grid grid-cols-2 gap-4 py-4">
           <Button
-            onClick={() => handleUserTypeSelect('taker')}
+            onClick={() => handleUserTypeSelect("taker")}
             className="flex flex-col h-32 items-center justify-center bg-primary hover:bg-primary/90"
           >
             <span className="text-2xl mb-2">👤</span>
@@ -57,7 +58,7 @@ const WelcomePopup = () => {
             <span className="text-xs mt-1">Rent an account</span>
           </Button>
           <Button
-            onClick={() => handleUserTypeSelect('provider')}
+            onClick={() => handleUserTypeSelect("provider")}
             className="flex flex-col h-32 items-center justify-center bg-secondary hover:bg-secondary/90"
           >
             <span className="text-2xl mb-2">💼</span>

@@ -1,19 +1,9 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  AlertCircle,
-  Home,
-  ArrowLeft,
-  Search
-} from "lucide-react";
+import { AlertCircle, Home, ArrowLeft, Search } from "lucide-react";
 import { Link } from "wouter";
-import SEO from "@/components/SEO";
+import SEO from "@/components/service/SEO";
 
 const NotFound = () => {
   return (
@@ -36,7 +26,8 @@ const NotFound = () => {
           </CardHeader>
           <CardContent className="text-center">
             <p className="text-gray-600 mb-8 text-lg">
-              Sorry, the page you're looking for doesn't exist. It might have been moved, deleted, or you entered the wrong URL.
+              Sorry, the page you're looking for doesn't exist. It might have
+              been moved, deleted, or you entered the wrong URL.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link href="/home">
@@ -52,7 +43,7 @@ const NotFound = () => {
                 </Button>
               </Link>
               <Button
-                variant="ghost" 
+                variant="ghost"
                 onClick={() => window.history.back()}
                 className="px-6 py-3"
               >
@@ -64,17 +55,26 @@ const NotFound = () => {
               <p className="text-sm text-gray-500 mb-4">Popular pages:</p>
               <div className="flex flex-wrap justify-center gap-2">
                 <Link href="/linkedin-marketplace">
-                  <Button variant="link" className="text-blue-600 hover:text-blue-800">
+                  <Button
+                    variant="link"
+                    className="text-blue-600 hover:text-blue-800"
+                  >
                     LinkedIn Marketplace
                   </Button>
                 </Link>
                 <Link href="/earn-money-linkedin">
-                  <Button variant="link" className="text-blue-600 hover:text-blue-800">
+                  <Button
+                    variant="link"
+                    className="text-blue-600 hover:text-blue-800"
+                  >
                     Earn Money
                   </Button>
                 </Link>
                 <Link href="/buy-linkedin-on-rent">
-                  <Button variant="link" className="text-blue-600 hover:text-blue-800">
+                  <Button
+                    variant="link"
+                    className="text-blue-600 hover:text-blue-800"
+                  >
                     Buy LinkedIn
                   </Button>
                 </Link>

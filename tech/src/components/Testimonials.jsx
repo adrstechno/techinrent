@@ -3,15 +3,14 @@ import { Star } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
 const Testimonials = () => {
-  const {
-    data: testimonials,
-    isLoading
-  } = useQuery({
-    queryKey: ['testimonials'],
+  const { data: testimonials, isLoading } = useQuery({
+    queryKey: ["testimonials"],
     queryFn: async () => {
-      const response = await fetch('/api/testimonials');
+      const response = await fetch(
+        "https://tech-in-rent.onrender.com/api/testimonials"
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch testimonials');
+        throw new Error("Failed to fetch testimonials");
       }
       return response.json();
     },
@@ -28,7 +27,7 @@ const Testimonials = () => {
       position: "VP of Sales",
       company: "TechCorp Solutions",
       rating: 5,
-      initials: "SJ"
+      initials: "SJ",
     },
     {
       id: "2",
@@ -37,7 +36,7 @@ const Testimonials = () => {
       position: "Founder",
       company: "Elite Talent Partners",
       rating: 5,
-      initials: "MC"
+      initials: "MC",
     },
     {
       id: "3",
@@ -46,7 +45,7 @@ const Testimonials = () => {
       position: "Business Development Director",
       company: "Global Consulting Group",
       rating: 5,
-      initials: "ER"
+      initials: "ER",
     },
     {
       id: "4",
@@ -55,8 +54,8 @@ const Testimonials = () => {
       position: "CMO",
       company: "SaaS Innovations Inc",
       rating: 5,
-      initials: "DK"
-    }
+      initials: "DK",
+    },
   ];
 
   const displayTestimonials = testimonials || fallbackTestimonials;
@@ -66,7 +65,9 @@ const Testimonials = () => {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900">Loading testimonials...</h2>
+            <h2 className="text-3xl font-bold text-gray-900">
+              Loading testimonials...
+            </h2>
           </div>
         </div>
       </section>
@@ -77,14 +78,20 @@ const Testimonials = () => {
     <section id="testimonials" className="py-5 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-gray-900">What Our Clients Say</h2>
+          <h2 className="text-3xl font-bold text-gray-900">
+            What Our Clients Say
+          </h2>
           <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
-            Hear from businesses that have accelerated their growth with TechInRent
+            Hear from businesses that have accelerated their growth with
+            TechInRent
           </p>
         </div>
         <div className="grid md:grid-cols-2 gap-8">
           {displayTestimonials.map((testimonial) => (
-            <Card key={testimonial.id} className="hover:shadow-lg transition-shadow">
+            <Card
+              key={testimonial.id}
+              className="hover:shadow-lg transition-shadow"
+            >
               <CardContent className="p-8">
                 <div className="text-yellow-400 flex mb-4">
                   {[...Array(Math.floor(testimonial.rating))].map((_, i) => (
@@ -94,15 +101,22 @@ const Testimonials = () => {
                     <Star className="fill-current h-5 w-5 text-yellow-400/50" />
                   )}
                 </div>
-                <p className="text-gray-700 mb-6 leading-relaxed">"{testimonial.text}"</p>
+                <p className="text-gray-700 mb-6 leading-relaxed">
+                  "{testimonial.text}"
+                </p>
                 <div className="flex items-center">
                   <div className="bg-blue-500 rounded-full w-12 h-12 flex items-center justify-center mr-4">
-                    <span className="text-white font-bold">{testimonial.initials}</span>
+                    <span className="text-white font-bold">
+                      {testimonial.initials}
+                    </span>
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">{testimonial.author}</p>
+                    <p className="font-medium text-gray-900">
+                      {testimonial.author}
+                    </p>
                     <p className="text-sm text-gray-600">
-                      {testimonial.position}{testimonial.company ? `, ${testimonial.company}` : ''}
+                      {testimonial.position}
+                      {testimonial.company ? `, ${testimonial.company}` : ""}
                     </p>
                   </div>
                 </div>
