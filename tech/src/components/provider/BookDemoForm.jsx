@@ -15,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 
-const API_URI = "http://localhost:5000";
+const API_URI = "https://tech-in-rent.onrender.com";
 
 const bookDemoSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
