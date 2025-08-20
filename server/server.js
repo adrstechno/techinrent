@@ -10,7 +10,7 @@ connectDB();
 const app = express();
 
 const allowedOrigins = [
-  // "https://tech-in-rent.vercel.app", // production frontend
+  "https://tech-in-rent.vercel.app", // production frontend
   "http://localhost:5173", // local development
 ];
 
