@@ -1,6 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const {getAllContacts, getAllDemos, getAllInquiries, deleteSingleResponse, getResponsesByFormId , getAllProviders, getAllOrders, toggleReadStatus, getAllResponses} = require('../controllers/adminController');
+const {
+  getAllContacts,
+  getAllDemos,
+  getAllInquiries,
+  deleteSingleResponse,
+  getResponsesByFormId,
+  getAllProviders,
+  getAllOrders,
+  toggleReadStatus,
+  getAllResponses,
+} = require("../controllers/adminController");
 
 // Admin endpoints
 router.get("/contacts", getAllContacts);
