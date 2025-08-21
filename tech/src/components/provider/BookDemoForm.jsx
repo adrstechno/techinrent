@@ -59,7 +59,7 @@ export function BookDemoForm({ isOpen, onClose }) {
         jobtitle: data.designation,
       };
 
-      const response = await fetch(`/api/book-demo`, {
+      const response = await fetch(`${API_URI}/api/book-demo`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
