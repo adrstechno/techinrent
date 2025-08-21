@@ -17,7 +17,7 @@ export default function FAQSection() {
     queryKey: ["faqs"],
     queryFn: async () => {
       const response = await fetch(
-        "https://tech-in-rent.onrender.com/api/faqs"
+        "https://tech-in-rent.onrender.com/api/contact"
       );
       if (!response.ok) {
         throw new Error("Failed to fetch FAQs");
