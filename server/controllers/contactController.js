@@ -50,3 +50,14 @@ exports.deleteContact = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 }
+
+exports.getAllContacts = async (req, res) => {
+  try {
+    const contacts = await Contact.find().sort({createdAt: -1});
+    res.status(200).json({success:true , data: contacts});
+  }
+  catch(error){
+    console.error('Error fetching contacts:', error);
+    res.status(500).json({success: false, message: 'Internal server error. Please try again later'});
+  }
+}
