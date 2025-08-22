@@ -12,8 +12,8 @@ const app = express();
 const allowedOrigins = [
   "https://tech-in-rent.vercel.app", // production frontend
   "http://localhost:5173", // local development
-  "https://www.techinrent.com/",
-  "https://techinrent.com/"
+  "https://www.techinrent.com",
+  "https://techinrent.com"
 ];
 
 app.use(express.json());
