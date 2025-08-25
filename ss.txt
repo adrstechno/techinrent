@@ -1,0 +1,75 @@
+awesome — here’s a clean, copy-paste prompt for v0 that tells it exactly what to design/build for your site (pricing pages + multi-step forms + an admin backend to view submissions). I’ve used a modern stack + tasteful defaults, but you can tweak anything.---# 👉 Copy-paste into v0
+
+Build a production-ready SaaS-style marketing site with pricing and intake forms plus an admin dashboard.
+Tech/design: Next.js + React, Tailwind CSS, shadcn/ui, lucide-react icons, react-hook-form + zod validation. Clean, airy layout, rounded-2xl, soft shadows, plenty of white space. Mobile-first, accessible (WCAG AA). Color palette: primary `#3B82F6`, accent `#22C55E`, neutral slate/stone; system font stack. Currency: INR (₹).
+Brand: Name: Code & Content Studio
+ Tagline: “Websites that rank. Content that converts.”
+ CTA: “Get a quote” (primary), “Talk on WhatsApp” (secondary).
+Top-level pages/sections:
+1. Home (hero, trust badges, 3 service cards, highlights, testimonials, FAQs, CTA).
+2. Services with three sub-pages (each has 3 packages + comparison table + multi-step brief form):    Website Building
+    Blog Writing
+    Promotional Content
+3. Contact (simple form + WhatsApp deep link).
+4. Admin Dashboard (auth-protected) to view/manage submissions.
+5. Legal: Privacy Policy, Terms.---## Service: Website Building (3 packages)
+Show a pricing grid + comparison table. Each card has: name, price, deliverables, ETA, primary CTA “Start brief”, secondary “See sample”. Starter – ₹8,000
+   Up to 5 pages (Home, About, Services, Contact, Gallery/Blog)   Mobile responsive, basic SEO (meta titles/descriptions)   Free domain (.in or .com) & shared hosting for 1 year
+   Basic logo (optional), 1 month support
+ Growth – ₹18,000
+   Up to 12 pages + blog, custom sections (testimonials, FAQs)   WhatsApp chat button + contact form to email
+   SEO structure (H1/H2, schema basics), Google My Business setup
+   Content writing up to 3,000 words
+   2 months maintenance
+ Premium – ₹45,000
+   Up to 25 pages; optional e-commerce (catalog, Razorpay/Stripe checkout)   Performance budget: LCP < 2.5s on 4G, image optimization
+   Content writing up to 10,000 words
+   SEO starter (on-page for up to 5 keywords), GA4 + Search Console
+   Brand kit (logo, colors, fonts PDF), 3 months priority support
+
+Website brief (multi-step form): Step 1 (Business): Business name, industry (select), city, website (optional), WhatsApp number (required), email. Step 2 (Scope): Package (radio), pages needed (chips), special features (booking, catalog, payments, blog). Step 3 (Content/Brand): Do you need content writing? (yes/no), tone (choices), brand assets upload (logo/images, 10 file cap). Step 4 (Goals & Budget): Primary goal (calls, leads, sales, info), timeline (ASAP/2–4 weeks/1–2 months), budget comfort (₹8k–₹15k/₹15k–₹30k/₹30k+), notes. Step 5 (Review & Submit): Summary + consent checkbox.
+Validation (zod): email, E.164 or 10-digit Indian phone, max uploads 10, total size ≤ 25MB. Save-draft + resume via magic link. Success state with order ID.---## Service: Blog Writing (3 packages) Starter – ₹3,999 / month
+   4 posts × \~800 words
+   Basic on-page (title/meta), 1 royalty-free image/post
+ Growth – ₹7,999 / month
+   8 posts × \~1,000 words
+   Keyword list provided by us, internal linking plan, CMS upload
+ Premium – ₹12,999 / month
+   12 posts × \~1,200 words
+   Keyword research + brief per post, content calendar, 2 revisions/post
+
+Blog brief form (multi-step): Brand & audience, niche, competitors (urls) Goals (traffic/leads/authority), voice (professional/friendly/witty), banned words
+ Topics or we propose? (toggle). Upload references. Preferred CMS (WordPress/Notion/None) CTA preference, links to promote, review cadence (weekly/biweekly) Package, start date, billing monthly/quarterly
+---## Service: Promotional Content (3 packages) Starter – ₹2,999 / month
+   8 static posts + 2 short videos (reels), caption copy, basic hashtags
+ Growth – ₹6,999 / month
+   16 static posts + 4 reels, monthly content calendar, scheduling support
+ Premium – ₹11,999 / month
+   24 static posts + 8 reels, 3 ad-ready creatives, calendar + scheduling, performance report
+
+Promos brief form: Platforms (IG/FB/LinkedIn/YouTube/Twitter), handle(s) Brand kit upload, do/don’t list, sample inspirations (links) Photo/video assets upload, shoot needed? (yes/no) Posting frequency, best days/times, goals (reach/sales/appointments) Package, duration (1/3/6 months)---## Global components & UX
+ Sticky top nav: Home, Services (mega menu: Websites, Blogs, Promotions), Pricing, Contact, Admin (hidden unless authed). Reusable PackageCard, FeatureRow, ComparisonTable, MultiStepForm, FileUploader, SuccessDialog. Testimonials slider, FAQ accordion (10 Qs), CTA band, footer with contact + social + legal. Toasts and form errors are clear, keyboard accessible. All icons from lucide-react.---## Admin Dashboard (protected)
+Use a simple email-magic-link auth (or NextAuth credentials placeholder).
+Views: Submissions list (table with tabs): All / Websites / Blogs / Promotions
+   Columns: ID, Service, Package, Business name, Contact (email/phone), City, Created, Status (New, In Review, Qualified, Won, Lost), Assignee.   Filters: package, created date, status.   Actions: View, Assign, Change status, Add note, Export CSV, Copy email/phone, Open WhatsApp link. Submission detail: read-only summary of all form steps, files gallery, internal notes thread, next steps. Settings: Team members (name, email, role), email templates, WhatsApp template, webhooks (POST on new submission). Analytics snapshot: MTD submissions, conversion rates by package, top sources (UTM).
+Data model (can be mocked in-memory or simple Prisma/SQLite): `Submission { id, serviceType, package, businessName, contactEmail, contactPhone, city, payloadJson, files[], status, assignee, createdAt }` `User { id, name, email, role }` `Note { id, submissionId, authorId, content, createdAt }`
+Send email to sales@ with submission summary; optional WhatsApp API link prefilled.---
+
+Design a professional, human-like, conversion-focused website for a Web & Content Solutions Agency. The site should NOT look like a generic AI-generated template. Instead, it should feel thoughtfully crafted, with proper spacing, typography, and clean alignment.
+
+Color Palette (use consistently across site):
+
+Text: #eceafa
+Background: #000000
+Primary: #88adce
+Secondary: #4d93cb
+Accent: #1963b3
+Fonts: Use Inter for all text (weights: regular, medium, bold).
+
+Style Notes:
+Make it clean, modern, and visually balanced.
+Use grid layouts for packages.
+Buttons should be rounded with hover effects using Secondary (#4d93cb).
+Hero background: black (#000000) with Primary (#88adce) accents.
+Sections must not feel cluttered – plenty of whitespace.
+Overall, the website should feel like a human designer created it, not a template.
