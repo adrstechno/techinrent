@@ -37,6 +37,7 @@ import { useMutation } from "@tanstack/react-query";
 const API_BASE_URL = "https://tech-in-rent.onrender.com/api/orders";
 
 export default function OrderSummaryPage() {
+  const [selectedNetwork, setSelectedNetwork] = useState("");
   const [, setLocation] = useLocation();
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
@@ -66,20 +67,62 @@ export default function OrderSummaryPage() {
 
   const paymentMethods = [
     {
-      id: "bitcoin",
-      name: "Bitcoin (BTC)",
+      id: "crypto",
+      name: "Crypto",
       options: [
         {
-          id: "btc-1",
-          name: "BTC Wallet 1",
-          address: "3FZbgi29cpjq2GjdwV8eyHuJJnkLtktZc5",
-          qrCode: "/btc-qr-1.png",
+          id: "c-1",
+          name: "USDT",
+          networks: [
+            {
+              id: "usdt-erc20",
+              name: "ETH (ERC-20)",
+              address: "Oxd122fa0220f7b5fff7098cO1c371278477e42a74",
+              qrCode: "/usdt-ethereum.jpg",
+            },
+            {
+              id: "usdt-trc20",
+              name: "TRON (TRC-20)",
+              address: "TDNwKBdDmpCnDTCH6zFcd5pW6MfdX79Hsb",
+              qrCode: "/usdt-tron.jpg",
+            },
+            {
+              id: "usdt-bep20",
+              name: "BNB (BEP-20)",
+              address: "Oxdl 22fa0220f7b5fff7098c01c371278477e42a74",
+              qrCode: "/usdt-bnb.jpg",
+            },
+          ],
         },
         {
-          id: "btc-2",
-          name: "BTC Wallet 2",
-          address: "bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq",
-          qrCode: "/btc-qr-2.png",
+          id: "c-2",
+          name: "BTC",
+          networks: [
+            {
+              id: "btc-bnb",
+              name: "BNB (BEP-20)",
+              address: "Oxdl 22fa0220f7b5fff7098c01c371278477e42a74",
+              qrCode: "/btc-bnb.jpg",
+            },
+          ],
+        },
+        {
+          id: "c-3",
+          name: "ETH",
+          networks: [
+            {
+              id: "eth-erc20",
+              name: "ETH (ERC-20)",
+              address: "Oxd122fa0220f7b5fff7098c01c371278477e42a74",
+              qrCode: "/ehtereum.jpg",
+            },
+            {
+              id: "eth-bep20",
+              name: "BNB (BEP-20)",
+              address: "Oxd 122fa0220f7b5fff7098c01c371278477e42a74",
+              qrCode: "/ethereum-bnb.jpg",
+            },
+          ],
         },
       ],
       icon: CreditCard,
@@ -91,8 +134,7 @@ export default function OrderSummaryPage() {
         {
           id: "binance-1",
           name: "Binance ID",
-          address: "123456789",
-          qrCode: "/binance-qr.png",
+          address: "88841638",
         },
       ],
       icon: CreditCard,
@@ -102,16 +144,16 @@ export default function OrderSummaryPage() {
       name: "UPI Payment",
       options: [
         {
-          id: "Googlepay",
-          name: "Google Pay",
-          address: "upi@example",
-          qrCode: "/upi-qr.png",
+          id: "paytm",
+          name: "Paytm",
+          address: "paytmqriei48hl289@paytm",
+          qrCode: "/paytm.jpg",
         },
         {
-          id: "PhonePe",
-          name: "PhonePe",
-          address: "upi@phonepe",
-          qrCode: "/phonepe-qr.png",
+          id: "navi",
+          name: "NaviUPI",
+          address: "vibhanshumishra@naviaxis",
+          qrCode: "/navi.jpg",
         },
       ],
       icon: CreditCard,
@@ -338,7 +380,17 @@ export default function OrderSummaryPage() {
   const getSelectedPaymentDetails = () => {
     const method = paymentMethods.find((m) => m.id === selectedPaymentMethod);
     if (!method) return null;
-    return method.options.find((o) => o.id === selectedPaymentOption);
+
+    const option = method.options.find((o) => o.id === selectedPaymentOption);
+    if (!option) return null;
+
+    // For Crypto → pick network
+    if (selectedPaymentMethod === "crypto" && selectedNetwork) {
+      return option.networks?.find((n) => n.id === selectedNetwork) || null;
+    }
+
+    // For UPI / Binance → return option directly
+    return option;
   };
 
   if (!selectedPackage) {
@@ -546,7 +598,10 @@ export default function OrderSummaryPage() {
                     <SelectTrigger>
                       <SelectValue placeholder="Select a payment method" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent
+                      className="z-50 bg-white border border-gray-300 dark:border-neutral-700 rounded-lg shadow-lg"
+                      position="popper"
+                    >
                       {paymentMethods.map((method) => (
                         <SelectItem key={method.id} value={method.id}>
                           {method.name}
@@ -558,6 +613,7 @@ export default function OrderSummaryPage() {
 
                 {selectedPaymentMethod && (
                   <div className="space-y-4">
+                    {/* Payment Option */}
                     <Label>Payment Option *</Label>
                     <Select
                       onValueChange={setSelectedPaymentOption}
@@ -566,7 +622,10 @@ export default function OrderSummaryPage() {
                       <SelectTrigger>
                         <SelectValue placeholder="Select a payment option" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent
+                        className="z-50 bg-white border border-gray-300 dark:border-neutral-700 rounded-lg shadow-lg"
+                        position="popper"
+                      >
                         {paymentMethods
                           .find((m) => m.id === selectedPaymentMethod)
                           ?.options.map((option) => (
@@ -576,6 +635,37 @@ export default function OrderSummaryPage() {
                           ))}
                       </SelectContent>
                     </Select>
+
+                    {/* Network (only if Crypto is selected) */}
+                    {selectedPaymentMethod === "crypto" &&
+                      selectedPaymentOption && (
+                        <div className="space-y-4">
+                          <Label>Network *</Label>
+                          <Select
+                            onValueChange={setSelectedNetwork}
+                            value={selectedNetwork}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a network" />
+                            </SelectTrigger>
+                            <SelectContent
+                              className="z-50 bg-white border border-gray-300 dark:border-neutral-700 rounded-lg shadow-lg"
+                              position="popper"
+                            >
+                              {paymentMethods
+                                .find((m) => m.id === "crypto")
+                                ?.options.find(
+                                  (o) => o.id === selectedPaymentOption
+                                )
+                                ?.networks.map((net) => (
+                                  <SelectItem key={net.id} value={net.id}>
+                                    {net.name}
+                                  </SelectItem>
+                                ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      )}
                   </div>
                 )}
 
@@ -600,6 +690,9 @@ export default function OrderSummaryPage() {
                       <Button
                         variant="outline"
                         size="sm"
+                        disabled={
+                          selectedPaymentMethod === "crypto" && !selectedNetwork
+                        }
                         onClick={() =>
                           copyToClipboard(
                             getSelectedPaymentDetails()?.address,
@@ -616,16 +709,20 @@ export default function OrderSummaryPage() {
                       <div>
                         <Label className="text-sm">Payment Address</Label>
                         <div className="bg-gray-100 p-2 rounded text-sm font-mono break-all">
-                          {getSelectedPaymentDetails()?.address}
+                          {getSelectedPaymentDetails()?.address ||
+                            "Select appropriate options"}
                         </div>
                       </div>
                       <div className="flex flex-col items-center">
                         <Label className="text-sm mb-2">QR Code</Label>
                         <div className="bg-white p-2 rounded">
                           <img
-                            src={getSelectedPaymentDetails()?.qrCode}
-                            alt="Payment QR Code"
-                            className="w-32 h-32"
+                            src={
+                              getSelectedPaymentDetails()?.qrCode ||
+                              "/image.png"
+                            }
+                            alt="select appropriate option"
+                            className="w-44 h-40"
                           />
                         </div>
                       </div>

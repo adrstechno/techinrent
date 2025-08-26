@@ -19,8 +19,8 @@ export default function SelectPackagePage() {
   const [selectedPackage, setSelectedPackage] = useState("");
   const packages = [
     {
-      value: "25-50 Connections",
-      label: "25-50 Connections",
+      value: "50 Connections",
+      label: "50 Connections",
       price: "2",
       popular: false,
       description: "Perfect for getting started with LinkedIn networking",
@@ -28,51 +28,37 @@ export default function SelectPackagePage() {
     {
       value: "100 Connections",
       label: "100 Connections",
-      price: "5",
+      price: "3",
       popular: false,
-      description: "Great for building your professional network",
-    },
-    {
-      value: "200 Connections",
-      label: "200 Connections",
-      price: "8",
-      popular: true,
-      description: "Most popular choice for serious networking",
+      description: "Most popular choice for fast early growth",
     },
     {
       value: "500 Connections",
       label: "500 Connections",
-      price: "15",
+      price: "10",
       popular: false,
       description: "Ideal for expanding your reach significantly",
     },
     {
       value: "1000 Connections",
       label: "1000 Connections",
-      price: "25",
+      price: "18",
       popular: false,
       description: "Perfect for building a large professional network",
     },
     {
-      value: "2000 Connections",
-      label: "2000 Connections",
-      price: "45",
-      popular: false,
-      description: "Maximum impact for serious professionals",
+      value: "2500 Connections",
+      label: "2500 Connections",
+      price: "35",
+      popular: true,
+      description: "Massive growth impact for serious professionals",
     },
     {
       value: "5000 Connections",
       label: "5000 Connections",
-      price: "99",
+      price: "55",
       popular: false,
-      description: "Enterprise level networking solution",
-    },
-    {
-      value: "10000 Connections",
-      label: "10000 Connections",
-      price: "180",
-      popular: false,
-      description: "Ultimate networking package for industry leaders",
+      description: "Enterprise-level networking solution",
     },
   ];
   const handleContinue = () => {

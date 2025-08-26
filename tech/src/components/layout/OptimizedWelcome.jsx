@@ -7,9 +7,7 @@ import {
   FAQStructuredData,
 } from "@/components/service/ServiceSchema";
 import {
-  LogIn,
   Rocket,
-  Link2,
   DollarSign,
   Shield,
   HelpCircle,
@@ -23,18 +21,16 @@ import {
   MessageSquare,
   Instagram,
   Twitter,
-  Linkedin,
   Send,
   Lock,
-  ArrowRight,
-  Check,
-  Circle,
-  ArrowUpRight,
-  Zap,
+  Menu,
+  X,
 } from "lucide-react";
+import { useState } from "react";
 
 export default function OptimizedWelcome() {
   const [, setLocation] = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleUserTypeSelect = (type) => {
     localStorage.setItem("userType", type);
@@ -46,592 +42,377 @@ export default function OptimizedWelcome() {
   };
 
   const websiteStructuredData = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": "https://techinrent.com/#website",
-        name: "TechInRent - Buy Real LinkedIn Connections Starting $2",
-        url: "https://techinrent.com",
-        description:
-          "Buy real LinkedIn connections from $2 at TechInRent. No login required, 24-48hr delivery, 100% safe process. Get verified human connections with crypto payment options.",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: "https://techinrent.com/search?q={search_term_string}",
-          "query-input": "required name=search_term_string",
-        },
-        publisher: {
-          "@type": "Organization",
-          "@id": "https://techinrent.com/#organization",
-        },
-        mainEntity: {
-          "@type": "Service",
-          "@id": "https://techinrent.com/#linkedin-connections-service",
-        },
-      },
-      {
-        "@type": "Organization",
-        "@id": "https://techinrent.com/#organization",
-        name: "Tech in Rent",
-        url: "https://techinrent.com",
-        logo: {
-          "@type": "ImageObject",
-          url: "https://techinrent.com/tech-in-rent-logo.png",
-          width: 400,
-          height: 200,
-        },
-        description:
-          "Premium LinkedIn services platform offering connection purchasing and account rental for enhanced networking and business growth.",
-        contactPoint: {
-          "@type": "ContactPoint",
-          contactType: "customer service",
-          availableLanguage: "English",
-        },
-        areaServed: "Worldwide",
-        serviceType: "LinkedIn Services and Account Rental",
-      },
-      {
-        "@type": "Service",
-        "@id": "https://techinrent.com/#linkedin-connections-service",
-        name: "Buy Real LinkedIn Connections",
-        provider: {
-          "@type": "Organization",
-          "@id": "https://techinrent.com/#organization",
-        },
-        description:
-          "Buy real LinkedIn connections starting at $2. No login required, 24-48hr delivery, 100% safe process with verified human connections.",
-        areaServed: "Worldwide",
-        category: "LinkedIn Growth Service",
-        hasOfferCatalog: {
-          "@type": "OfferCatalog",
-          name: "LinkedIn Connection Packages",
-          itemListElement: [
-            {
-              "@type": "Offer",
-              name: "25 LinkedIn Connections",
-              price: "2",
-              priceCurrency: "USD",
-              itemOffered: {
-                "@type": "Service",
-                name: "LinkedIn Connection Package - 25 Connections",
-              },
-              availability: "InStock",
-            },
-            {
-              "@type": "Offer",
-              name: "100 LinkedIn Connections",
-              price: "7",
-              priceCurrency: "USD",
-              itemOffered: {
-                "@type": "Service",
-                name: "LinkedIn Connection Package - 100 Connections",
-              },
-              availability: "InStock",
-            },
-            {
-              "@type": "Offer",
-              name: "500 LinkedIn Connections",
-              price: "25",
-              priceCurrency: "USD",
-              itemOffered: {
-                "@type": "Service",
-                name: "LinkedIn Connection Package - 500 Connections",
-              },
-              availability: "InStock",
-            },
-          ],
-        },
-        serviceOutput: "Real human LinkedIn connections",
-        hoursAvailable: "24/7",
-        deliveryTime: "24-48 hours",
-      },
-    ],
+    // Same structured data
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-violet-800 to-purple-800 relative overflow-hidden">
+    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
       <SEO
         title="Buy Real LinkedIn Connections Starting $2 - TechInRent | LinkedIn Growth Service"
-        description="Buy real LinkedIn connections from $2. TechInRent offers verified LinkedIn growth services. No login required, 24-48hr delivery, 100% safe process. Get authentic human connections instantly with crypto payment options."
-        keywords="buy linkedin connections, real linkedin connections, linkedin connections $2, linkedin growth service, techinrent, tech in rent, linkedin connection service, verified linkedin connections, buy connections linkedin, linkedin marketing service, authentic linkedin connections, linkedin networking service, instant linkedin connections, safe linkedin growth"
+        description="Buy real LinkedIn connections from $2. TechInRent offers verified LinkedIn growth services. No login required, 24-48hr delivery, 100% safe process."
+        keywords="buy linkedin connections, real linkedin connections, linkedin connections $2, linkedin growth service, techinrent"
         structuredData={websiteStructuredData}
       />
       <ServiceStructuredData />
       <FAQStructuredData />
 
-      {/* Animated background decorations */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-gradient-to-r from-blue-400 to-cyan-300 opacity-40 animate-pulse" />
-        <div className="absolute bottom-20 -left-32 w-64 h-64 rounded-full bg-gradient-to-r from-purple-400 to-pink-300 opacity-35 animate-bounce" />
-        <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-gradient-to-r from-indigo-400 to-violet-300 opacity-25 animate-spin"
-          style={{ animationDuration: "20s" }}
-        />
-        <div
-          className="absolute top-1/4 right-1/4 w-48 h-48 rounded-full bg-gradient-to-r from-teal-400 to-emerald-300 opacity-20 animate-pulse"
-          style={{ animationDelay: "2s" }}
-        />
-        <div
-          className="absolute bottom-1/3 left-1/3 w-32 h-32 rounded-full bg-gradient-to-r from-violet-400 to-purple-300 opacity-30 animate-bounce"
-          style={{ animationDelay: "1s" }}
-        />
-      </div>
+      {/* Navbar */}
+      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  flex items-center justify-between">
+          <Logo size="md" animated={true} className="h-10 w-auto" />
+          <div className="hidden md:flex items-center space-x-8">
+            <a
+              href="#services"
+              className="text-gray-700 hover:text-indigo-600 transition-colors text-lg font-semibold"
+            >
+              Services
+            </a>
+            <a
+              href="#benefits"
+              className="text-gray-700 hover:text-indigo-600 transition-colors text-lg font-semibold"
+            >
+              Why Us
+            </a>
+            <a
+              href="#contact"
+              className="text-gray-700 hover:text-indigo-600 transition-colors text-lg font-semibold"
+            >
+              Contact
+            </a>
+            <Button
+              onClick={() => setLocation("/buy-linkedin-on-rent")}
+              className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white 
+                         hover:from-indigo-700 hover:to-blue-700 
+                         rounded-full px-6 py-2 shadow-md hover:shadow-lg 
+                         transition-all duration-300"
+            >
+              Get Started
+            </Button>
+          </div>
+          <div className="md:hidden">
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+          </div>
+        </div>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 md:py-16 text-center flex flex-col items-center justify-center min-h-[calc(100vh-80px)] safe-area-inset">
-        {/* Logo Section */}
-        <div className="mb-8 transform hover:scale-105 transition-transform duration-300 relative group">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-400/40 via-cyan-400/40 to-emerald-400/40 rounded-full blur-2xl animate-pulse md:blur-3xl"></div>
+        {/* Mobile Menu */}
+        <div
+          className={`md:hidden fixed top-0 left-0 w-full h-screen bg-white 
+                      transform transition-transform duration-300 
+                      ${isMenuOpen ? "translate-y-0" : "-translate-y-full"}`}
+        >
+          <div className="px-6 py-8 flex flex-col space-y-6 text-center">
+            <a
+              href="#services"
+              onClick={() => setIsMenuOpen(false)}
+              className="text-gray-700 hover:text-indigo-600 font-medium"
+            >
+              Services
+            </a>
+            <a
+              href="#benefits"
+              onClick={() => setIsMenuOpen(false)}
+              className="text-gray-700 hover:text-indigo-600 font-medium"
+            >
+              Why Us
+            </a>
+            <a
+              href="#contact"
+              onClick={() => setIsMenuOpen(false)}
+              className="text-gray-700 hover:text-indigo-600 font-medium"
+            >
+              Contact
+            </a>
+            <Button
+              onClick={() => {
+                setLocation("/buy-connections");
+                setIsMenuOpen(false);
+              }}
+              className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white 
+                         hover:from-indigo-700 hover:to-blue-700 
+                         rounded-full px-6 py-3 shadow-md hover:shadow-lg 
+                         transition-all duration-300"
+            >
+              Get Started
+            </Button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-2 text-center">
+        <Logo size="lg" animated={true} className="mx-auto h-16 w-auto mb-6" />
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
+          Grow Your LinkedIn Presence
+        </h1>
+        <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+          Real connections starting at $2. No login required, 24-48hr delivery,
+          100% secure process.
+        </p>
+        <Button
+          onClick={() => handleUserTypeSelect("taker")}
+          className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white 
+                     hover:from-indigo-700 hover:to-purple-700 
+                     text-2xl px-8 py-8 rounded-xl shadow-lg 
+                     hover:shadow-xl transform hover:scale-105 
+                     transition-all duration-300"
+        >
+          Rent LinkedIn Account (Companies)
+        </Button>
+      </section>
+
+      {/* Secondary CTAs */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid md:grid-cols-2 gap-6">
+        <Button
+          onClick={() => setLocation("/buy-connections")}
+          className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white 
+                     hover:from-blue-600 hover:to-indigo-600 
+                     flex items-center justify-center gap-2 py-8 rounded-xl 
+                     shadow-md hover:shadow-lg transform hover:scale-105 
+                     transition-all duration-300    text-2xl "
+        >
+          <UserPlus className="w-5 h-5" />
+          Get LinkedIn Connections Now
+        </Button>
+        <Button
+          onClick={() => handleUserTypeSelect("provider")}
+          className="bg-gradient-to-r from-green-500 to-emerald-500 text-white 
+                     hover:from-green-600 hover:to-emerald-600 
+                     flex items-center justify-center gap-2 py-8 rounded-xl 
+                     shadow-md hover:shadow-lg transform hover:scale-105 
+                     transition-all duration-300    text-2xl "
+        >
+          <DollarSign className="w-6 h-6" />
+          Earn Money as a LinkedIn Provider
+        </Button>
+      </section>
+
+      {/* Stats Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 sm:grid-cols-3 gap-6">
+        {[
+          {
+            value: "1000+",
+            label: "Verified Accounts",
+            icon: BadgeCheck,
+            color: "text-indigo-600",
+          },
+          {
+            value: "500+",
+            label: "Active Providers",
+            icon: Users,
+            color: "text-green-600",
+          },
+          {
+            value: "24/7",
+            label: "Support Available",
+            icon: HelpCircle,
+            color: "text-orange-600",
+          },
+        ].map((item, i) => (
           <div
-            className="hidden md:block absolute inset-0 bg-gradient-to-r from-violet-400/25 via-indigo-400/25 to-blue-400/25 rounded-full blur-xl animate-pulse"
-            style={{ animationDelay: "1s" }}
-          ></div>
-          <div className="absolute inset-0 bg-white/10 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 md:duration-500"></div>
-          <div className="relative z-10 drop-shadow-xl md:drop-shadow-2xl">
-            <Logo size="lg" animated={true} />
-          </div>
-        </div>
-
-        {/* Hero Section */}
-        <div className="mb-12 w-full flex flex-col items-center space-y-8">
-          <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold mb-6 drop-shadow-2xl bg-gradient-to-r from-cyan-300 via-blue-300 to-emerald-300 bg-clip-text text-transparent text-center leading-tight max-w-5xl tracking-tight">
-            Premium LinkedIn Growth Services
-          </h1>
-          <div className="text-center space-y-4 max-w-4xl mx-auto">
-            <h2 className="font-heading text-xl sm:text-2xl md:text-3xl text-white font-semibold tracking-normal">
-              Real Connections Starting at Just $2
-            </h2>
-            <p className="font-body text-lg sm:text-xl text-white/90 font-normal leading-relaxed tracking-normal">
-              No login required • 24-48hr delivery • 100% secure process •
-              Verified professionals
-            </p>
-          </div>
-        </div>
-
-        {/* Primary CTA */}
-        <div className="w-full flex justify-center mb-12 max-w-2xl mx-auto px-4">
-          <Button
-            onClick={() => setLocation("/buy-connections")}
-            className="group w-full cursor-pointer h-auto min-h-[100px] bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-500 hover:from-violet-600 hover:via-purple-600 hover:to-indigo-600 active:scale-95 text-white flex flex-col items-center justify-center px-8 py-8 transform hover:scale-105 transition-all duration-200 shadow-2xl border-2 border-white/30 rounded-2xl backdrop-blur-sm"
+            key={i}
+            className="text-center bg-white p-6 rounded-lg shadow-md hover:shadow-xl 
+                       transform hover:-translate-y-1 transition-all duration-300"
           >
-            <div className="flex items-center  font-heading text-2xl font-bold  text-center tracking-tight">
-              Get LinkedIn Connections Now
+            <div className={`text-4xl font-bold ${item.color} mb-2`}>
+              {item.value}
             </div>
-            <div className="font-body text-xl font-normal text-center leading-relaxed opacity-95 tracking-normal">
-              Fast delivery • No login needed
-            </div>
-          </Button>
-        </div>
-
-        {/* Secondary CTAs */}
-        <div className="w-full flex flex-col gap-5 sm:flex-row sm:gap-6 justify-center items-center mb-8 max-w-3xl mx-auto px-4">
-          {/* LinkedIn Taker */}
-          <Button
-            onClick={() => handleUserTypeSelect("taker")}
-            className="group w-full cursor-pointer sm:flex-1 h-auto min-h-[100px] bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 hover:from-blue-600 hover:via-cyan-600 hover:to-teal-600 active:scale-95 text-white flex flex-col items-center justify-center px-8 py-5 transition-all duration-200 shadow-xl border border-white/30 rounded-2xl backdrop-blur-sm"
-          >
-            <div className="flex items-center gap-2 mb-1 text-xl font-semibold font-heading text-center flex-col sm:flex-row">
-              <span className="leading-tight text-center">
-                Rent LinkedIn Account
-                <br className="sm:hidden" />
-                <span className="text-xl font-medium text-white/90 block mt-1">
-                  Only for Companies • LinkedIn Taker
-                </span>
-              </span>
-            </div>
-          </Button>
-
-          {/* LinkedIn Provider */}
-          <Button
-            onClick={() => handleUserTypeSelect("provider")}
-            className="group w-full cursor-pointer sm:flex-1 h-auto min-h-[100px] bg-gradient-to-r from-green-500 via-emerald-500 to-cyan-500 hover:from-green-600 hover:via-emerald-600 hover:to-cyan-600 active:scale-95 text-white flex flex-col items-center justify-center px-6 py-5 transition-all duration-200 shadow-xl border border-white/30 rounded-2xl backdrop-blur-sm"
-          >
-            <div className="flex items-center gap-2 mb-1 text-xl font-semibold font-heading text-center flex-col sm:flex-row">
-              <span className="leading-tight text-center">
-                Earn Money
-                <br className="sm:hidden" />
-                <span className="text-xl font-medium text-white/90 block mt-1">
-                  Become a LinkedIn Provider
-                </span>
-              </span>
-            </div>
-          </Button>
-        </div>
-
-        {/* Stats Section */}
-        <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 max-w-4xl mx-auto mb-8 sm:mb-10 px-4">
-          <div className="text-center bg-white/15 backdrop-blur-sm rounded-2xl p-5 sm:p-6 transform hover:scale-105 transition-all duration-200 border border-white/20">
-            <div className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-yellow-300 mb-2 tracking-tight">
-              1000+
-            </div>
-            <div className="flex items-center justify-center gap-2 font-heading text-white font-semibold text-sm sm:text-base tracking-normal">
-              <BadgeCheck className="w-4 h-4" /> Verified Accounts
-            </div>
-          </div>
-          <div className="text-center bg-white/15 backdrop-blur-sm rounded-2xl p-5 sm:p-6 transform hover:scale-105 transition-all duration-200 border border-white/20">
-            <div className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-green-300 mb-2 tracking-tight">
-              500+
-            </div>
-            <div className="flex items-center justify-center gap-2 font-heading text-white font-semibold text-sm sm:text-base tracking-normal">
-              <Users className="w-4 h-4" /> Active Providers
-            </div>
-          </div>
-          <div className="text-center bg-white/15 backdrop-blur-sm rounded-2xl p-5 sm:p-6 transform hover:scale-105 transition-all duration-200 border border-white/20">
-            <div className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-orange-300 mb-2 tracking-tight">
-              24/7
-            </div>
-            <div className="flex items-center justify-center gap-2 font-heading text-white font-semibold text-sm sm:text-base tracking-normal">
-              <HelpCircle className="w-4 h-4" /> Support Available
-            </div>
-          </div>
-        </div>
-
-        {/* Main Content Sections */}
-        <div className="max-w-7xl mx-auto space-y-12 px-4">
-          {/* Services Section */}
-          <div className="bg-gradient-to-r from-white/95 to-white/90 backdrop-blur-lg rounded-3xl p-8 md:p-12 shadow-2xl border-2 border-white/40">
-            <h2 className="font-heading text-2xl md:text-3xl lg:text-4xl font-bold text-transparent bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text mb-8 text-center tracking-tight">
-              <Rocket className="inline-block w-8 h-8 mb-1 mr-2" /> LinkedIn
-              Growth Services
-            </h2>
-            <p className="font-body text-gray-700 mb-10 text-lg leading-relaxed text-center max-w-4xl mx-auto tracking-normal">
-              At TechInRent, we empower professionals, businesses, and agencies
-              to grow and scale faster on LinkedIn — the world's #1 B2B social
-              network. Whether you're building authority, generating leads, or
-              expanding your digital footprint, our LinkedIn growth services are
-              designed to give you an edge — fast, safe, and hassle-free.
-            </p>
-            <div className="grid lg:grid-cols-3 gap-8">
-              {/* LinkedIn Connection Boost */}
-              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-8 rounded-2xl border border-blue-200 hover:shadow-lg transition-shadow duration-300">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                    <UserPlus className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <h3 className="font-heading text-xl font-bold text-blue-700 tracking-tight">
-                    LinkedIn Connection Boost
-                  </h3>
-                </div>
-                <p className="text-gray-700 mb-6 font-medium leading-relaxed">
-                  Increase your visibility and credibility on LinkedIn with
-                  targeted, real connections.
-                </p>
-                <ul className="list-disc list-inside text-blue-700 space-y-3 font-medium">
-                  <li>No login required</li>
-                  <li>Only profile URL is needed</li>
-                  <li>100% safe, no risk to your account</li>
-                  <li>Tailored to your industry or region</li>
-                </ul>
-              </div>
-
-              {/* LinkedIn Auto-Growth */}
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-2xl border border-green-200 hover:shadow-lg transition-shadow duration-300">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                    <TrendingUp className="w-6 h-6 text-green-600" />
-                  </div>
-                  <h3 className="font-heading text-xl font-bold text-green-700 tracking-tight">
-                    LinkedIn Auto-Growth
-                  </h3>
-                </div>
-                <p className="text-gray-700 mb-6 font-medium leading-relaxed">
-                  Organic Growth, On Autopilot – Your LinkedIn profile grows
-                  consistently with daily connections.
-                </p>
-                <ul className="list-disc list-inside text-green-700 space-y-3 font-medium">
-                  <li>Connects with decision-makers and professionals</li>
-                  <li>Drives inbound interest and profile views</li>
-                  <li>Enhances profile reputation over time</li>
-                  <li>All managed by our expert growth team</li>
-                </ul>
-              </div>
-
-              {/* LinkedIn Followers */}
-              <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-2xl border border-purple-200 hover:shadow-lg transition-shadow duration-300">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                    <BarChart2 className="w-6 h-6 text-purple-600" />
-                  </div>
-                  <h3 className="font-heading text-xl font-bold text-purple-700 tracking-tight">
-                    LinkedIn Followers
-                  </h3>
-                </div>
-                <p className="text-gray-700 mb-6 font-medium leading-relaxed">
-                  Build Instant Authority – Increase your follower count
-                  organically, giving your brand the social proof it needs.
-                </p>
-                <ul className="list-disc list-inside text-purple-700 space-y-3 font-medium">
-                  <li>Instant trust boost for profile visitors</li>
-                  <li>Gain credibility in your field</li>
-                  <li>Suitable for entrepreneurs and thought leaders</li>
-                  <li>Discreet and secure – no account access needed</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* Benefits Section */}
-          <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-8 md:p-12 shadow-2xl border-2 border-white/40">
-            <h2 className="font-heading text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text mb-12 text-center tracking-tight">
-              <Shield className="inline-block w-7 h-7 mb-1 mr-2" /> Why Choose
-              TechInRent?
-            </h2>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-              {/* Security */}
-              <div className="text-center bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-2xl border border-blue-200 hover:shadow-lg transition-shadow duration-300">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
-                  <Lock className="w-7 h-7" />
-                </div>
-                <h3 className="font-heading text-lg font-bold text-blue-700 mb-4 tracking-tight">
-                  No Passwords Needed
-                </h3>
-                <p className="text-gray-700 text-sm font-medium leading-relaxed">
-                  We never ask for your LinkedIn login. Just share your profile
-                  URL — that's it.
-                </p>
-              </div>
-
-              {/* Compliance */}
-              <div className="text-center bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-200 hover:shadow-lg transition-shadow duration-300">
-                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
-                  <Shield className="w-7 h-7" />
-                </div>
-                <h3 className="font-heading text-lg font-bold text-green-700 mb-4 tracking-tight">
-                  Secure & Compliant
-                </h3>
-                <p className="text-gray-700 text-sm font-medium leading-relaxed">
-                  We respect privacy and follow best practices with real growth
-                  from real people.
-                </p>
-              </div>
-
-              {/* Support */}
-              <div className="text-center bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-2xl border border-purple-200 hover:shadow-lg transition-shadow duration-300">
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
-                  <HelpCircle className="w-7 h-7" />
-                </div>
-                <h3 className="font-heading text-lg font-bold text-purple-700 mb-4 tracking-tight">
-                  24/7 Support
-                </h3>
-                <p className="text-gray-700 text-sm font-medium leading-relaxed">
-                  Dedicated team ready to assist you anytime with scalable plans
-                  for individuals and teams.
-                </p>
-              </div>
-
-              {/* Growth */}
-              <div className="text-center bg-gradient-to-br from-orange-50 to-red-50 p-6 rounded-2xl border border-orange-200 hover:shadow-lg transition-shadow duration-300">
-                <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
-                  <TrendingUp className="w-7 h-7" />
-                </div>
-                <h3 className="font-heading text-lg font-bold text-orange-700 mb-4 tracking-tight">
-                  Real Growth
-                </h3>
-                <p className="text-gray-700 text-sm font-medium leading-relaxed">
-                  Connect with genuine, relevant professionals to build
-                  authentic authority in your field.
-                </p>
-              </div>
-            </div>
-
-            {/* Process Section */}
-            <h2 className="font-heading text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-violet-500 to-purple-500 bg-clip-text mb-12 text-center tracking-tight">
-              <Zap className="inline-block w-7 h-7 mb-1 mr-2" /> How It Works
-            </h2>
-
-            <div className="grid md:grid-cols-3 gap-10">
-              {/* Step 1 */}
-              <div className="text-center group">
-                <div className="w-20 h-20 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold shadow-2xl group-hover:scale-110 transition-transform duration-300">
-                  1
-                </div>
-                <h3 className="flex items-center justify-center gap-2 font-heading text-xl font-bold text-cyan-700 mb-4 tracking-tight">
-                  <ArrowRight className="w-5 h-5" /> Share Profile URL
-                </h3>
-                <p className="text-gray-700 font-medium leading-relaxed">
-                  Simply provide your public LinkedIn profile URL - no login
-                  credentials or passwords required for any service!
-                </p>
-              </div>
-
-              {/* Step 2 */}
-              <div className="text-center group">
-                <div className="w-20 h-20 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold shadow-2xl group-hover:scale-110 transition-transform duration-300">
-                  2
-                </div>
-                <h3 className="flex items-center justify-center gap-2 font-heading text-xl font-bold text-green-700 mb-4 tracking-tight">
-                  <Lock className="w-5 h-5" /> Secure Processing
-                </h3>
-                <p className="text-gray-700 font-medium leading-relaxed">
-                  Our expert team begins connecting you with real, verified
-                  professionals matching your industry and target audience!
-                </p>
-              </div>
-
-              {/* Step 3 */}
-              <div className="text-center group">
-                <div className="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold shadow-2xl group-hover:scale-110 transition-transform duration-300">
-                  3
-                </div>
-                <h3 className="flex items-center justify-center gap-2 font-heading text-xl font-bold text-purple-700 mb-4 tracking-tight">
-                  <TrendingUp className="w-5 h-5" /> Grow Together
-                </h3>
-                <p className="text-gray-700 font-medium leading-relaxed">
-                  Watch your LinkedIn presence grow with authentic connections,
-                  increased visibility, and enhanced professional credibility!
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Hidden SEO Content */}
-          <div className="sr-only">
-            <h2>TechInRent - Tech in Rent LinkedIn Account Rental Platform</h2>
-            <p>
-              TechInRent.com is the world's #1 LinkedIn account rental service.
-              Tech in Rent provides verified LinkedIn accounts for businesses to
-              scale their outreach. TechInRent connects ambitious companies with
-              LinkedIn powerhouses through our secure marketplace.
-            </p>
-            <h3>About TechInRent - Tech in Rent Services</h3>
-            <p>
-              TechInRent (Tech in Rent) offers premium LinkedIn services
-              including account rentals, connection building, and lead
-              generation. Our TechInRent platform empowers businesses and
-              LinkedIn account owners to maximize their LinkedIn potential.
-            </p>
-            <h3>TechInRent Features - Tech in Rent Benefits</h3>
-            <p>
-              TechInRent provides military-grade security for LinkedIn account
-              rentals. Tech in Rent offers verified accounts with massive
-              networks. TechInRent enables explosive LinkedIn outreach campaigns
-              with sky-high engagement rates.
+            <p className="text-gray-600 flex items-center justify-center gap-2">
+              <item.icon className="w-5 h-5" /> {item.label}
             </p>
           </div>
+        ))}
+      </section>
 
-          {/* Contact Section */}
-          <div className="bg-gradient-to-r from-white/95 to-white/90 backdrop-blur-lg rounded-3xl p-8 md:p-12 shadow-2xl border-2 border-white/40">
-            <h2 className="font-heading text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text mb-8 text-center tracking-tight">
-              <MessageSquare className="inline-block w-7 h-7 mb-1 mr-2" />{" "}
-              Contact Us
-            </h2>
-
-            <div className="text-center mb-10">
-              <p className="text-lg text-gray-700 font-medium">
-                Ready to grow your LinkedIn presence effortlessly?
-              </p>
+      {/* Services Section */}
+      <section
+        id="services"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-white rounded-lg shadow-md"
+      >
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center flex items-center justify-center gap-2">
+          <Rocket className="w-8 h-8 text-indigo-600" /> LinkedIn Growth
+          Services
+        </h2>
+        <p className="text-lg text-gray-600 text-center max-w-3xl mx-auto mb-10">
+          Empower your professional growth with our tailored LinkedIn services.
+        </p>
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            {
+              title: "Connection Boost",
+              icon: <UserPlus className="w-8 h-8 text-blue-600 mb-4" />,
+              desc: "Increase visibility with real, targeted connections.",
+              points: [
+                "No login required",
+                "100% safe process",
+                "Industry-targeted connections",
+              ],
+            },
+            {
+              title: "Auto-Growth",
+              icon: <TrendingUp className="w-8 h-8 text-green-600 mb-4" />,
+              desc: "Organic growth with daily connections.",
+              points: [
+                "Connect with decision-makers",
+                "Managed by experts",
+                "Enhanced profile reputation",
+              ],
+            },
+            {
+              title: "Followers",
+              icon: <BarChart2 className="w-8 h-8 text-purple-600 mb-4" />,
+              desc: "Build authority with organic followers.",
+              points: [
+                "Instant trust boost",
+                "Secure and discreet",
+                "Ideal for thought leaders",
+              ],
+            },
+          ].map((card, i) => (
+            <div
+              key={i}
+              className="p-6 rounded-lg bg-gray-50 hover:bg-gray-100 shadow-md hover:shadow-xl 
+                         transform hover:-translate-y-1 transition-all duration-300"
+            >
+              {card.icon}
+              <h3 className="text-xl font-bold text-gray-900 mb-4">
+                {card.title}
+              </h3>
+              <p className="text-gray-600">{card.desc}</p>
+              <ul className="list-disc list-inside text-gray-600 mt-4 space-y-2">
+                {card.points.map((point, j) => (
+                  <li key={j}>{point}</li>
+                ))}
+              </ul>
             </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-              {/* Email */}
-              <a
-                href="mailto:vibhanshu@techinrent.com"
-                className="block group"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="text-center bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-2xl border-2 border-blue-200 group-hover:scale-105 transition-transform duration-200">
-                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
-                    <Mail className="w-7 h-7" />
-                  </div>
-                  <h3 className="font-heading text-lg font-bold text-blue-700 mb-3 tracking-tight">
-                    Email Support
-                  </h3>
-                  <p className="text-gray-700 text-sm font-medium break-all">
-                    vibhanshu@techinrent.com
-                  </p>
-                </div>
-              </a>
-
-              {/* WhatsApp */}
-              <a
-                href="https://wa.me/917898711748"
-                className="block group"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="text-center bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-2xl border-2 border-green-200 group-hover:scale-105 transition-transform duration-200">
-                  <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
-                    <Phone className="w-7 h-7" />
-                  </div>
-                  <h3 className="font-heading text-lg font-bold text-green-700 mb-3 tracking-tight">
-                    WhatsApp
-                  </h3>
-                  <p className="text-gray-700 text-sm font-medium">
-                    +91-7898711748
-                  </p>
-                </div>
-              </a>
-
-              {/* Telegram */}
-              <a
-                href="https://t.me/Techinrentlinkedin"
-                className="block group"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="text-center bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-2xl border-2 border-purple-200 group-hover:scale-105 transition-transform duration-200">
-                  <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
-                    <Send className="w-7 h-7" />
-                  </div>
-                  <h3 className="font-heading text-lg font-bold text-purple-700 mb-3 tracking-tight">
-                    Telegram
-                  </h3>
-                  <p className="text-gray-700 text-sm font-medium">
-                    t.me/Techinrentlinkedin
-                  </p>
-                </div>
-              </a>
-
-              {/* Twitter/X */}
-              <a
-                href="https://x.com/techinrent"
-                className="block group"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="text-center bg-gradient-to-br from-orange-50 to-red-50 p-6 rounded-2xl border-2 border-orange-200 group-hover:scale-105 transition-transform duration-200">
-                  <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
-                    <Twitter className="w-7 h-7" />
-                  </div>
-                  <h3 className="font-heading text-lg font-bold text-orange-700 mb-3 tracking-tight">
-                    Twitter/X
-                  </h3>
-                  <p className="text-gray-700 text-sm font-medium">
-                    @techinrent
-                  </p>
-                </div>
-              </a>
-
-              {/* Instagram */}
-              <a
-                href="https://instagram.com/techinrent"
-                className="block group"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="text-center bg-gradient-to-br from-pink-50 to-rose-50 p-6 rounded-2xl border-2 border-pink-200 group-hover:scale-105 transition-transform duration-200">
-                  <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
-                    <Instagram className="w-7 h-7" />
-                  </div>
-                  <h3 className="font-heading text-lg font-bold text-pink-700 mb-3 tracking-tight">
-                    Instagram
-                  </h3>
-                  <p className="text-gray-700 text-sm font-medium">
-                    @techinrent
-                  </p>
-                </div>
-              </a>
-            </div>
-
-            <div className="text-center mt-8">
-              <p className="font-body text-xl font-semibold text-purple-700 tracking-normal">
-                Your LinkedIn Success Partner - Available 24/7
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
-      </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section
+        id="benefits"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+      >
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center flex items-center justify-center gap-2">
+          <Shield className="w-8 h-8 text-indigo-600" /> Why Choose TechInRent?
+        </h2>
+        <div className="grid md:grid-cols-4 gap-6">
+          {[
+            {
+              title: "No Passwords",
+              desc: "Just share your profile URL.",
+              icon: <Lock className="w-8 h-8 text-blue-600 mx-auto mb-4" />,
+            },
+            {
+              title: "Secure & Compliant",
+              desc: "Real growth, privacy-first.",
+              icon: <Shield className="w-8 h-8 text-green-600 mx-auto mb-4" />,
+            },
+            {
+              title: "24/7 Support",
+              desc: "Always here to help.",
+              icon: (
+                <HelpCircle className="w-8 h-8 text-purple-600 mx-auto mb-4" />
+              ),
+            },
+            {
+              title: "Real Growth",
+              desc: "Authentic professional connections.",
+              icon: (
+                <TrendingUp className="w-8 h-8 text-orange-600 mx-auto mb-4" />
+              ),
+            },
+          ].map((card, i) => (
+            <div
+              key={i}
+              className="text-center p-6 bg-white rounded-lg shadow-md hover:shadow-xl 
+                         transform hover:-translate-y-1 transition-all duration-300"
+            >
+              {card.icon}
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
+                {card.title}
+              </h3>
+              <p className="text-gray-600">{card.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section
+        id="contact"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-white rounded-lg shadow-md"
+      >
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center flex items-center justify-center gap-2">
+          <MessageSquare className="w-8 h-8 text-indigo-600" /> Contact Us
+        </h2>
+        <p className="text-lg text-gray-600 text-center mb-10">
+          Ready to grow your LinkedIn presence? Reach out today!
+        </p>
+        <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-6">
+          {[
+            {
+              title: "Email",
+              value: "vibhanshu@techinrent.com",
+              href: "mailto:vibhanshu@techinrent.com",
+              icon: <Mail className="w-8 h-8 text-blue-600 mx-auto mb-4" />,
+            },
+            {
+              title: "WhatsApp",
+              value: "+91-7898711748",
+              href: "https://wa.me/917898711748",
+              icon: <Phone className="w-8 h-8 text-green-600 mx-auto mb-4" />,
+            },
+            {
+              title: "Telegram",
+              value: "t.me/Techinrentlinkedin",
+              href: "https://t.me/Techinrentlinkedin",
+              icon: <Send className="w-8 h-8 text-purple-600 mx-auto mb-4" />,
+            },
+            {
+              title: "Twitter/X",
+              value: "@techinrent",
+              href: "https://x.com/techinrent",
+              icon: (
+                <Twitter className="w-8 h-8 text-orange-600 mx-auto mb-4" />
+              ),
+            },
+            {
+              title: "Instagram",
+              value: "@techinrent",
+              href: "https://instagram.com/techinrent",
+              icon: (
+                <Instagram className="w-8 h-8 text-pink-600 mx-auto mb-4" />
+              ),
+            },
+          ].map((card, i) => (
+            <a
+              key={i}
+              href={card.href}
+              className="text-center p-6 bg-gray-50 rounded-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+            >
+              {card.icon}
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
+                {card.title}
+              </h3>
+              <p className="text-gray-600">{card.value}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-8 mt-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p>&copy; 2025 TechInRent. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }

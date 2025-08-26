@@ -69,7 +69,7 @@ export default function BuyConnectionsPage() {
   const coreBenefits = [
     {
       icon: <Zap className="w-5 h-5 text-blue-600" />,
-      title: "Instant Delivery",
+      title: "Instant Processing",
       description: "Connections delivered within 24-48 hours",
     },
     {
@@ -158,8 +158,9 @@ export default function BuyConnectionsPage() {
 
   return (
     <div
-      className={`min-h-screen bg-white ${shouldReduceAnimations() ? "reduced-animations" : ""
-        }`}
+      className={`min-h-screen bg-white ${
+        shouldReduceAnimations() ? "reduced-animations" : ""
+      }`}
     >
       <SEO
         title="Buy Real LinkedIn Connections Instantly - Auto LinkedIn Connection Service | TechInRent"
@@ -203,7 +204,6 @@ export default function BuyConnectionsPage() {
               Home
             </a>
 
-
             <button
               onClick={() => window.history.back()}
               className="px-4 py-2 rounded-md bg-blue-600 text-white cursor-pointer hover:bg-blue-700 transition-colors duration-200"
@@ -211,7 +211,6 @@ export default function BuyConnectionsPage() {
               Return
             </button>
           </nav>
-
 
           {/* Mobile Menu Toggle */}
           <div className="md:hidden">
@@ -375,30 +374,74 @@ export default function BuyConnectionsPage() {
             {[
               {
                 price: 2,
-                connections: "25-50",
+                connections: "50",
                 popular: false,
-                features: ["Basic network expansion", "24-48 hour delivery", "Verified profiles"],
-              },
-              {
-                price: 10,
-                connections: "1,000",
-                popular: true,
                 features: [
-                  "Significant growth",
-                  "Priority delivery",
-                  "Industry targeting",
+                  "Basic network expansion",
+                  "24-48 hour delivery",
                   "Verified profiles",
                 ],
               },
               {
-                price: 55,
-                connections: "10,000",
+                price: 3,
+                connections: "100",
+                popular: false,
+                features: [
+                  "Faster growth boost",
+                  "Priority delivery",
+                  "Targeted industries",
+                  "Verified profiles",
+                ],
+              },
+              {
+                price: 10,
+                connections: "500",
+                popular: false,
+                features: [
+                  "Strong network boost",
+                  "Faster 12-24hr delivery",
+                  "Industry & region targeting",
+                  "Premium verified profiles",
+                  "Email support",
+                ],
+              },
+              {
+                price: 18,
+                connections: "1000",
                 popular: false,
                 features: [
                   "Massive network boost",
-                  "VIP support",
-                  "Advanced targeting",
-                  "Premium profiles",
+                  "10-20hr priority delivery",
+                  "Advanced targeting options",
+                  "Premium verified profiles",
+                  "Dedicated support manager",
+                ],
+              },
+              {
+                price: 35,
+                connections: "2500",
+                popular: true,
+                features: [
+                  "Huge corporate-level growth",
+                  "Same-day delivery",
+                  "Advanced AI-based targeting",
+                  "Exclusive premium profiles",
+                  "24/7 VIP support",
+                  "Monthly growth insights report",
+                ],
+              },
+              {
+                price: 55,
+                connections: "5000",
+                popular: false,
+                features: [
+                  "Enterprise-scale growth",
+                  "Same-day priority delivery",
+                  "Custom targeting strategy",
+                  "Top-tier premium profiles",
+                  "24/7 VIP concierge support",
+                  "Monthly growth & analytics report",
+                  "Dedicated account manager",
                 ],
               },
             ].map((plan, index) => (
@@ -410,8 +453,11 @@ export default function BuyConnectionsPage() {
                 )}
 
                 <Card
-                  className={`h-full flex flex-col justify-between ${plan.popular ? "border-2 border-blue-300 shadow-xl" : "border border-gray-200"
-                    }`}
+                  className={`h-full flex flex-col justify-between ${
+                    plan.popular
+                      ? "border-2 border-blue-300 shadow-xl"
+                      : "border border-gray-200"
+                  }`}
                 >
                   <CardHeader className="pt-10 sm:pt-12 pb-4 sm:pb-6 px-6 sm:px-8">
                     <CardTitle className="text-xl sm:text-2xl font-bold text-gray-900 text-center">
@@ -430,7 +476,9 @@ export default function BuyConnectionsPage() {
                       {plan.features.map((feature, i) => (
                         <li key={i} className="flex items-start gap-2 sm:gap-3">
                           <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                          <span className="text-sm sm:text-base text-gray-700">{feature}</span>
+                          <span className="text-sm sm:text-base text-gray-700">
+                            {feature}
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -438,15 +486,16 @@ export default function BuyConnectionsPage() {
                     {/* Button always aligned bottom */}
                     <Button
                       onClick={handleOrderClick}
-                      className={`w-full mt-auto ${plan.popular
-                        ? "bg-gradient-to-r cursor-pointer from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                        : "bg-gray-900 cursor-pointer text-white hover:bg-gray-800"
-                        }`}
+                      className={`w-full mt-auto ${
+                        plan.popular
+                          ? "bg-gradient-to-r cursor-pointer from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                          : "bg-gray-900 cursor-pointer text-white hover:bg-gray-800"
+                      }`}
                     >
                       {plan.popular ? (
                         <>
-                          <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                          Get Premium
+                          <ShoppingCart className="w-4 h-4 sm:w-5 text-white sm:h-5 mr-2" />
+                          <span className="text-white">Get Premium</span>
                         </>
                       ) : (
                         "Get Started"
@@ -458,7 +507,6 @@ export default function BuyConnectionsPage() {
             ))}
           </div>
         </section>
-
 
         {/* How It Works Section */}
         <section
