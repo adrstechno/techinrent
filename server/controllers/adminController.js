@@ -86,6 +86,19 @@ exports.getResponsesByFormId = async (req, res) => {
   }
 };
 
+exports.deleteSingleForm = async (req, res) => {
+  try{
+const {formId} = req.params;
+const deleteForm = await Form.findOneAndDelete({formId});
+if(!deleteForm){
+  return res.status(404).json({status: false, message: "Form not found"})
+}
+  }
+  catch(error){
+    res.status(500).json({status: false, message: "Server error", error: error.message});
+  }
+}
+
 ///respnse all
 exports.getAllResponses = async (req, res) => {
   try {

@@ -10,6 +10,7 @@ const {
   getAllOrders,
   toggleReadStatus,
   getAllResponses,
+  deleteSingleForm
 } = require("../controllers/adminController");
 
 // Admin endpoints
@@ -22,5 +23,6 @@ router.delete("/responses/:responseId", deleteSingleResponse);
 router.get("/orders", getAllOrders);
 router.put("/responses/:responseId/read", toggleReadStatus);
 router.get("/all-responses", getAllResponses);
+router.delete("/forms/:formId", deleteSingleForm);
 
 module.exports = router;
