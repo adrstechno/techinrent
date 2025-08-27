@@ -111,26 +111,19 @@ exports.getAllResponses = async (req, res) => {
 
 // controllers/responseController.js (add this too)
 exports.deleteSingleResponse = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const deleted = await Response.findByIdAndDelete(id);
-    
-    if (!deleted) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Response not found" });
+  try{
+    const {responseId} = req.params;
+    const deletedResponse = await Response.findByIdAndDelete(responseId);
+    if(!deletedResponse){
+      return res.status(404).json({status: false, message: "Response not found"})
     }
+    res.status(200).json({status: true, message: "Response deleted successfully"});
 
-    res
-      .status(200)
-      .json({ success: true, message: "Response deleted successfully" });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Server error", error: error.message });
   }
-};
+  catch(error){
+    res.status(500).json({status: false, message: "Server error", error: error.message})
+  }
+}
 
 exports.getAllOrders = async (req, res) => {
   try {
