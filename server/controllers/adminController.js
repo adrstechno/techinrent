@@ -64,29 +64,39 @@ exports.getAllProviders = async (req, res) => {
 };
 
 exports.getResponsesByFormId = async (req, res) => {
-try{
-  const {formId} = req.params;
-  const responses = await Response.find({formId}).sort({createdAt: -1});
-  if(responses.length === 0){
-    return res.status(404).json({status: false, message: "No responses found for this form"})
+  try {
+    const { formId } = req.params;
+    const responses = await Response.find({ formId }).sort({ createdAt: -1 });
+    if (responses.length === 0) {
+      return res
+        .status(404)
+        .json({ status: false, message: "No responses found for this form" });
+    }
+    res
+      .status(200)
+      .json({ status: true, count: responses.length, data: responses });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ status: false, message: "Server error", error: error.message });
   }
-  res.status(200).json({status: true, count: responses.length, data: responses})
-}
-catch(error){
-  res.status(500).json({status: false, message: "Server error", error: error.message});
-}
-}
+};
 
 exports.deleteSingleForm = async (req, res) => {
-  try{
-const {formId} = req.params;
-const deleteForm = await Form.findOneAndDelete({formId});
-if(!deleteForm){
-  return res.status(404).json({status: false, message: "Form not found"})
-}
+  try {
+    const { formId } = req.params;
+    const deleteForm = await Form.findOneAndDelete({ formId });
+    if (!deleteForm) {
+      return res.status(404).json({ status: false, message: "Form not found" });
+    }
 
-  res.status(200).json({status: true, message: "Form deleted successfully"})
-
+    res
+      .status(200)
+      .json({ status: true, message: "Form deleted successfully" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ status: false, message: "Server error", error: error.message });
   }
 };
 
@@ -108,19 +118,23 @@ exports.getAllResponses = async (req, res) => {
 
 // controllers/responseController.js (add this too)
 exports.deleteSingleResponse = async (req, res) => {
-  try{
-    const {responseId} = req.params;
+  try {
+    const { responseId } = req.params;
     const deletedResponse = await Response.findByIdAndDelete(responseId);
-    if(!deletedResponse){
-      return res.status(404).json({status: false, message: "Response not found"})
+    if (!deletedResponse) {
+      return res
+        .status(404)
+        .json({ status: false, message: "Response not found" });
     }
-    res.status(200).json({status: true, message: "Response deleted successfully"});
-
+    res
+      .status(200)
+      .json({ status: true, message: "Response deleted successfully" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ status: false, message: "Server error", error: error.message });
   }
-  catch(error){
-    res.status(500).json({status: false, message: "Server error", error: error.message})
-  }
-}
+};
 
 exports.getAllOrders = async (req, res) => {
   try {
