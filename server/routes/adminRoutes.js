@@ -10,10 +10,10 @@ const {
   getAllOrders,
   toggleReadStatus,
   getAllResponses,
-  deleteSingleForm
+  deleteSingleForm,
 } = require("../controllers/adminController");
 
-const {getAllForms} = require("../controllers/formController");
+const { getAllForms } = require("../controllers/formController");
 
 // Admin endpoints
 router.get("/contacts", getAllContacts);
