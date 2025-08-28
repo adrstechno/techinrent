@@ -13,6 +13,8 @@ const {
   deleteSingleForm
 } = require("../controllers/adminController");
 
+const {getAllForms} = require("../controllers/formController");
+
 // Admin endpoints
 router.get("/contacts", getAllContacts);
 router.get("/demos", getAllDemos);
@@ -24,5 +26,6 @@ router.get("/orders", getAllOrders);
 router.put("/responses/:responseId/read", toggleReadStatus);
 router.get("/all-responses", getAllResponses);
 router.delete("/forms/:formId", deleteSingleForm);
+router.get("/forms", getAllForms);
 
 module.exports = router;
