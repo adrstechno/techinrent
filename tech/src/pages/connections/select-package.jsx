@@ -36,7 +36,7 @@ export default function SelectPackagePage() {
       value: "500 Connections",
       label: "500 Connections",
       price: "10",
-      popular: false,
+      popular: true,
       description: "Ideal for expanding your reach significantly",
     },
     {
@@ -50,7 +50,7 @@ export default function SelectPackagePage() {
       value: "2500 Connections",
       label: "2500 Connections",
       price: "35",
-      popular: true,
+      popular: false,
       description: "Massive growth impact for serious professionals",
     },
     {
