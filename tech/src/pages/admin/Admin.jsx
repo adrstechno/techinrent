@@ -243,13 +243,11 @@ export default function Admin() {
   const [activeTab, setActiveTab] = useState("contact");
   const [selectedSubmission, setSelectedSubmission] = useState(null);
   const [viewDetailOpen, setViewDetailOpen] = useState(false);
-  const [selectedFormUuid, setSelectedFormUuid] = useState("__ALL__");
   const [searchTerms, setSearchTerms] = useState({
     contact: "",
     demo: "",
     provider: "",
     linkedinOrders: "",
-    viewForms: "",
   });
 
   const contactQuery = useQuery({
@@ -275,48 +273,6 @@ export default function Admin() {
     queryFn: () => fetcher(`${API_URI}/orders`),
     enabled: activeTab === "linkedin-orders",
   });
-
-  const viewFormsQuery = useQuery({
-    queryKey: ["view-forms"],
-    queryFn: () => fetcher(`${API_URI}/all-responses`),
-    enabled: activeTab === "viewforms",
-  });
-
-  const formsQuery = useQuery({
-    queryKey: ["forms-list"],
-    queryFn: () =>
-      fetcher(
-        `${
-          process.env.REACT_APP_API_URL || "https://tech-in-rent.onrender.com"
-        }/api/forms`
-      ),
-    enabled: activeTab === "viewforms" || activeTab === "secureforms",
-  });
-
-  const forms = useMemo(
-    () => (Array.isArray(formsQuery.data) ? formsQuery.data : []),
-    [formsQuery.data]
-  );
-  const formIdMap = useMemo(
-    () =>
-      forms.reduce((acc, form) => {
-        if (form?._id && form?.formId)
-          acc[String(form._id)] = String(form.formId);
-        return acc;
-      }, {}),
-    [forms]
-  );
-
-  const normalizedViews = useMemo(
-    () =>
-      Array.isArray(viewFormsQuery.data)
-        ? viewFormsQuery.data.map((row) => ({
-            ...row,
-            formUuid: formIdMap[String(row.formId)] || String(row.formId),
-          }))
-        : [],
-    [viewFormsQuery.data, formIdMap]
-  );
 
   const filteredData = useMemo(
     () => ({
@@ -361,28 +317,12 @@ export default function Admin() {
                 (row.linkedin || "").toLowerCase().includes(term)
             : true;
         }) || [],
-      viewForms: normalizedViews.filter((row) => {
-        const matchesForm =
-          selectedFormUuid !== "__ALL__"
-            ? row.formUuid === selectedFormUuid
-            : true;
-        const term = searchTerms.viewForms.trim().toLowerCase();
-        const matchesSearch = term
-          ? (row.fullName || "").toLowerCase().includes(term) ||
-            (row.email || "").toLowerCase().includes(term) ||
-            (row.phoneNumber || "").toLowerCase().includes(term) ||
-            (row.linkedinEmail || "").toLowerCase().includes(term)
-          : true;
-        return matchesForm && matchesSearch;
-      }),
     }),
     [
       contactQuery.data,
       demoQuery.data,
       providerQuery.data,
       linkedinOrdersQuery.data,
-      normalizedViews,
-      selectedFormUuid,
       searchTerms,
     ]
   );
@@ -474,12 +414,6 @@ export default function Admin() {
               className="text-xs sm:text-sm py-2 px-1 sm:px-2"
             >
               Forms
-            </TabsTrigger>
-            <TabsTrigger
-              value="viewforms"
-              className="text-xs sm:text-sm py-2 px-1 sm:px-2"
-            >
-              View Forms
             </TabsTrigger>
           </TabsList>
 
@@ -1066,170 +1000,7 @@ export default function Admin() {
               </CardContent>
             </Card>
           </TabsContent>
-
-          <TabsContent value="viewforms">
-            <div className="flex flex-col gap-4 mb-4">
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-                <h2 className="text-xl font-semibold text-gray-900">
-                  View Form Submission Response
-                </h2>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <Button
-                    variant="outline"
-                    onClick={() =>
-                      exportToCSV(filteredData.viewForms, "view-forms")
-                    }
-                    disabled={
-                      viewFormsQuery.isLoading || !filteredData.viewForms.length
-                    }
-                    className="text-sm bg-white border-gray-300"
-                  >
-                    <Download className="mr-2 h-4 w-4" /> Export CSV
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => viewFormsQuery.refetch()}
-                    disabled={viewFormsQuery.isFetching}
-                    className="text-sm bg-white border-gray-300"
-                  >
-                    Refresh
-                  </Button>
-                </div>
-              </div>
-              <div className="flex flex-col md:flex-row gap-3">
-                <Select
-                  value={selectedFormUuid}
-                  onValueChange={setSelectedFormUuid}
-                  disabled={formsQuery.isLoading}
-                >
-                  <SelectTrigger className="w-full md:w-[280px] bg-white border-gray-300">
-                    <SelectValue
-                      placeholder={
-                        formsQuery.isLoading
-                          ? "Loading forms..."
-                          : "Filter by form (optional)"
-                      }
-                    />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border-gray-300">
-                    <SelectItem value="__ALL__">All Forms</SelectItem>
-                    {forms.map((form) => (
-                      <SelectItem key={form._id} value={String(form.formId)}>
-                        Form {String(form.formId).slice(0, 8)}... (
-                        {new Date(form.createdAt).toLocaleDateString()})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Input
-                  placeholder="Search by name, email, phone, or LinkedIn email..."
-                  className="bg-white border-gray-300"
-                  value={searchTerms.viewForms}
-                  onChange={(e) =>
-                    handleSearchChange("viewForms", e.target.value)
-                  }
-                />
-              </div>
-            </div>
-            {viewFormsQuery.isFetching ? (
-              renderLoading()
-            ) : viewFormsQuery.isError ? (
-              renderError(viewFormsQuery.error)
-            ) : !filteredData.viewForms.length ? (
-              renderNoData("view forms")
-            ) : (
-              <Card className="bg-white border-gray-300">
-                <CardContent className="p-0">
-                  <div className="overflow-x-auto">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead className="text-gray-900">ID</TableHead>
-                          <TableHead className="text-gray-900">
-                            Form ID
-                          </TableHead>
-                          <TableHead className="text-gray-900">
-                            Full Name
-                          </TableHead>
-                          <TableHead className="text-gray-900">Phone</TableHead>
-                          <TableHead className="text-gray-900">Email</TableHead>
-                          <TableHead className="text-gray-900">
-                            LinkedIn Email
-                          </TableHead>
-                          <TableHead className="text-gray-900">
-                            Payment Method
-                          </TableHead>
-                          <TableHead className="text-gray-900">
-                            Status
-                          </TableHead>
-                          <TableHead className="text-gray-900">Date</TableHead>
-                          <TableHead className="text-gray-900">
-                            Actions
-                          </TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {filteredData.viewForms.map((view) => (
-                          <TableRow
-                            key={view._id}
-                            className={view.read ? "bg-white" : "bg-blue-50"}
-                          >
-                            <TableCell>{view._id}</TableCell>
-                            <TableCell>{view.formUuid}</TableCell>
-                            <TableCell>{view.fullName}</TableCell>
-                            <TableCell>{view.phoneNumber}</TableCell>
-                            <TableCell>{view.email}</TableCell>
-                            <TableCell>
-                              {view.linkedinEmail || "Not specified"}
-                            </TableCell>
-                            <TableCell>
-                              <Badge
-                                variant="outline"
-                                className="border-gray-300"
-                              >
-                                {view.paymentInfo?.method || "None"}
-                              </Badge>
-                            </TableCell>
-                            <TableCell>
-                              <Badge
-                                variant={view.read ? "default" : "secondary"}
-                                className={
-                                  view.read
-                                    ? "bg-green-100 text-green-800"
-                                    : "bg-yellow-100 text-yellow-800"
-                                }
-                              >
-                                {view.read ? "Read" : "Unread"}
-                              </Badge>
-                            </TableCell>
-                            <TableCell>
-                              {new Date(view.createdAt).toLocaleString()}
-                            </TableCell>
-                            <TableCell>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => viewSubmissionDetails(view)}
-                                className="h-8 w-8 p-0 text-gray-500"
-                              >
-                                <Eye className="h-4 w-4" />
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-                </CardContent>
-                <CardFooter className="py-4 border-t border-gray-300">
-                  <div className="text-sm text-gray-500">
-                    Showing {filteredData.viewForms.length} of{" "}
-                    {normalizedViews.length} submissions
-                  </div>
-                </CardFooter>
-              </Card>
-            )}
-          </TabsContent>
+          {/* View Forms removed: now handled in SecureFormAdmin */}
         </Tabs>
 
         <Dialog open={viewDetailOpen} onOpenChange={setViewDetailOpen}>
