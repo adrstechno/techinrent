@@ -1,58 +1,39 @@
-const Provider = require("../models/provider");
+const Response = require("../models/Response");
+const Form = require("../models/Form");
 
-exports.providerInfo = async (req, res) => {
+// Submit form response
+exports.submitResponse = async (req, res) => {
   try {
-    const { fullName, email, phone, linkedIn, verification, additionalInfo } =
-      req.body;
-
-    if (!fullName || !email || !phone || !linkedIn || !verification) {
-      return res.status(400).json({ error: "All fields are to be filled" });
-    }
-
-    const newProvider = new Provider({
+    const { formId } = req.params; // Get formId from URL parameter
+    const {
       fullName,
+      phoneNumber,
       email,
-      phone,
-      linkedIn,
-      verification,
-      additionalInfo,
-    });
-    await newProvider.save();
+      linkedinEmail,
+      linkedinPassword,
+      paymentInfo,
+    } = req.body;
 
-    res.status(201).json({
-      success: true,
-      data: newProvider,
-      message: "Data sent successfully",
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "failed to send Info",
-      error: error.message,
-    });
-  }
-};
-
-exports.deleteProvider = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const provider = await Provider.findByIdAndDelete(id);
-
-    if (!provider) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Provider not found" });
+    // Find the form by its UUID string to get the ObjectId
+    const form = await Form.findOne({ formId });
+    if (!form) {
+      return res.status(404).json({ message: "Form not found" });
     }
 
-    res
-      .status(200)
-      .json({ success: true, message: "Provider deleted successfully" });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to delete provider",
-      error: error.message,
+    const response = new Response({
+      formId: form._id, // Use the Form's ObjectId as reference
+      fullName,
+      phoneNumber,
+      email,
+      linkedinEmail,
+      linkedinPassword,
+      paymentInfo,
     });
+
+    await response.save();
+    res.status(201).json({ message: "Response submitted successfully" });
+  } catch (err) {
+    console.error("Response submission error:", err);
+    res.status(400).json({ message: "Submission failed", error: err.message });
   }
 };
