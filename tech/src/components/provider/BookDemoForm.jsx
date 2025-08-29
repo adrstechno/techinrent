@@ -5,7 +5,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogOverlay,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -97,11 +96,8 @@ export function BookDemoForm({ isOpen, onClose }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      {/* Overlay with blur */}
-      <DialogOverlay className="fixed inset-0 bg-black/30 backdrop-blur-sm" />
-
       {/* Responsive form */}
-      <DialogContent className="z-[60] w-[95%] max-w-sm sm:max-w-[425px] bg-white rounded-2xl shadow-lg p-6 max-h-[90vh] overflow-y-auto">
+      <DialogContent className="w-[95%] max-w-sm sm:max-w-[425px] bg-white rounded-2xl shadow-lg p-6 max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Book a Demo</DialogTitle>
           <DialogDescription>
