@@ -120,7 +120,7 @@ export default function ProviderFormPopup({ isOpen, onClose }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="z-[70] max-w-3xl w-[95%] bg-white rounded-2xl shadow-xl p-6 overflow-y-auto max-h-[90vh]">
+      <DialogContent className="max-w-3xl w-[95%] bg-white rounded-2xl shadow-xl p-6 overflow-y-auto max-h-[90vh]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center text-blue-600">
             Earn Money With Your LinkedIn Account
