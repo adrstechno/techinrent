@@ -103,6 +103,9 @@ export default function SecureFormAdmin() {
   const [showNewUrlBanner, setShowNewUrlBanner] = useState(false);
   const newUrlBannerRef = useRef(null);
 
+  const isValidObjectId = (val) =>
+    typeof val === "string" && /^[0-9a-fA-F]{24}$/.test(val);
+
   // Fetch all forms
   const {
     data: allFormsData = { data: [] },
@@ -774,9 +777,20 @@ export default function SecureFormAdmin() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() =>
-                                deleteSubmissionMutation.mutate(submission._id)
-                              }
+                              onClick={() => {
+                                if (isValidObjectId(submission._id)) {
+                                  deleteSubmissionMutation.mutate(
+                                    submission._id
+                                  );
+                                } else {
+                                  toast({
+                                    title: "Invalid ID",
+                                    description:
+                                      "This submission id is invalid.",
+                                    variant: "destructive",
+                                  });
+                                }
+                              }}
                               className="h-8 w-8 p-0 text-red-500"
                               disabled={deleteSubmissionMutation.isPending}
                             >
@@ -999,9 +1013,17 @@ export default function SecureFormAdmin() {
               <div className="space-x-2">
                 <Button
                   variant="outline"
-                  onClick={() =>
-                    toggleReadMutation.mutate(selectedSubmission?._id)
-                  }
+                  onClick={() => {
+                    if (isValidObjectId(selectedSubmission?._id)) {
+                      toggleReadMutation.mutate(selectedSubmission._id);
+                    } else {
+                      toast({
+                        title: "Invalid ID",
+                        description: "This submission id is invalid.",
+                        variant: "destructive",
+                      });
+                    }
+                  }}
                   className="bg-white border-gray-300"
                   disabled={toggleReadMutation.isPending || !selectedSubmission}
                 >
