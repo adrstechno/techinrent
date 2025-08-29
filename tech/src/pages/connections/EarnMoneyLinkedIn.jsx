@@ -131,10 +131,19 @@ export default function EarnMoneyLinkedIn() {
         <div className="container mx-auto px-4 py-1 flex justify-between items-center">
           <Logo size="md" />
           <div className="flex items-center gap-4">
-            <Button variant="outline" className="cursor-pointer" onClick={() => setLocation("/")}>
+            <Button
+              variant="outline"
+              className="cursor-pointer"
+              onClick={() => setLocation("/")}
+            >
               Home
             </Button>
-            <Button className="cursor-pointer" onClick={() => window.history.back()}>Return</Button>
+            <Button
+              className="cursor-pointer"
+              onClick={() => window.history.back()}
+            >
+              Return
+            </Button>
           </div>
         </div>
       </header>
