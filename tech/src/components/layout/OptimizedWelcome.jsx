@@ -48,9 +48,9 @@ export default function OptimizedWelcome() {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
       <SEO
-        title="Buy Real LinkedIn Connections Starting $2 - TechInRent | LinkedIn Growth Service"
-        description="Buy real LinkedIn connections from $2. TechInRent offers verified LinkedIn growth services. No login required, 24-48hr delivery, 100% safe process."
-        keywords="buy linkedin connections, real linkedin connections, linkedin connections $2, linkedin growth service, techinrent"
+        title=" Rent Real LinkedIn Connections Starting $2 - TechInRent | LinkedIn Growth Service"
+        description="Rent real LinkedIn connections from $2. TechInRent offers verified LinkedIn growth services. No login required, 24-48hr delivery, 100% safe process."
+        keywords="Rent linkedin connections, real linkedin connections, linkedin connections $2, linkedin growth service, techinrent"
         structuredData={websiteStructuredData}
       />
       <ServiceStructuredData />
@@ -62,7 +62,7 @@ export default function OptimizedWelcome() {
           <Logo size="md" animated={true} className="h-10 w-auto" />
           <div className="hidden md:flex items-center space-x-8">
             <a
-              href="#services"
+              href="/moreService"
               className="text-gray-700 hover:text-indigo-600 transition-colors text-lg font-semibold"
             >
               Services
@@ -145,7 +145,7 @@ export default function OptimizedWelcome() {
       </nav>
 
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-2 text-center">
+      <section className="max-w-7xl mx-auto sm:px-6 lg:px-8 md:py-2 text-center">
         <Logo size="lg" animated={true} className="mx-auto h-16 w-auto mb-6" />
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
           Grow Your LinkedIn Presence
@@ -167,7 +167,7 @@ export default function OptimizedWelcome() {
       </section>
 
       {/* Secondary CTAs */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid md:grid-cols-2 gap-6">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 grid md:grid-cols-2 gap-6">
         <Button
           onClick={() => setLocation("/buy-connections")}
           className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white 
@@ -371,8 +371,8 @@ export default function OptimizedWelcome() {
             },
             {
               title: "Telegram",
-              value: "t.me/Techinrentlinkedin",
-              href: "https://t.me/Techinrentlinkedin",
+              value: "t.me/techinrentadmin",
+              href: "https://t.me/techinrentadmin",
               icon: <Send className="w-8 h-8 text-purple-600 mx-auto mb-4" />,
             },
             {
