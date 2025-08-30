@@ -151,9 +151,10 @@ exports.getAllOrders = async (req, res) => {
 
 exports.toggleReadStatus = async (req, res) => {
   try {
-    const { id } = req.params;
+  //  const { id } = req.params; 
+    const { responseId } = req.params;
 
-    const response = await Response.findById(id);
+      const response = await Response.findById(responseId);
     if (!response)
       return res.status(404).json({ message: "Response not found" });
 
