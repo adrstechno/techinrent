@@ -10,6 +10,7 @@ import PageLoader from "@/components/layout/LoadingSpinner";
 import { ProtectedRoute } from "@/lib/protected-route";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import MoreServices from "./pages/home/MoreServices";
 
 // Lazy load components
 const Welcome = lazy(() => import("@/components/layout/OptimizedWelcome"));
@@ -74,6 +75,7 @@ function App() {
                   <Switch>
                     <Route path="/" component={Welcome} />
                     <Route path="/home" component={Home} />
+                    <Route path="/moreService" component={MoreServices} />
                     <Route path="/login" component={Login} />
                     <ProtectedRoute path="/admin" component={Admin} />
                     <ProtectedRoute
