@@ -50,12 +50,12 @@ const Home = () => {
 
   const seoTitle =
     userType === "taker"
-      ? "Rent LinkedIn Accounts - TechInRent LinkedIn Account Rental Service"
+      ? "Buy LinkedIn Accounts - TechInRent LinkedIn Account Rental Service" 
       : "Earn Money - Provide Your LinkedIn Account on TechInRent";
 
   const seoDescription =
     userType === "taker"
-      ? "Rent verified LinkedIn accounts for your business outreach and marketing campaigns. Scale your LinkedIn prospecting with TechInRent's secure account rental service."
+      ? "Buy verified LinkedIn accounts for your business outreach and marketing campaigns. Scale your LinkedIn prospecting with TechInRent's secure account rental service."
       : "Earn money by providing your LinkedIn account on TechInRent. Secure, trusted process with guaranteed monthly payments and zero technical involvement.";
 
   const seoKeywords =

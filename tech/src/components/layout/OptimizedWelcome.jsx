@@ -2,6 +2,7 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/service/Logo";
 import SEO from "@/components/service/SEO";
+import { Briefcase, Target,  Megaphone, UserSearch, Building, Zap, Wallet } from "lucide-react"
 import {
   ServiceStructuredData,
   FAQStructuredData,
@@ -48,7 +49,7 @@ export default function OptimizedWelcome() {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
       <SEO
-        title=" Rent Real LinkedIn Connections Starting $2 - TechInRent | LinkedIn Growth Service"
+        title=" Buy Real LinkedIn Connections Starting $2 - TechInRent | LinkedIn Growth Service"
         description="Rent real LinkedIn connections from $2. TechInRent offers verified LinkedIn growth services. No login required, 24-48hr delivery, 100% safe process."
         keywords="Rent linkedin connections, real linkedin connections, linkedin connections $2, linkedin growth service, techinrent"
         structuredData={websiteStructuredData}
@@ -145,7 +146,7 @@ export default function OptimizedWelcome() {
       </nav>
 
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto sm:px-6 lg:px-8 md:py-2 text-center">
+      <section className="max-w-7xl mx-auto py-4 sm:px-6 lg:px-8 md:py-2 text-center">
         <Logo size="lg" animated={true} className="mx-auto h-16 w-auto mb-6" />
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
           Grow Your LinkedIn Presence
@@ -154,44 +155,123 @@ export default function OptimizedWelcome() {
           Real connections starting at $2. No login required, 24-48hr delivery,
           100% secure process.
         </p>
-        <Button
-          onClick={() => handleUserTypeSelect("taker")}
-          className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white 
-                     hover:from-indigo-700 hover:to-purple-700 
-                     text-2xl px-8 py-8 rounded-xl shadow-lg 
-                     hover:shadow-xl transform hover:scale-105 
-                     transition-all duration-300"
-        >
-          Rent LinkedIn Account (Companies)
-        </Button>
+    <div className="bg-white/90 backdrop-blur-sm rounded-2xl  
+                p-6 sm:p-8 md:p-10  
+                shadow-xl max-w-3xl w-full mx-auto 
+                space-y-8 md:space-y-10 
+                border border-indigo-200 hover:border-purple-300 
+                transition-all duration-300 
+                flex flex-col items-center text-center">
+
+  {/* CTA Button */}
+  <Button
+    onClick={() => handleUserTypeSelect("taker")}
+    className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white 
+               hover:from-indigo-700 hover:to-purple-700 
+               text-lg sm:text-xl md:text-2xl 
+               px-6 sm:px-8 md:px-12 
+               py-5 sm:py-7 md:py-10 
+               rounded-2xl md:rounded-3xl 
+               shadow-xl hover:shadow-purple-500/50 
+               transform hover:scale-105 md:hover:scale-110 
+               transition-all duration-300 tracking-wide md:tracking-wider 
+               font-bold md:font-extrabold 
+               flex items-center justify-center gap-4 sm:gap-5 md:gap-6 w-full sm:w-auto"
+  >
+    <Rocket
+      className="w-12 h-12 sm:w-14 sm:h-14 md:w-20 md:h-20 text-white 
+                 drop-shadow-[0_0_15px_rgba(168,85,247,0.9)] 
+                 animate-bounce"
+    />
+    Rent LinkedIn Account
+  </Button>
+
+  {/* Feature List */}
+  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 
+                 text-gray-700 text-sm sm:text-base md:text-lg font-medium w-full">
+    <li className="flex items-center gap-2 sm:gap-3">
+      <Building className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600" />
+      <span>Basically for <span className="font-semibold text-cyan-600">Company</span></span>
+    </li>
+    <li className="flex items-center gap-2 sm:gap-3">
+      <Briefcase className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600" />
+      <span>Grow your <span className="font-semibold text-indigo-600">Business Network</span></span>
+    </li>
+    <li className="flex items-center gap-2 sm:gap-3">
+      <Target className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" />
+      <span>Boost <span className="font-semibold text-purple-600">Lead Generation</span></span>
+    </li>
+    <li className="flex items-center gap-2 sm:gap-3">
+      <Users className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
+      <span>Expand <span className="font-semibold text-green-600">Client Outreach</span></span>
+    </li>
+    <li className="flex items-center gap-2 sm:gap-3">
+      <Megaphone className="w-5 h-5 sm:w-6 sm:h-6 text-pink-600" />
+      <span>Effective <span className="font-semibold text-pink-600">Marketing</span></span>
+    </li>
+    <li className="flex items-center gap-2 sm:gap-3">
+      <UserSearch className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
+      <span>Smart <span className="font-semibold text-blue-600">Recruitment</span></span>
+    </li>
+  </ul>
+</div>
+
       </section>
 
       {/* Secondary CTAs */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 grid md:grid-cols-2 gap-6">
+      
+ <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid md:grid-cols-2 gap-8">
+      
+      {/* Left: Get LinkedIn Connections */}
+      <div className="flex flex-col items-center text-center space-y-6 bg-white/90 backdrop-blur-sm p-6 md:p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-blue-200 hover:border-indigo-300">
         <Button
           onClick={() => setLocation("/buy-connections")}
           className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white 
                      hover:from-blue-600 hover:to-indigo-600 
-                     flex items-center justify-center gap-2 py-8 rounded-xl 
+                     flex items-center justify-center gap-3 py-8 rounded-xl 
                      shadow-md hover:shadow-lg transform hover:scale-105 
-                     transition-all duration-300    text-2xl "
+                     transition-all duration-300 text-xl md:text-2xl font-bold"
         >
-          <UserPlus className="w-5 h-5" />
+          <UserPlus className="w-6 h-6" />
           Get LinkedIn Connections Now
         </Button>
+        <ul className="space-y-3 text-gray-700 text-base md:text-lg font-medium">
+          <li className="flex items-center justify-center gap-2">
+            <Users className="w-5 h-5 text-blue-600" />
+            <span>Expand your <span className="font-semibold text-blue-600">Professional Network</span></span>
+          </li>
+          <li className="flex items-center justify-center gap-2">
+            <Zap className="w-5 h-5 text-indigo-600" />
+            <span>Get <span className="font-semibold text-indigo-600">Instant Visibility</span></span>
+          </li>
+        </ul>
+      </div>
+
+      {/* Right: Earn Money */}
+      <div className="flex flex-col items-center text-center space-y-6 bg-white/90 backdrop-blur-sm p-6 md:p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-green-200 hover:border-emerald-300">
         <Button
           onClick={() => handleUserTypeSelect("provider")}
           className="bg-gradient-to-r from-green-500 to-emerald-500 text-white 
                      hover:from-green-600 hover:to-emerald-600 
-                     flex items-center justify-center gap-2 py-8 rounded-xl 
+                     flex items-center justify-center gap-3 py-8 rounded-xl 
                      shadow-md hover:shadow-lg transform hover:scale-105 
-                     transition-all duration-300    text-2xl "
+                     transition-all duration-300 text-xl md:text-2xl font-bold"
         >
           <DollarSign className="w-6 h-6" />
           Earn Money as a LinkedIn Provider
         </Button>
-      </section>
-
+        <ul className="space-y-3 text-gray-700 text-base md:text-lg font-medium">
+          <li className="flex items-center justify-center gap-2">
+            <TrendingUp className="w-5 h-5 text-green-600" />
+            <span>Enjoy <span className="font-semibold text-green-600">Passive Income</span></span>
+          </li>
+          <li className="flex items-center justify-center gap-2">
+            <Wallet className="w-5 h-5 text-emerald-600" />
+            <span>Monetise your <span className="font-semibold text-emerald-600">LinkedIn Account</span></span>
+          </li>
+        </ul>
+      </div>
+    </section>
       {/* Stats Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 sm:grid-cols-3 gap-6">
         {[

@@ -172,39 +172,50 @@ export default function EarnMoneyLinkedIn() {
                 zero effort.
               </p>
             </div>
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-lg max-w-2xl mx-auto">
-              <div className="text-center space-y-4">
-                <div className="font-heading text-4xl md:text-5xl font-bold text-green-600">
-                  upto $20
-                </div>
-                <div className="space-y-2">
-                  <div className="font-body text-lg md:text-xl font-semibold text-gray-800">
-                    Monthly Passive Income
-                  </div>
-                  <div className="font-body text-sm md:text-base text-gray-600">
-                    Average earnings per LinkedIn account
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="pt-10 flex flex-col sm:flex-row gap-5 sm:gap-6 justify-center items-center">
-              <Button
+         <div className="bg-gradient-to-br from-green-50 to-white/90 backdrop-blur-sm rounded-2xl p-6 md:p-10 shadow-2xl max-w-2xl mx-auto border border-green-200 hover:scale-105 hover:shadow-green-200/50 transition-all duration-300">
+  <div className="text-center space-y-4">
+    <div className="inline-block px-4 py-1 rounded-full bg-green-100 text-green-700 text-sm md:text-base font-medium shadow-sm">
+      🌟 Exclusive Earnings
+    </div>
+    <div className="space-y-3">
+      <div className="font-heading text-2xl md:text-4xl font-extrabold text-green-700 drop-shadow-sm">
+        Monthly Passive Income
+      </div>
+      <div className="font-body text-base md:text-lg text-gray-700">
+        💼 Average earnings per <span className="font-semibold text-green-600">LinkedIn account</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+            <div className="pt-1 flex flex-col sm:flex-row gap-5 sm:gap-6 justify-center items-center">
+              {/* <Button
                 size="lg"
                 className="bg-gradient-to-r cursor-pointer from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white font-semibold px-8 py-3 rounded-xl shadow-md transition-transform transform hover:scale-105"
                 onClick={() => setLocation("/home")}
               >
                 <DollarSign className="mr-2 h-5 w-5" />
                 Start Earning Money
-              </Button>
+              </Button> */}
 
-              <Button
-                size="lg"
-                className="bg-gradient-to-r cursor-pointer from-emerald-500 to-emerald-700 hover:from-emerald-600 hover:to-emerald-800 text-white font-semibold px-8 py-3 rounded-xl shadow-md transition-transform transform hover:scale-105"
-                onClick={() => setIsProviderFormOpen(true)}
-              >
-                <DollarSign className="mr-2 h-5 w-5" />
-                Become a Provider
-              </Button>
+          <Button
+  size="lg"
+  onClick={() => setIsProviderFormOpen(true)}
+  className="bg-gradient-to-r from-emerald-500 to-emerald-700 
+             hover:from-emerald-600 hover:to-emerald-800 
+             text-white font-bold text-lg md:text-2xl 
+             px-8 md:px-12 py-5 md:py-6 rounded-full 
+             shadow-lg hover:shadow-emerald-400/40 
+             transition-all transform hover:scale-105 
+             tracking-wide flex items-center gap-3"
+>
+  <DollarSign className="w-7 h-7 md:w-8 md:h-8 text-yellow-300" />
+  <span>
+    Start <span className="text-yellow-300">Earning</span> – Become a <span className="text-emerald-200">Provider</span>
+  </span>
+</Button>
+
+
             </div>
           </motion.div>
         </div>

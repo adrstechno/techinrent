@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   Dialog,
@@ -13,17 +14,38 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
-import { toast } from "react-toastify";
 
 const API_URI = "https://tech-in-rent.onrender.com";
 
+// ✅ Strong schema
 const bookDemoSchema = z.object({
-  firstName: z.string().min(2, "First name must be at least 2 characters"),
-  lastName: z.string().min(2, "Last name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(6, "Please enter a valid phone number"),
+  firstName: z
+    .string()
+    .min(2, "First name must be at least 2 characters")
+    .regex(/^[A-Za-z]+$/, "First name should contain only letters"),
+  lastName: z
+    .string()
+    .min(2, "Last name must be at least 2 characters")
+    .regex(/^[A-Za-z]+$/, "Last name should contain only letters"),
+  email: z
+    .string()
+    .email("Enter a valid email address")
+    .regex(
+      /^[a-zA-Z0-9._%+-]+@(?!gmail\.com$)(?!yahoo\.com$)(?!outlook\.com$)(?!hotmail\.com$)[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+      "Only business emails are allowed"
+    )
+    .refine(
+      (val) => /(info|support|sales|contact|admin)@/.test(val),
+      "Use a business email like info@company.com"
+    ),
+  phone: z
+    .string()
+    .regex(
+      /^\+[1-9]{1}[0-9]{1,3}[0-9]{6,12}$/,
+      "Enter a valid phone number with country code (e.g. +14155552671)"
+    ),
   company: z.string().min(2, "Company name is required"),
-  designation: z.string().min(2, "Please enter your job title or designation"),
+  designation: z.string().min(2, "Designation is required"),
 });
 
 export function BookDemoForm({ isOpen, onClose }) {
@@ -96,7 +118,6 @@ export function BookDemoForm({ isOpen, onClose }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      {/* Responsive form */}
       <DialogContent className="w-[95%] max-w-sm sm:max-w-[425px] bg-white rounded-2xl shadow-lg p-6 max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Book a Demo</DialogTitle>
@@ -106,7 +127,9 @@ export function BookDemoForm({ isOpen, onClose }) {
           </DialogDescription>
         </DialogHeader>
 
+        {/* ✅ Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {/* First + Last Name */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="firstName">First Name *</Label>
@@ -122,6 +145,7 @@ export function BookDemoForm({ isOpen, onClose }) {
                 </p>
               )}
             </div>
+
             <div className="space-y-2">
               <Label htmlFor="lastName">Last Name *</Label>
               <Input
@@ -138,13 +162,14 @@ export function BookDemoForm({ isOpen, onClose }) {
             </div>
           </div>
 
+          {/* Email */}
           <div className="space-y-2">
-            <Label htmlFor="email">Email *</Label>
+            <Label htmlFor="email">Business Email *</Label>
             <Input
               id="email"
               type="email"
               {...register("email")}
-              placeholder="Enter your email address"
+              placeholder="e.g. info@company.com"
               className={errors.email ? "border-red-500" : ""}
             />
             {errors.email && (
@@ -152,12 +177,13 @@ export function BookDemoForm({ isOpen, onClose }) {
             )}
           </div>
 
+          {/* Phone */}
           <div className="space-y-2">
             <Label htmlFor="phone">Phone Number *</Label>
             <Input
               id="phone"
               {...register("phone")}
-              placeholder="Enter your phone number"
+              placeholder="+14155552671"
               className={errors.phone ? "border-red-500" : ""}
             />
             {errors.phone && (
@@ -165,6 +191,7 @@ export function BookDemoForm({ isOpen, onClose }) {
             )}
           </div>
 
+          {/* Company + Designation */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="company">Company Name *</Label>
@@ -172,11 +199,15 @@ export function BookDemoForm({ isOpen, onClose }) {
                 id="company"
                 {...register("company")}
                 placeholder="Enter your company name"
-                required
+                className={errors.company ? "border-red-500" : ""}
               />
+              {errors.company && (
+                <p className="text-red-500 text-xs">{errors.company.message}</p>
+              )}
             </div>
+
             <div className="space-y-2">
-              <Label htmlFor="designation">Designation/Job Title *</Label>
+              <Label htmlFor="designation">Designation *</Label>
               <Input
                 id="designation"
                 {...register("designation")}
@@ -191,6 +222,7 @@ export function BookDemoForm({ isOpen, onClose }) {
             </div>
           </div>
 
+          {/* Buttons */}
           <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4">
             <Button
               type="button"

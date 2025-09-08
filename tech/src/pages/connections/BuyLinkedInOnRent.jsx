@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Shield, Users, Target, ArrowRight } from "lucide-react";
 import SEO from "@/components/service/SEO";
-import { useLocation } from "wouter";
+import { Link, useLocation } from "wouter";
 import Hero from "@/components/layout/Hero";
 import HowItWorks from "@/components/layout/HowItWorks";
 import Pricing from "@/components/service/Pricing";
@@ -78,102 +78,124 @@ export default function BuyLinkedInOnRent() {
         <Navbar userType={userType} />
       </header>
 
-      <main className="space-y-20 md:space-y-28 pb-20">
-        {/* Hero Section */}
-        <section className="pt-10 pb-5 px-4 sm:px-6">
-          <div className="max-w-7xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center"
-            >
-              <Badge className="mb-6 bg-blue-100 text-blue-800 hover:bg-blue-200">
-                LinkedIn Account Rental Service
-              </Badge>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-                Buy LinkedIn on Rent
-              </h1>
-              <p className="text-lg md:text-xl text-gray-600 mb-6 max-w-3xl mx-auto">
-                Rent verified LinkedIn accounts with established networks and
-                credibility for your business needs.
-              </p>
-            </motion.div>
-            <Hero />
-          </div>
-        </section>
+    <main className="space-y-20 md:space-y-28 pb-20"> 
+  {/* Floating Button */}
+  <div className="fixed top-20 right-2 sm:top-24 sm:right-4 z-50">
+    <Link href="/home">
+     <Button
+  className="
+    animate-bounce 
+    rounded-full border-2 border-blue-500 bg-white 
+    shadow-lg hover:scale-105 hover:shadow-blue-400/70 
+    transition-all duration-300
+    text-[10px] px-1.5 py-0.5        /* 📱 Mobile view ke liye chhota */
+    sm:text-sm sm:px-3 sm:py-1.5
+    md:text-base md:px-4 md:py-2
+    lg:text-lg lg:px-6 lg:py-2.5
+  "
+>
+  Book A Demo
+</Button>
 
-        {/* Benefits Section */}
-        <section className="py-6 px-4 sm:px-6 bg-white">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-5">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Why Buy LinkedIn Accounts on Rent?
-              </h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                Skip the years of building credibility and networks
-              </p>
+    </Link>
+  </div>
+
+  {/* Hero Section */}
+  <section className="pt-10 pb-5 px-3 sm:px-6 lg:px-8">
+    <div className="max-w-7xl mx-auto">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-center"
+      >
+        <Badge className="mb-6 bg-blue-100 text-blue-800 hover:bg-blue-200">
+          LinkedIn Account Rental Service
+        </Badge>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+          Buy LinkedIn on Rent
+        </h1>
+        <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 max-w-3xl mx-auto">
+          Rent verified LinkedIn accounts with established networks and
+          credibility for your business needs.
+        </p>
+      </motion.div>
+      <Hero />
+    </div>
+  </section>
+
+  {/* Benefits Section */}
+  <section className="py-6 px-3 sm:px-6 lg:px-8 bg-white">
+    <div className="max-w-7xl mx-auto">
+      <div className="text-center mb-5">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          Why Buy LinkedIn Accounts on Rent?
+        </h2>
+        <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+          Skip the years of building credibility and networks
+        </p>
+      </div>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        {benefits.map((benefit, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1, duration: 0.5 }}
+            className="h-full"
+          >
+            <div className="h-full p-5 sm:p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex flex-col items-center text-center">
+                <benefit.icon className="h-8 w-8 sm:h-10 sm:w-10 text-blue-600 mb-4" />
+                <h3 className="text-lg sm:text-xl font-semibold mb-2 text-gray-900">
+                  {benefit.title}
+                </h3>
+                <p className="text-gray-600 text-sm sm:text-base">{benefit.description}</p>
+              </div>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {benefits.map((benefit, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
-                  className="h-full"
-                >
-                  <div className="h-full p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                    <div className="flex flex-col items-center text-center">
-                      <benefit.icon className="h-10 w-10 text-blue-600 mb-4" />
-                      <h3 className="text-xl font-semibold mb-2 text-gray-900">
-                        {benefit.title}
-                      </h3>
-                      <p className="text-gray-600">{benefit.description}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
 
-        {/* How It Works Section */}
-        <section className=" px-4 sm:px-6 bg-gray-50">
-          <div className="max-w-7xl mx-auto">
-            <HowItWorks />
-          </div>
-        </section>
+  {/* How It Works Section */}
+  <section className="px-3 sm:px-6 lg:px-8 bg-gray-50">
+    <div className="max-w-7xl mx-auto">
+      <HowItWorks />
+    </div>
+  </section>
 
-        {/* Pricing Section */}
-        <section id="pricing" className=" px-4 sm:px-6 bg-white">
-          <div className="max-w-7xl mx-auto">
-            <Pricing />
-          </div>
-        </section>
+  {/* Pricing Section */}
+  <section id="pricing" className="px-3 sm:px-6 lg:px-8 bg-white">
+    <div className="max-w-7xl mx-auto">
+      <Pricing />
+    </div>
+  </section>
 
-        {/* Features Section */}
-        <section className=" px-4 sm:px-6 bg-gray-50">
-          <div className="max-w-7xl mx-auto">
-            <Features />
-          </div>
-        </section>
+  {/* Features Section */}
+  <section className="px-3 sm:px-6 lg:px-8 bg-gray-50">
+    <div className="max-w-7xl mx-auto">
+      <Features />
+    </div>
+  </section>
 
-        {/* Testimonials Section */}
-        <section className=" px-4 sm:px-6 bg-white">
-          <div className="max-w-7xl mx-auto">
-            <Testimonials />
-          </div>
-        </section>
+  {/* Testimonials Section */}
+  <section className="px-3 sm:px-6 lg:px-8 bg-white">
+    <div className="max-w-7xl mx-auto">
+      <Testimonials />
+    </div>
+  </section>
 
-        {/* FAQ Section */}
-        <section className=" px-4 sm:px-6 bg-gray-50">
-          <div className="max-w-7xl mx-auto">
-            <FAQ />
-          </div>
-        </section>
-      </main>
+  {/* FAQ Section */}
+  <section className="px-3 sm:px-6 lg:px-8 bg-gray-50">
+    <div className="max-w-7xl mx-auto">
+      <FAQ />
+    </div>
+  </section>
+</main>
+
 
       {/* Footer */}
       <Footer />
