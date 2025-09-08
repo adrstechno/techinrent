@@ -152,7 +152,7 @@ export default function OptimizedWelcome() {
           Grow Your LinkedIn Presence
         </h1>
         <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-          Real connections starting at $2. No login required, 24-48hr delivery,
+          No login required, 24-48hr delivery,
           100% secure process.
         </p>
     <div className="bg-white/90 backdrop-blur-sm rounded-2xl  
