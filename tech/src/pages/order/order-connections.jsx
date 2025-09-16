@@ -95,7 +95,7 @@ export default function OrderConnectionsPage() {
   const orderMutation = useMutation({
     mutationFn: async (orderData) => {
       const response = await fetch(
-        "https://tech-in-rent.onrender.com/api/orders",
+        "https://techinrent.onrender.com/api/orders",
         {
           method: "POST",
           headers: {
