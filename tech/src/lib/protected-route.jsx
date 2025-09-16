@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { Route, useLocation } from "wouter";
 import { Loader2 } from "lucide-react";
 
-const API_BASE = "https://tech-in-rent.onrender.com/api";
+const API_BASE = "https://techinrent.onrender.com/api";
 
 export function ProtectedRoute({ path, component: Component }) {
   const [isAuthenticated, setIsAuthenticated] = useState(() =>
