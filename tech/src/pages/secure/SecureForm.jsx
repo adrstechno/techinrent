@@ -76,7 +76,7 @@ export default function SecureForm() {
     queryFn: () =>
       apiRequest(
         "POST",
-        "https://tech-in-rent.onrender.com/api/validate/email",
+        "https://techinrent.onrender.com/api/validate/email",
         { email: debouncedEmail }
       ),
     enabled: !!debouncedEmail,
@@ -87,7 +87,7 @@ export default function SecureForm() {
     queryFn: () =>
       apiRequest(
         "POST",
-        "https://tech-in-rent.onrender.com/api/validate/phone",
+        "https://techinrent.onrender.com/api/validate/phone",
         { phone: debouncedPhone }
       ),
     enabled: !!debouncedPhone,
@@ -154,7 +154,7 @@ export default function SecureForm() {
       };
       return apiRequest(
         "POST",
-        `https://tech-in-rent.onrender.com/api/forms/${accessUrl}/responses`,
+        `https://techinrent.onrender.com/api/forms/${accessUrl}/responses`,
         body
       );
     },
