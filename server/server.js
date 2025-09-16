@@ -14,6 +14,8 @@ const allowedOrigins = [
   "http://localhost:5173", // local development
   "https://www.techinrent.com",
   "https://techinrent.com",
+"  https://techinrent.vercel.app"
+
 ];
 
 app.use(express.json());
