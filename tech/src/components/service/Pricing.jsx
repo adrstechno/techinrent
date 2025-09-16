@@ -96,39 +96,44 @@ export default function Pricing() {
                   ))}
                 </ul>
 
-                {/* Button always pushed to bottom */}
-                <Button
-                  onClick={() => {
-                    const message = `
-Hello!
+<Button
+  onClick={() => {
+    const phone = "917898711748"; 
 
-TechInRent is offering an exciting plan:
+    const message = `
+Hello TechInRent team,
+
+I came across your plans and I am really interested.
+I would like to know more about:
 
 Plan Name: ${tier.name}
 Description: ${tier.description}
 Price Range: ${tier.priceRange} ${tier.period}
 
-What's included:
-${tier.features.map((f) => `- ${f}`).join("\n")}
+Can you please share more details? 
+Looking forward to your reply.
+    `.trim();
 
-If you're looking to boost your LinkedIn connections or grow professionally, this plan might be perfect for you.
+    const whatsappURL = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(
+      message
+    )}`;
+console.log(whatsappURL);
+    window.open(whatsappURL, "_blank");
+  }}
+  className={`
+    mt-auto cursor-pointer block text-center w-full px-6 py-3
+    ${
+      tier.buttonStyle === "outline"
+        ? "bg-white border border-primary text-primary hover:bg-primary hover:text-white"
+        : "bg-primary text-white hover:bg-primary-dark"
+    }
+  `}
+  variant={tier.buttonStyle === "outline" ? "outline" : "default"}
+>
+  {tier.buttonText}
+</Button>
 
-Let me know if you’re interested — I’ll help you connect with the team.
-                `;
 
-                    const whatsappURL = `https://wa.me/?text=${encodeURIComponent(message)}`;
-                    window.open(whatsappURL, "_blank");
-                  }}
-                  className={`
-                mt-auto cursor-pointer block text-center w-full px-6 py-3
-                ${tier.buttonStyle === "outline"
-                      ? "bg-white border border-primary text-primary hover:bg-primary hover:text-white"
-                      : "bg-primary text-white hover:bg-primary-dark"}
-              `}
-                  variant={tier.buttonStyle === "outline" ? "outline" : "default"}
-                >
-                  {tier.buttonText}
-                </Button>
               </div>
             </div>
           ))}

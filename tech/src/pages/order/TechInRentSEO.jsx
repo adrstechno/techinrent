@@ -70,7 +70,7 @@ export default function TechInRentSEO() {
         "@type": "Service",
         name: "LinkedIn Account Rental Service",
         description:
-          "Rent verified LinkedIn accounts with established networks for business outreach",
+          "Buy verified LinkedIn accounts with established networks for business outreach",
       },
       {
         "@type": "Service",

@@ -179,7 +179,7 @@ const OrderSuccess = () => {
               <p className="text-sm text-blue-200 mb-2">
                 Need help? Contact our support team
               </p>
-              <p className="text-white font-medium">support@techinrent.com</p>
+              <p className="text-white font-medium">vibhanshu@techinrent.com</p>
             </div>
 
             <div className="text-center">
