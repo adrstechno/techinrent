@@ -40,7 +40,7 @@ export default function ProviderForm({
 
     try {
       const response = await fetch(
-        `https://tech-in-rent.onrender.com/api/provider/`,
+        `https://techinrent.onrender.com/api/provider/`,
         {
           method: "POST",
           headers: {
