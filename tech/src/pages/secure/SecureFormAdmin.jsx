@@ -50,7 +50,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import useDebounce from "@/hooks/useDebounce";
 
-const API_URI = "https://tech-in-rent.onrender.com";
+const API_URI = "https://techinrent.onrender.com";
 
 const apiRequest = async (method, url, requestData = null) => {
   const options = {
