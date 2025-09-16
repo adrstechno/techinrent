@@ -15,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 
-const API_URI = "https://tech-in-rent.onrender.com";
+const API_URI = "https://techinrent.onrender.com";
 
 const bookDemoSchema = z
   .object({
