@@ -55,7 +55,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const API_URI = "https://tech-in-rent.onrender.com/api/admin";
+const API_URI = "https://techinrent.onrender.com/api/admin";
 
 function exportToCSV(data, filename) {
   if (!data || !Array.isArray(data) || data.length === 0) return;
